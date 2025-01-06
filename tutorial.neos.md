@@ -20,13 +20,11 @@ During this event, your main focus will be on completing the labs, which are cle
 
 ## **\[Hands-on Lab \- 1\] Setup your environment**
 
-## Follow Step by Step Instructions [here](https://docs.google.com/document/d/1RJcWKSmQ8-vLypuztkOlCCOfZcxIIgPu4v8wPpBmFhU/edit?usp=drive_link)
+<walkthrough-tutorial-duration duration="30"></walkthrough-tutorial-duration>
+<walkthrough-tutorial-difficulty difficulty="2"></walkthrough-tutorial-difficulty>
 
 
-
-<walkthrough-tutorial-duration duration="60"></walkthrough-tutorial-duration>
-<walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
-
+### Follow Step by Step Instructions [here](https://docs.google.com/document/d/1RJcWKSmQ8-vLypuztkOlCCOfZcxIIgPu4v8wPpBmFhU/edit?usp=drive_link)
 
 **Goal of the lab Enable Google cloud services APIs Ensure your GCP user and service account have access to the required resources. Create GCP default network  Create Vertex AI notebook for the ML labs.** |
 
@@ -34,18 +32,18 @@ During this event, your main focus will be on completing the labs, which are cle
 CAUTION:  
 This lab is for educational purposes only and should be used with caution in production environments. Google Cloud Platform (GCP) products are changing frequently, and screenshots and instructions might become inaccurate over time. Always refer to the latest GCP documentation for the most up-to-date information.
 
-## **Architecture Diagram**
+### **Architecture Diagram**
 
 ![alt architecture](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/architecture.png?raw=true)
 
 <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/architecture.png?raw=true" target="_parent" >View image</a>
 
 
-## **Choice of GCP Product and Service Location**
+### **Choice of GCP Product and Service Location**
 
 You are free to choose any GCP region location for all labs. Ensure all your resources are created in the chosen location to avoid connectivity issues and minimize latency and cost. If you don’t have a preferred GCP location, use ***us-central1*** for simplicity.
 
-## **Setup your environment** 
+### **Setup your environment** 
 
 1. Open Web Browser in **Incognito** Mode.  
 2. Open [https://console.cloud.google.com](https://console.cloud.google.com)  
@@ -168,10 +166,13 @@ You are free to choose any GCP region location for all labs. Ensure all your res
 
 ## **\[Hands-on Lab \- 2\] Data Ingestion with BigLake**
 
+<walkthrough-tutorial-duration duration="45"></walkthrough-tutorial-duration>
+<walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
+
 Follow Step by Step Instructions [here](https://docs.google.com/document/d/1NAcQb9qUZsyGSe2yPQWKrBz18ZRVCL7X9e-NDs5lQbk/edit?usp=drive_link)
 
 
-## **\[LAB\] Load data via BigLake External Tables**
+### **\[LAB\] Load data via BigLake External Tables**
 
 Goal of the lab:  Ingest fraudulent and non fraudulent transactions dataset into BigQuery using three methods: \
 Using BigLake with data stored in Google Cloud Storage (GCS) \
@@ -296,7 +297,7 @@ The simple select statement should query and return data from our parquet format
 We can also  explore results with SAVE RESULTS or EXPLORE DATA.  
 ![][image14]
 
-## **\[LAB\] Real time data ingestion into BigQuery using PUB/SUB**
+### **\[LAB\] Real time data ingestion into BigQuery using PUB/SUB**
 
 ### **Prerequisite : Enable API (you can skip this step if you completed LAB 1\)**
 
@@ -696,8 +697,6 @@ Feedback String
 );
 ```
 
-   
-
 10. **METHOD 2 \[OPTIONAL\] :** find the  import\_csv\_to\_bigquery\_2.py under *$HOME/bootkon-h2-2024/data-ingestion/src* directory
 
     *In the script:* 
@@ -854,7 +853,7 @@ Note: The query should return a few hundred thousand records, but the exact coun
 
     [TASK\] Take up to a couple (2) of minutes and discuss within your group the key differences between Method 1 and Method 2\. Focus specifically on how the execution time and overall efficiency compare between the two methods.*
 
-## **\[OPTIONAL LAB\] Batch data ingestion into BigQuery using Dataproc**
+### **\[OPTIONAL LAB\] Batch data ingestion into BigQuery using Dataproc**
 
 ### Google Cloud Dataproc is a fully managed and scalable service for running Apache Hadoop, Apache Spark, Apache Flink, Presto, and 30+ open source tools and frameworks. Dataproc allows data to be loaded and also transformed or pre-processed as it is brought in.
 
@@ -974,6 +973,9 @@ From the search write : dataproc
 
 ## **\[Hands-on Lab \- 3\] ELT: Dataform & LLM for sentiment analysis from BigQuery**
 
+<walkthrough-tutorial-duration duration="45"></walkthrough-tutorial-duration>
+<walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
+
 Follow Step by Step Instructions [here](https://docs.google.com/document/d/1NxfggQunrCn6ZfwGXAaA_lABDmXtRsfH88jkMDbqlJo/edit?usp=drive_link)
 
 Goal of the lab: We gather user feedback to assess the impact of model adjustments on real-world use (prediction), ensuring that our fraud detection system effectively balances accuracy with user satisfaction. Use Dataform , BigQuery and Gemini to Perform sentiment analysis of customer feedback.
@@ -982,9 +984,9 @@ CAUTION:
 This lab is for educational purposes only and should be used with caution in production environments. Google Cloud Platform (GCP) products are changing frequently, and screenshots and instructions might become inaccurate over time. Always refer to the latest GCP documentation for the most up-to-date information.
 
 
-## ***READING Section : Read the following Explanation of what dataform is and what is its purpose*** 
+### ***READING Section : Read the following Explanation of what dataform is and what is its purpose*** 
 
-## **Dataform** 
+### **Dataform** 
 
 Dataform is a fully managed service that helps data teams build, version control, and orchestrate SQL workflows in BigQuery. It provides an end-to-end experience for data transformation, including:
 
@@ -1007,7 +1009,7 @@ There are many benefits to using Dataform in Google Cloud, including:
 * Reduced costs: Dataform can help you to reduce the costs associated with data processing by optimizing the execution of your SQL workflows.  
 * Increased scalability: Dataform can help you to scale your data pipelines to meet the needs of your growing business.
 
-## **Use cases for Dataform**
+### **Use cases for Dataform**
 
 Dataform can be used for a variety of use cases, including:
 
@@ -1016,15 +1018,15 @@ Dataform can be used for a variety of use cases, including:
 * Data analytics: Dataform can be used to develop and maintain data pipelines that prepare data for analysis.  
 * Machine learning: Dataform can be used to develop and maintain data pipelines that prepare data for machine learning models.
 
-## ***LAB Section : Dataform Prerequisites*** 
+### ***LAB Section : Dataform Prerequisites*** 
 
 **SKIP below Steps 1, 2 and 3 if you already completed LAB 1** 
 
-1. ## **Enable Services API (you can skip this step if you completed LAB 1\)**
+1. ### **Enable Services API (you can skip this step if you completed LAB 1\)**
 
 Ensure all necessary APIs (BigQuery API, Vertex AI API, BigQuery Connection API, Dataform API, Secret Manager API) are [enabled](https://console.cloud.google.com/flows/enableapi?apiid=storage-component.googleapis.com%2Cpubsub.googleapis.com%2Cbigquery.googleapis.com%2Cbigqueryconnection.googleapis.com%2Caiplatform.googleapis.com&_ga=2.132962701.243207769.1688884437-279425947.1688884437)
 
-2. ## **Create a connection to an external data source in BigQuery (you can skip this step if you completed LAB 1\)**
+2. ### **Create a connection to an external data source in BigQuery (you can skip this step if you completed LAB 1\)**
 
 * Create an External Connection (Enable BQ Connection API if not already done) and note down the Service Account id from the connection configuration details:  
 * Click the \+ADD button on the BigQuery Explorer pane (in the left of the BigQuery console) and click “Connection to external data sources” in the popular sources listed  
@@ -1032,30 +1034,30 @@ Ensure all necessary APIs (BigQuery API, Vertex AI API, BigQuery Connection API,
   ![][image2]  
 * Once the connection is created, take a note of the Service Account generated from the connection configuration details
 
-3. ## **Grant Permissions  (you can skip this step if you completed LAB 1\)**
+3. ### **Grant Permissions  (you can skip this step if you completed LAB 1\)**
 
 In this step we will grant permissions to the Service Account to access the Vertex AI service:  
 Open IAM and add the Service Account you copied after creating the external connection as the Principal and select “Vertex AI User” Role.
 
-4. ## **Using Large Language Models from Vertex AI  (info only)**
+4. ### **Using Large Language Models from Vertex AI  (info only)**
 
 Google Cloud’s language models are available within the Vertex AI Studio inside the Vertex AI service.  
 **![][image3]**
 
-5. ## **Prompt design (info only)**
+5. ### **Prompt design (info only)**
 
 Prompt design is the process of creating prompts that elicit the desired response from language models. Writing well structured prompts is an essential part of ensuring accurate, high quality responses from a language model.  
 If you need to understand this concept a bit more this is a page that introduces some basic concepts, strategies, and best practices to get you started in designing prompts ([https://cloud.google.com/vertex-ai/docs/generative-ai/learn/introduction-prompt-design](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/introduction-prompt-design)).  
 The reference page above also goes into the more advanced settings you can see on the right hand side of the prompt box such as temperature, top K, top P etc.
 
-## ***LAB Section : Creating a Dataform Pipeline***
+### ***LAB Section : Creating a Dataform Pipeline***
 
 First step in implementing a pipeline in Dataform is to set up a repository and a development environment. Detailed quickstart and instructions can be found [here](https://cloud.google.com/dataform/docs/quickstart-create-workflow).
 
 Navigate to the BigQuery section in the Google Cloud Platform console, and then select Dataform.  
 ![][image4]
 
-1. ## **Create a Repository in Dataform** 
+1. ### **Create a Repository in Dataform** 
 
 Click the “+ CREATE REPOSITORY” button near the top of the page.  
 ![][image5]  
@@ -1068,7 +1070,7 @@ Use the following values when creating the repository:
 
 And click “CREATE”
 
-2. ## **Dataform Service Account** 
+2. ### **Dataform Service Account** 
 
 Take note and save somewhere the newly created service account for Dataform.  
 Example: [service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com](mailto:service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com) 
@@ -1077,7 +1079,7 @@ Example: [service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com](mailto:s
 Click “GO TO REPOSITORIES”, and then click on the “hackathon-repository”, the new repository you just created.  
 ![][image8]
 
-3. ## **Create and initialize a Dataform development workspace**
+3. ### **Create and initialize a Dataform development workspace**
 
 You should now be in the “DEVELOPMENT WORKSPACES” tab of the hackathon-repository page.
 
@@ -1175,7 +1177,7 @@ Those files should be created under ***definitions*** directory
     Go to ***Dataform \> hackathon-\<lastname\>-workspace \> Compiled Graph***  
     ![][image21]
 
-## ***LAB Section : Execute the workspace workflow***
+### ***LAB Section : Execute the workspace workflow***
 
 1. For  the sentiment inference step to succeed . You need to grant the external connection service account the Vertex AI user privilege. More details can be found in this [link](https://cloud.google.com/bigquery/docs/generate-text-tutorial#grant-permissions). You can find the service account ID under BigQuery Studio \> Your project ID  (example: bootkon-dryrun24ber-886) \> External connections \> fraud-transactions-conn  
      
@@ -1259,6 +1261,9 @@ Release configurations allow you to compile your pipeline code at specific inter
 # **\<Lunch Time: 60 Minutes\>**
 
 ## **\[Hands-on Lab \- 4\] ML Operations with Vertex AI**
+
+<walkthrough-tutorial-duration duration="60"></walkthrough-tutorial-duration>
+<walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 
 ***Note: You can start Hands-on Lab 5 while the Hands-on Lab 4 training jobs in Notebooks 2 & 3 are still running.***  
 Follow Step by Step Instructions [here](https://docs.google.com/document/d/1UdI1ffZdjy--_2xNmemQKzPCRXvCVw8JAroZqewiPMs/edit?usp=drive_link) 
