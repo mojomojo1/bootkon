@@ -10,12 +10,17 @@
 
 ## Introduction
 
-Welcome to an example!
+FraudFix Technologies is a cutting-edge company focused on making financial transactions safer for Google Cloud enterprise customers across industries (financial institutions, online retailers, etc …) 
+
+As a senior data analytics/AI engineer at FraudFix Technologies, you will tackle the challenges of making financial transactions safer using machine learning. Your work will involve analyzing vast amounts of transaction data to detect and prevent fraud, as well as assessing customer sentiment regarding the quality of transaction services. You will leverage a unique synthetic dataset, which includes auto-generated data by Google Gemini and a public European credit card transaction dataset that has been PCA transformed and anonymized. This dataset will be used to train your models, reflecting real-world applications of GCP Data & AI in enhancing financial safety.
+
+During this event, your main focus will be on completing the labs, which are clearly marked with the label “[LAB]” in the walkthrough. These labs include detailed step-by-step instructions to guide you. In addition to the labs, you’ll face several challenges that you’ll need to solve on your own or with your group.
+
 
 
 ## **\[Hands-on Lab \- 1\] Setup your environment**
 
-# Follow Step by Step Instructions [here](https://docs.google.com/document/d/1RJcWKSmQ8-vLypuztkOlCCOfZcxIIgPu4v8wPpBmFhU/edit?usp=drive_link)
+## Follow Step by Step Instructions [here](https://docs.google.com/document/d/1RJcWKSmQ8-vLypuztkOlCCOfZcxIIgPu4v8wPpBmFhU/edit?usp=drive_link)
 
 
 
@@ -29,18 +34,18 @@ Welcome to an example!
 CAUTION:  
 This lab is for educational purposes only and should be used with caution in production environments. Google Cloud Platform (GCP) products are changing frequently, and screenshots and instructions might become inaccurate over time. Always refer to the latest GCP documentation for the most up-to-date information.
 
-# **Architecture Diagram**
+## **Architecture Diagram**
 
 ![alt architecture](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/architecture.png?raw=true)
 
 <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/architecture.png?raw=true" target="_parent" >View image</a>
 
 
-# **Choice of GCP Product and Service Location**
+## **Choice of GCP Product and Service Location**
 
 You are free to choose any GCP region location for all labs. Ensure all your resources are created in the chosen location to avoid connectivity issues and minimize latency and cost. If you don’t have a preferred GCP location, use ***us-central1*** for simplicity.
 
-# **Setup your environment** 
+## **Setup your environment** 
 
 1. Open Web Browser in **Incognito** Mode.  
 2. Open [https://console.cloud.google.com](https://console.cloud.google.com)  
@@ -166,9 +171,13 @@ You are free to choose any GCP region location for all labs. Ensure all your res
 Follow Step by Step Instructions [here](https://docs.google.com/document/d/1NAcQb9qUZsyGSe2yPQWKrBz18ZRVCL7X9e-NDs5lQbk/edit?usp=drive_link)
 
 
-# **\[LAB\] Load data via BigLake External Tables**
+## **\[LAB\] Load data via BigLake External Tables**
 
-Goal of the lab Ingest fraudulent and non fraudulent transactions dataset into BigQuery using three methods: Using BigLake with data stored in Google Cloud Storage (GCS) Near real-time ingestion into BigQuery using [Cloud PubSub](https://cloud.google.com/pubsub) 
+Goal of the lab:  Ingest fraudulent and non fraudulent transactions dataset into BigQuery using three methods: \
+Using BigLake with data stored in Google Cloud Storage (GCS) \
+Near real-time ingestion into BigQuery using [Cloud PubSub](https://cloud.google.com/pubsub) \
+[OPTIONAL] Batch Ingestion into BigQuery using Dataproc Serverless
+
 
 CAUTION:  This lab is for educational purposes only and should be used with caution in production environments. Google Cloud Platform (GCP) products are changing frequently, and screenshots and instructions might become inaccurate over time. Always refer to the latest GCP documentation for the most up-to-date information.
 
@@ -287,7 +296,7 @@ The simple select statement should query and return data from our parquet format
 We can also  explore results with SAVE RESULTS or EXPLORE DATA.  
 ![][image14]
 
-# **\[LAB\] Real time data ingestion into BigQuery using PUB/SUB**
+## **\[LAB\] Real time data ingestion into BigQuery using PUB/SUB**
 
 ### **Prerequisite : Enable API (you can skip this step if you completed LAB 1\)**
 
@@ -845,7 +854,7 @@ Note: The query should return a few hundred thousand records, but the exact coun
 
     [TASK\] Take up to a couple (2) of minutes and discuss within your group the key differences between Method 1 and Method 2\. Focus specifically on how the execution time and overall efficiency compare between the two methods.*
 
-# **\[OPTIONAL LAB\] Batch data ingestion into BigQuery using Dataproc**
+## **\[OPTIONAL LAB\] Batch data ingestion into BigQuery using Dataproc**
 
 ### Google Cloud Dataproc is a fully managed and scalable service for running Apache Hadoop, Apache Spark, Apache Flink, Presto, and 30+ open source tools and frameworks. Dataproc allows data to be loaded and also transformed or pre-processed as it is brought in.
 
