@@ -13,13 +13,7 @@
 <walkthrough-tutorial-duration duration="30"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="2"></walkthrough-tutorial-difficulty>
 
-
-The goal of the this lab is to nable Google cloud services APIs Ensure your GCP user and service account have access to the required resources. Create GCP default network  Create Vertex AI notebook for the ML labs.** |
-
 The goal of this lab is to set permissions and create the default VPC network.
-
-CAUTION:  
-This lab is for educational purposes only and should be used with caution in production environments. Google Cloud Platform (GCP) products are changing frequently, and screenshots and instructions might become inaccurate over time. Always refer to the latest GCP documentation for the most up-to-date information.
 
 ### **Architecture Diagram**
 
@@ -32,7 +26,9 @@ This lab is for educational purposes only and should be used with caution in pro
 
 You are free to choose any GCP region location for all labs. Ensure all your resources are created in the chosen location to avoid connectivity issues and minimize latency and cost. If you don’t have a preferred GCP location, use ***us-central1*** for simplicity.
 
-### **Setup your environment** 
+### **Setup your environment**
+
+1. Open `vars.sh` <walkthrough-editor-open-file filePath="vars.sh"> in the Cloud Shell Editor </walkthrough-editor-open-file> and adapt it. Don't forget to save it.
 
 1. Download the script with the following command:
 
