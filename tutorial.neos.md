@@ -8,26 +8,15 @@
 
 # Data and AI Boot-Kon
 
-## Introduction
-
-FraudFix Technologies is a cutting-edge company focused on making financial transactions safer for Google Cloud enterprise customers across industries (financial institutions, online retailers, etc …) 
-
-As a senior data analytics/AI engineer at FraudFix Technologies, you will tackle the challenges of making financial transactions safer using machine learning. Your work will involve analyzing vast amounts of transaction data to detect and prevent fraud, as well as assessing customer sentiment regarding the quality of transaction services. You will leverage a unique synthetic dataset, which includes auto-generated data by Google Gemini and a public European credit card transaction dataset that has been PCA transformed and anonymized. This dataset will be used to train your models, reflecting real-world applications of GCP Data & AI in enhancing financial safety.
-
-During this event, your main focus will be on completing the labs, which are clearly marked with the label “[LAB]” in the walkthrough. These labs include detailed step-by-step instructions to guide you. In addition to the labs, you’ll face several challenges that you’ll need to solve on your own or with your group.
-
-
-
-## **\[Hands-on Lab \- 1\] Setup your environment**
+## Lab 1: Setup your environment
 
 <walkthrough-tutorial-duration duration="30"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="2"></walkthrough-tutorial-difficulty>
 
 
-### Follow Step by Step Instructions [here](https://docs.google.com/document/d/1RJcWKSmQ8-vLypuztkOlCCOfZcxIIgPu4v8wPpBmFhU/edit?usp=drive_link)
+The goal of the this lab is to nable Google cloud services APIs Ensure your GCP user and service account have access to the required resources. Create GCP default network  Create Vertex AI notebook for the ML labs.** |
 
-**Goal of the lab Enable Google cloud services APIs Ensure your GCP user and service account have access to the required resources. Create GCP default network  Create Vertex AI notebook for the ML labs.** |
-
+The goal of this lab is to set permissions and create the default VPC network.
 
 CAUTION:  
 This lab is for educational purposes only and should be used with caution in production environments. Google Cloud Platform (GCP) products are changing frequently, and screenshots and instructions might become inaccurate over time. Always refer to the latest GCP documentation for the most up-to-date information.
@@ -44,42 +33,6 @@ This lab is for educational purposes only and should be used with caution in pro
 You are free to choose any GCP region location for all labs. Ensure all your resources are created in the chosen location to avoid connectivity issues and minimize latency and cost. If you don’t have a preferred GCP location, use ***us-central1*** for simplicity.
 
 ### **Setup your environment** 
-
-1. Open Web Browser in **Incognito** Mode.  
-2. Open [https://console.cloud.google.com](https://console.cloud.google.com)  
-3. Login to your GCP console. Use the provided credentials.  
-   1. Log in with your **gcp\_username** and **gcp\_password**.  
-   2. **Accept** the Terms of Service   
-
-      ![alt termsofservice](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/termsofservice.png?raw=true)
-
-      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/termsofservice.png?raw=true" target="_parent">View image</a>
-
-   3. Choose your **project ID**: it should be **gcp\_project\_id** you received by **Email**. Click on select a project and select the project ID (example below)  
-      ![alt selectproject](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/selectproject.png?raw=true)
-
-      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/selectproject.png?raw=true" target="_parent">View image</a>
-
-      ![alt selectproject](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/selectproject2.png?raw=true)
-
-      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/selectproject2.png?raw=true" target="_parent">View image</a>
-
-
-      ![alt selectproject](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/selectproject3.png?raw=true)
-
-      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/selectproject3.png?raw=true" target="_parent">View image</a>
-
-   4. Initially you have been granted the project editor and IAM project admin roles.
-
-4. Click the **Cloud Shell** icon at the top right of the screen, it will open up a window at the bottom where you can execute commands in the next step. Click continue in the next window.  
-      ![alt cloudshell](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/cloudshell.png?raw=true)
-
-      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/cloudshell.png?raw=true" target="_parent">View image</a>
-5. Open this github repository in a new browser tab [https://github.com/fhirschmann/bootkon-h2-2024/blob/main/setup\_environment.sh](https://github.com/fhirschmann/bootkon-h2-2024/blob/main/setup_environment.sh)  
-     
-   This script **automates** the set up, including enabling APIs, cloning the repository, setting up IAM permissions, creating a VPC network, and copying files to GCS.  
-
-   To use this script:
 
 1. Download the script with the following command:
 
