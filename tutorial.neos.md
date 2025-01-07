@@ -19,7 +19,7 @@ The goal of this lab is to set permissions and create the default VPC network.
 
 
 
-<a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/architecture.png?raw=true" target="_parent" >![alt architecture](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/architecture.png?raw=true)</a>
+<a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/architecture.png?raw=true" target="foo" >![alt architecture](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/architecture.png?raw=true)</a>
 
 
 ### **Choice of GCP Product and Service Location**
