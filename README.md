@@ -1,39 +1,38 @@
-# **Use Case Introduction**
+# Bootkon (Bootcamp + Hackathon): innovate and build with Google Cloud
+Bootkon is an immersive hackathon designed for tech enthusiasts, developers, and innovators to explore the power of Google Cloud products through hands-on learning. This event provides a unique, integrated experience using Google Cloud Shell tutorials, enabling participants to dive deep into cutting-edge cloud technologies.
 
-* About the company: FraudFix Technologies is a cutting-edge company focused on making financial transactions safer for Google Cloud enterprise customers across industries (financial institutions, online retailers, etc …)   
+## Toy Use Case
+
+FraudFix Technologies is a cutting-edge company focused on making financial transactions safer for Google Cloud enterprise customers across industries (financial institutions, online retailers, etc…)   
     
-* Your role: As a senior data analytics/AI engineer at FraudFix Technologies, you will tackle the challenges of making financial transactions safer using machine learning. Your work will involve analyzing vast amounts of transaction data to detect and prevent fraud, as well as assessing customer sentiment regarding the quality of transaction services. You will leverage a unique synthetic dataset, which includes auto-generated data by Google Gemini and a public European credit card transaction dataset that has been PCA transformed and anonymized. This dataset will be used to train your models, reflecting real-world applications of GCP Data & AI in enhancing financial safety.
+Your role: As a senior data analytics/AI engineer at FraudFix Technologies, you will tackle the challenges of making financial transactions safer using machine learning. Your work will involve analyzing vast amounts of transaction data to detect and prevent fraud, as well as assessing customer sentiment regarding the quality of transaction services. You will leverage a unique synthetic dataset, which includes auto-generated data by Google Gemini and a public European credit card transaction dataset that has been PCA transformed and anonymized. This dataset will be used to train your models, reflecting real-world applications of GCP Data & AI in enhancing financial safety.
 
-# **Understand the Structure of the Event**
+To learn more about the use case, read this [document](https://docs.google.com/document/d/16Hgp79OWxKScrVdhY4UmSkHvR-3zZ7wDfQ8uPlzUeuE/edit).
 
-During this event, your main focus will be on completing the labs, which are clearly marked with the label “\[LAB\]” in the instruction manuals. These labs include detailed step-by-step instructions to guide you. In addition to the labs, you’ll face several challenges that you’ll need to solve on your own or with your group. Groups will be assigned by the event organizers at the start of the event.  
-We will decommission the environments provided to you by Google a few hours after the event.
+## Getting Started
 
-# **Understand the Fraudfix Use Case**
+1. Open new browser window in **Incognito** mode (<span style="color:red">important</span>).  
+2. Open this GitHub repository in your newly opened incognito window and keep reading; close this window in your main browser window (<span style="color:red">important</span>).
+3. Open [https://console.cloud.google.com](https://console.cloud.google.com) and log in with the provided credentials.
+4. Accept the Terms of Services.   
 
-Follow this [document](https://docs.google.com/document/d/16Hgp79OWxKScrVdhY4UmSkHvR-3zZ7wDfQ8uPlzUeuE/edit)
+    ![alt termsofservice](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/termsofservice.png?raw=true)
 
+    <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/termsofservice.png?raw=true" target="_parent">View image</a>
 
-# Event Schedule
-
-| Time          | Activity                                      |
-| ------------- | -------------------------------------------- | 
-| 09:00 - 09:30 | Registration, welcome and coffee            | 
-| 09:30 - 10:00 | Welcoming & Introduction to the use case     | 
-| 10:00 - 10:30 | [Hands-on Lab - 1] Setup the environment     |  
-| 10:30 - 11:15 | [Hands-on Lab - 2] Data Ingestion in BigQuery |  
-| 11:15 - 12:00 | [Hands-on Lab - 3] ELT with Dataform and LLM  |  
-| 12:00 - 13:00 | Lunch Time                                   |  
-| 13:00 - 14:00 | [Hands-on Lab - 4] Machine Learning with Vertex AI |  
-| 14:00 - 14:30 | [Hands-on Lab - 5] Agent Builder & Gemini    |  
-| 14:30 - 15:00 | Coffee Break                                  |  
-| 15:00 - 15:30 | [Demo] Query your data with Data Canvas or Looker |  
-| 15:30 - 16:00 | Your Architecture Challenge                 |  
-| 16:00 - 16:15 | Event Closing Feedback                       |
+5. Choose your **project id**. Click on select a project and select the project ID (example below)  
+    ![alt selectproject](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/selectproject.png?raw=true)
 
 
+    ![alt selectproject](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/selectproject2.png?raw=true)
 
 
-[![Open this project in Cloud Shell](img/journey.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon-ng&page=editor&tutorial=tutorial.neos.md&show=ide&cloudshell_workspace=)
+    ![alt selectproject](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/selectproject3.png?raw=true)
+
+6. Press the button below in your incognito window and embark on your journey.
+
+    [![Open this project in Cloud Shell](img/journey.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon-ng&page=editor&tutorial=tutorial.neos.md&show=ide&cloudshell_workspace=)
+
+
 
 
