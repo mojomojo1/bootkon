@@ -102,8 +102,8 @@ Note down the `serviceAccountID`. It should resemble `connection-...@...gservice
 To connect to Cloud Storage, you must give the new connection read-only access to Cloud Storage so that BigQuery can access files on behalf of users. In the following command, replace `MEMBER` with the service account id you noted down earlier.:
 ```bash
 gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-bucket \
---member=serviceAccount:MEMBER \
---role=roles/storage.objectViewer
+--role=roles/storage.objectViewer \
+--member=serviceAccount:MEMBER
 ```
 
 Next, we create a dataset that our external table will live in:
@@ -118,16 +118,14 @@ Finally, create a table in BigQuery pointing to the data in Cloud Storage:
 ```bash
 bq mk --table \
   --external_table_definition=@PARQUET="gs://${PROJECT_ID}-bucket/data-ingestion/parquet/ulb_fraud_detection/*"@projects/${PROJECT_ID}/locations/${REGION}/connections/fraud-transactions-conn \
-  ml_datasets.ulb_fraud_detection_blake \
-  SCHEMA
+  ml_datasets.ulb_fraud_detection_blake
 ```
 
+Go to the [BigQuery Console](https://console.cloud.google.com/bigquery) console again and open the dataset and table you just created. Click on `Query` and insert the following SQL query. Substitude `PROJECT_ID` with your project id:
 
-check the results from BigQuery
-
- ```
-SELECT * FROM `your-project-id.ml_datasets.ulb_fraud_detection_blake` LIMIT 1000;
- ```
+```sql
+SELECT * FROM `PROJECT_ID.ml_datasets.ulb_fraud_detection_blake` LIMIT 1000;
+```
 
 *click on ![][image13]* 
 
