@@ -957,7 +957,7 @@ And click “CREATE”
 2. ### **Dataform Service Account** 
 
 Take note and save somewhere the newly created service account for Dataform.  
-Example: [service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com](mailto:service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com) 
+Example: service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com
 
 ![][image7]  
 Click “GO TO REPOSITORIES”, and then click on the “hackathon-repository”, the new repository you just created.  
