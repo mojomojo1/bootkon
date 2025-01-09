@@ -3,3 +3,4 @@ export GCP_USERNAME="" # example: devstar3110@gcplab.me
 export REGION="us-central1"
 
 alias r='cloudshell launch-tutorial -d TUTORIAL.md'
+gcloud config set project $PROJECT_ID

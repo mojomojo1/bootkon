@@ -93,79 +93,33 @@ bq mk --connection --location=$REGION --project_id=$PROJECT_ID \
     --connection_type=CLOUD_RESOURCE fraud-transactions-conn
 ```
 
-1. In the Google Cloud console navigate to **Bigquery Studio** and click  the **\+ ADD** button  
-2. Choose “***Connections to external data sources***”  
-   ![][image2]  
-3. As connection type select ***Vertex AI remote models , remote functions and BigLake (Cloud Resources)*** ![][image3]  
-4. Enter the connection ID as “fraud-transactions-conn” and choose the US multi-region location.  
-5. Click “CREATE CONNECTION”  
-6. Open the connection details for the newly added external connection  “fraud-transactions-conn”  
-   ![][image4]
+When you create a connection resource, BigQuery creates a unique system service account and associates it with the connection.
+```bash
+bq show --connection ${PROJECT_ID}.${REGION}.fraud-transactions-conn
+```
+Note down the `serviceAccountID`. It should resemble `connection-...@...gserviceaccount.com`.
 
-7. Note the service account ID and grant it Storage Object Viewer role by following these instructions:.  
-     
-* Go to IAM & Admin  
-* Filter  the Service account
+To connect to Cloud Storage, you must give the new connection read-only access to Cloud Storage so that BigQuery can access files on behalf of users. In the following command, replace `MEMBER` with the service account id you noted down earlier.:
+```bash
+gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-bucket \
+--member=serviceAccount:MEMBER \
+--role=roles/storage.objectViewer
+```
 
-  ![][image5]
+Next, we create a dataset that our external table will live in:
+```bash
+bq --location=${REGION} mk -d ml_datasets
+```
 
+Go to the [BigQuery Console](https://console.cloud.google.com/bigquery). check that the dataset has been created successfully (Note: you may need to click "refresh contents" from the 3-dot menu for the project in the Explorer).
 
-* If you can’t find the service account ID, add it as a principal. Follow the steps below.   
-  * First click on “Grant Access” 
+Finally, create a table in BigQuery pointing to the data in Cloud Storage:
 
-    ![][image6]
-
-  * Copy and paste the service account id into the “new principals” input box. (make sure you paste the complete service account email).   
-  * Add the **Storage Object Viewer** Role and click on Save
-
-    ![][image7]
-
-    
-
-* If you do find the service account id, then click on Edit Principal 
-
-
-  ![][image8]  
-* Click on Add Role and add the Storage Object Viewer role, then click on Save.
-
-
-  ![][image9]
-
-    
-8. From Cloud Shell, create a dataset named **ml\_datasets** in the US multi-region.  
-   
- ```
- DATASET\_NAME="ml\_datasets" bq \--location=US mk \-d \\     \--description "Fraudulent and Non Fraudulent transactions BigQuery dataset" \\     $DATASET\_NAME*
- ```
-
-*![][image10]*  
-\>\>\> You can ignore the following warning ; warnings.warn("urllib3 ({}) or chardet ({})/charset\_normalizer ({}) doesn't match a supported " 
-
-9. ### Go to BigQuery, check that the dataset has been created successfully (Note: you may need to click “refresh contents” from the 3-dot menu for the project in the Explorer).
-
-   ### ![][image11] 
-
-10. ### Click on the “+” icon on the right end of the tabs in the workspace to open a new  SQL Query;
-
-    ![][image12]
-
-11. ### Create BigLake tables on non-partitioned parquet data on GCS;
-
-*Copy and paste the following commands into the  blank SQL window.*
-
-- *Replace **your-project-id** with your actual project ID in 3 places*
-
-
-|  Create BigLake table on non partitioned parquet data on GCS |
-| :---- |
- ```
-CREATE OR REPLACE EXTERNAL TABLE
-`your-project-id.ml_datasets.ulb_fraud_detection_blake`
-WITH CONNECTION `us.fraud-transactions-conn` OPTIONS (
-   format ="PARQUET",
-   uris = ['gs://your-project-id-bucket/data-ingestion/parquet/ulb_fraud_detection/*'],
-   max_staleness=INTERVAL 30 MINUTE,
-   metadata_cache_mode="AUTOMATIC");
+```bash
+bq mk --table \
+  --external_table_definition=@PARQUET="gs://${PROJECT_ID}-bucket/data-ingestion/parquet/ulb_fraud_detection/*"@projects/${PROJECT_ID}/locations/${REGION}/connections/fraud-transactions-conn \
+  ml_datasets.ulb_fraud_detection_blake \
+  SCHEMA
 ```
 
 
