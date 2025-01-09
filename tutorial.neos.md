@@ -8,109 +8,39 @@
 
 # Data and AI Boot-Kon
 
-## Lab 1: Setup your environment
+## Introduction
+
+Welcome to bootkon. 
+
+FraudFix Technologies specializes in enhancing financial transaction security for Google Cloud enterprise customers across industries like finance and e-commerce.
+
+## Environment Setup
 
 <walkthrough-tutorial-duration duration="30"></walkthrough-tutorial-duration>
-<walkthrough-tutorial-difficulty difficulty="2"></walkthrough-tutorial-difficulty>
+<walkthrough-tutorial-difficulty difficulty="1"></walkthrough-tutorial-difficulty>
 
-The goal of this lab is to set permissions and create the default VPC network.
-
-### **Architecture Diagram**
-
-<a href="#" onclick="window.open('https://www.google.de', 'foo');">klasdj</a>
-
-<a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/architecture.png?raw=true" target="_parent" >![alt architecture](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/architecture.png?raw=true)</a>
-
+In this lab grant permissions and set up a default VPC network as a preparatory step.
 
 ### **Choice of GCP Product and Service Location**
 
-You are free to choose any GCP region location for all labs. Ensure all your resources are created in the chosen location to avoid connectivity issues and minimize latency and cost. If you don’t have a preferred GCP location, use ***us-central1*** for simplicity.
+You are free to choose any GCP region location for your labs. Ensure all your resources are created in the chosen location to avoid connectivity issues and minimize latency and cost. If you don’t have a preferred GCP location, use ***us-central1*** for simplicity.
 
 ### **Setup your environment**
 
-1. Open `vars.sh` <walkthrough-editor-open-file filePath="vars.sh"> in the Cloud Shell Editor </walkthrough-editor-open-file> and adapt it. Don't forget to save it.
+Open `vars.sh` <walkthrough-editor-open-file filePath="vars.sh"> in the Cloud Shell editor </walkthrough-editor-open-file> and adapt it. Don't forget to save it.
 
-1. Download the script with the following command:
+Now, export the variables to your environment:
+```bash
+source vars.sh
+```
 
-   ```bash
-   wget https://raw.githubusercontent.com/fhirschmann/bootkon-h2-2024/refs/heads/main/setup_environment.sh
-   ```
+Have a <walkthrough-editor-open-file filePath="bootstrap.sh">look</walkthrough-editor-open-file> at the bootstrap script and what it does; exeucte it:
+```bash
+./bootstrap.sh
+```
 
-2. Make the script executable
-
-   ```bash 
-   chmod +x setup_environment.sh
-   ```
-
-3. Run the script (takes around 3 minutes; may require you to copy an authentication token):
-
-   ```bash
-   ./setup_environment.sh <PROJECT_ID> <GCP_USERNAME> <REGION>
-   ```
-      
+Well done, your environment is now ready for the first lab!
    
-   **`Example:`**
-
-   `./setup_environment.sh bootkon-test24mun-8301 devstar8301@gcplab.me us-central1`
-   
-**Finally, we create a Vertex AI Notebook (JupyterLab)**
-
-1. Go to Vertex AI in the GCP console.
-
-      ![alt vertexai](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/vertexai.png?raw=true)
-
-      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/vertexai.png?raw=true" target="_parent">View image</a>
-
-2. Click on the Workbench section.
-
-      ![alt workbench](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/workbench.png?raw=true)
-
-      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/workbench.png?raw=true" target="_parent">View image</a>
-
-3. Select “User managed notebooks” 
-
-      ![alt usermanagednotebooks](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/usermanagednotebooks.png?raw=true)
-
-      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/usermanagednotebooks.png?raw=true" target="_parent">View image</a>
-
-4.  “Create new”
-
-      ![alt createnew](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/createnew.png?raw=true)
-
-      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/createnew.png?raw=true" target="_parent">View image</a>
-
-   
-
-5. Name the notebook “***bootkon***” and leave the default network and environment. Leave the cheapest machine type; e2-standard-4 selected; 4 vCPUs and 16GB of RAM are more than enough to perform the ML labs using jupyter notebooks. Do not attach a GPU. Normally it takes around 10 minutes to get the instance created.
-
-   ![alt notebookbootkon](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/notebookbootkon.png?raw=true)
-
-   <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/notebookbootkon.png?raw=true" target="_parent">View image</a>
-
-6. Open the Jupyter Lab;
-
-   ![alt openjupyter](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/openjupyter.png?raw=true)
-
-   <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/openjupyter.png?raw=true" target="_parent">View image</a>
-
-7. From the Jupyter Lab top menu, click on Git \-\> Clone a Repository 
-
-   ![alt clonerepo](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/clonerepo.png?raw=true)
-
-   <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/clonerepo.png?raw=true" target="_parent">View image</a>
-
-8. Enter [https://github.com/fhirschmann/bootkon-h2-2024.git](https://github.com/fhirschmann/bootkon-h2-2024.git) and click on **clone**
-
-   ![alt clonerepo2](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/clonerepo2.png?raw=true)
-
-   <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/clonerepo2.png?raw=true" target="_parent">View image</a>
-
-   
-
-      **🥳Congratulations on setting up your environement 🥳**  
-      **You can now move on to Lab 2**
-
-
 
 ## **\[Hands-on Lab \- 2\] Data Ingestion with BigLake**
 
@@ -1214,6 +1144,61 @@ Release configurations allow you to compile your pipeline code at specific inter
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 
 ***Note: You can start Hands-on Lab 5 while the Hands-on Lab 4 training jobs in Notebooks 2 & 3 are still running.***  
+
+**Finally, we create a Vertex AI Notebook (JupyterLab)**
+
+1. Go to Vertex AI in the GCP console.
+
+      ![alt vertexai](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/vertexai.png?raw=true)
+
+      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/vertexai.png?raw=true" target="_parent">View image</a>
+
+2. Click on the Workbench section.
+
+      ![alt workbench](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/workbench.png?raw=true)
+
+      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/workbench.png?raw=true" target="_parent">View image</a>
+
+3. Select “User managed notebooks” 
+
+      ![alt usermanagednotebooks](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/usermanagednotebooks.png?raw=true)
+
+      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/usermanagednotebooks.png?raw=true" target="_parent">View image</a>
+
+4.  “Create new”
+
+      ![alt createnew](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/createnew.png?raw=true)
+
+      <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/createnew.png?raw=true" target="_parent">View image</a>
+
+   
+
+5. Name the notebook “***bootkon***” and leave the default network and environment. Leave the cheapest machine type; e2-standard-4 selected; 4 vCPUs and 16GB of RAM are more than enough to perform the ML labs using jupyter notebooks. Do not attach a GPU. Normally it takes around 10 minutes to get the instance created.
+
+   ![alt notebookbootkon](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/notebookbootkon.png?raw=true)
+
+   <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/notebookbootkon.png?raw=true" target="_parent">View image</a>
+
+6. Open the Jupyter Lab;
+
+   ![alt openjupyter](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/openjupyter.png?raw=true)
+
+   <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/openjupyter.png?raw=true" target="_parent">View image</a>
+
+7. From the Jupyter Lab top menu, click on Git \-\> Clone a Repository 
+
+   ![alt clonerepo](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/clonerepo.png?raw=true)
+
+   <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/clonerepo.png?raw=true" target="_parent">View image</a>
+
+8. Enter [https://github.com/fhirschmann/bootkon-h2-2024.git](https://github.com/fhirschmann/bootkon-h2-2024.git) and click on **clone**
+
+   ![alt clonerepo2](https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/clonerepo2.png?raw=true)
+
+   <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/clonerepo2.png?raw=true" target="_parent">View image</a>
+
+
+
 Follow Step by Step Instructions [here](https://docs.google.com/document/d/1UdI1ffZdjy--_2xNmemQKzPCRXvCVw8JAroZqewiPMs/edit?usp=drive_link) 
 
 ## **\[Hands-on Lab \- 5\] Agent Builder and Gemini**
