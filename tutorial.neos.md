@@ -14,6 +14,21 @@ Welcome to bootkon.
 
 FraudFix Technologies specializes in enhancing financial transaction security for Google Cloud enterprise customers across industries like finance and e-commerce.
 
+### Working with labs
+
+You can insert commands into the terminal using the following icon on top of each code junk:
+<walkthrough-cloud-shell-icon></walkthrough-cloud-shell-icon>
+
+Please press this icon in the following code chunk:
+
+```bash
+echo "I'm ready to get started."
+```
+
+And execute by pressing the return key in the terminal that has been opened in the lower part of your screen.
+
+Press the `START` button below to get started!
+
 ## Environment Setup
 
 <walkthrough-tutorial-duration duration="30"></walkthrough-tutorial-duration>
@@ -34,6 +49,11 @@ Now, export the variables to your environment:
 source vars.sh
 ```
 
+Verify that they have been set correctly:
+```bash
+echo "PROJECT_ID=$PROJECT_ID REGION=$REGION GCP_USERNAME=$GCP_USERNAME"
+```
+
 Have a <walkthrough-editor-open-file filePath="bootstrap.sh">look</walkthrough-editor-open-file> at the bootstrap script and what it does; exeucte it:
 ```bash
 ./bootstrap.sh
@@ -42,12 +62,12 @@ Have a <walkthrough-editor-open-file filePath="bootstrap.sh">look</walkthrough-e
 Well done, your environment is now ready for the first lab!
    
 
-## **\[Hands-on Lab \- 2\] Data Ingestion with BigLake**
+## Lab 2: Data Ingestion with BigLake**
 
 <walkthrough-tutorial-duration duration="45"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 
-Follow Step by Step Instructions [here](https://docs.google.com/document/d/1NAcQb9qUZsyGSe2yPQWKrBz18ZRVCL7X9e-NDs5lQbk/edit?usp=drive_link)
+Original document: [here](https://docs.google.com/document/d/1NAcQb9qUZsyGSe2yPQWKrBz18ZRVCL7X9e-NDs5lQbk/edit?usp=drive_link)
 
 
 ### **\[LAB\] Load data via BigLake External Tables**
