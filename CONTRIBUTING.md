@@ -73,6 +73,8 @@ Next, instead of doing `source vars.sh` as requested in the labs, do
 source ~/vars.local.sh
 ```
 
+Please note that you might have to **re-execute the last command** in case you reopen Cloud Shell.
+
 ## Reloading the tutorial
 
 You can reload the tutorial on-the-fly by typing `r` into the terminal and pressing return. This is the alias we set up in `vars.local.sh`. Let's start by opening the tutorial:
