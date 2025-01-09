@@ -12,7 +12,9 @@
 
 Welcome to bootkon. 
 
-FraudFix Technologies specializes in enhancing financial transaction security for Google Cloud enterprise customers across industries like finance and e-commerce.
+An imaginary company named FraudFix Technologies specializes in enhancing financial transaction security for Google Cloud enterprise customers across industries like finance and e-commerce.
+
+**Your role**: As a senior data analytics/AI engineer at FraudFix Technologies, you will tackle the challenges of making financial transactions safer using machine learning. Your work will involve analyzing vast amounts of transaction data to detect and prevent fraud, as well as assessing customer sentiment regarding the quality of transaction services. You will leverage a unique synthetic dataset, which includes auto-generated data by Google Gemini and a public European credit card transaction dataset that has been PCA transformed and anonymized. This dataset will be used to train your models, reflecting real-world applications of GCP Data & AI in enhancing financial safety.
 
 ### Working with labs
 
@@ -34,7 +36,7 @@ Press the `START` button below to get started!
 <walkthrough-tutorial-duration duration="30"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="1"></walkthrough-tutorial-difficulty>
 
-In this lab grant permissions and set up a default VPC network as a preparatory step.
+In this lab you will grant permissions and set up a default VPC network as a preparatory step.
 
 ### **Choice of GCP Product and Service Location**
 
@@ -62,7 +64,7 @@ Have a <walkthrough-editor-open-file filePath="bootstrap.sh">look</walkthrough-e
 Well done, your environment is now ready for the first lab!
    
 
-## Lab 2: Data Ingestion with BigLake**
+## Lab 2: Data Ingestion
 
 <walkthrough-tutorial-duration duration="45"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
@@ -70,42 +72,29 @@ Well done, your environment is now ready for the first lab!
 Original document: [here](https://docs.google.com/document/d/1NAcQb9qUZsyGSe2yPQWKrBz18ZRVCL7X9e-NDs5lQbk/edit?usp=drive_link)
 
 
-### **\[LAB\] Load data via BigLake External Tables**
+During this lab, you ingest fraudulent and non fraudulent transactions dataset into BigQuery using three methods:
+* Using BigLake with data stored in Google Cloud Storage (GCS)
+* Near real-time ingestion into BigQuery using [Cloud PubSub](https://cloud.google.com/pubsub)
+* Batch Ingestion into BigQuery using Dataproc Serverless
 
-Goal of the lab:  Ingest fraudulent and non fraudulent transactions dataset into BigQuery using three methods: \
-Using BigLake with data stored in Google Cloud Storage (GCS) \
-Near real-time ingestion into BigQuery using [Cloud PubSub](https://cloud.google.com/pubsub) \
-[OPTIONAL] Batch Ingestion into BigQuery using Dataproc Serverless
+For all methods, we are ingesting data from the Google Cloud bucket you have created in the previous lab through `bootstrap.sh`. Feel free to have a look at the contents of this bucket:
 
+```bash
+```
 
-CAUTION:  This lab is for educational purposes only and should be used with caution in production environments. Google Cloud Platform (GCP) products are changing frequently, and screenshots and instructions might become inaccurate over time. Always refer to the latest GCP documentation for the most up-to-date information.
+### **External table using BigLake**
 
+BigLake tables let you query structured data in external data stores with access delegation. Access delegation decouples access to the BigLake table from access to the underlying data store. An external connection associated with a service account is used to connect to the data store.
 
-### **Set up**
+Because the service account handles retrieving data from the data store, you only have to grant users access to the BigLake table. This lets you enforce fine-grained security at the table level, including row-level and column-level security. For BigLake tables based on Cloud Storage, you can also use dynamic data masking. To learn more about multi-cloud analytic solutions using BigLake tables with Amazon S3 or Blob Storage data, see BigQuery Omni.
 
-### Note: The following two set up steps (Enable APIs and Required Roles) can be skipped  if you ran the script to set up your environment. In that case  you can go directly to “Add BigLake connection” 
+Note that this section could also be done in the Google Cloud Console (the GUI). However, in this lab, we will do it on the command line.
 
-### **Enable APIs** 
-
-### Make sure the following APIs are enabled in your project:
-
-* BigQuery API  
-* Vertex AI API  
-* Pubsub API  
-* BigQuery Connection API  
-* Dataform API  
-* Secret Manager API
-
-### **Required Roles**
-
-To create a BigLake table, you need the following BigQuery Identity and Access Management (IAM) permissions:
-
-* bigquery.tables.create  
-* bigquery.connections.delegate
-
-The BigQuery Data Editor and connection admin predefined Identity and Access Management role includes these permissions. If you are not a principal in this role, ask your administrator to grant you access or to create the BigLake table for you.
-
-### **Add BigLake connection** 
+First, we create the connection:
+```bash
+bq mk --connection --location=$REGION --project_id=$PROJECT_ID \
+    --connection_type=CLOUD_RESOURCE fraud-transactions-conn
+```
 
 1. In the Google Cloud console navigate to **Bigquery Studio** and click  the **\+ ADD** button  
 2. Choose “***Connections to external data sources***”  
@@ -874,7 +863,7 @@ From the search write : dataproc
 <walkthrough-tutorial-duration duration="45"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 
-Follow Step by Step Instructions [here](https://docs.google.com/document/d/1NxfggQunrCn6ZfwGXAaA_lABDmXtRsfH88jkMDbqlJo/edit?usp=drive_link)
+Original document [here](https://docs.google.com/document/d/1NxfggQunrCn6ZfwGXAaA_lABDmXtRsfH88jkMDbqlJo/edit?usp=drive_link)
 
 Goal of the lab: We gather user feedback to assess the impact of model adjustments on real-world use (prediction), ensuring that our fraud detection system effectively balances accuracy with user satisfaction. Use Dataform , BigQuery and Gemini to Perform sentiment analysis of customer feedback.
 
@@ -1163,6 +1152,9 @@ Release configurations allow you to compile your pipeline code at specific inter
 <walkthrough-tutorial-duration duration="60"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 
+Original document: [here](https://docs.google.com/document/d/1UdI1ffZdjy--_2xNmemQKzPCRXvCVw8JAroZqewiPMs/edit?usp=drive_link)
+
+
 ***Note: You can start Hands-on Lab 5 while the Hands-on Lab 4 training jobs in Notebooks 2 & 3 are still running.***  
 
 **Finally, we create a Vertex AI Notebook (JupyterLab)**
@@ -1218,12 +1210,9 @@ Release configurations allow you to compile your pipeline code at specific inter
    <a href="https://github.com/fhirschmann/bootkon-ng/blob/main/img/lab1/clonerepo2.png?raw=true" target="_parent">View image</a>
 
 
-
-Follow Step by Step Instructions [here](https://docs.google.com/document/d/1UdI1ffZdjy--_2xNmemQKzPCRXvCVw8JAroZqewiPMs/edit?usp=drive_link) 
-
 ## **\[Hands-on Lab \- 5\] Agent Builder and Gemini**
 
-Follow Step by Step Instructions [here](https://docs.google.com/document/d/1_8-HEEIKCCUkwoorpWq8lOI3M1Rn6HqY4SlCW8AitGg/edit?usp=drive_link)
+Original document [here](https://docs.google.com/document/d/1_8-HEEIKCCUkwoorpWq8lOI3M1Rn6HqY4SlCW8AitGg/edit?usp=drive_link)
 
 **\<Coffee Break: 30 Minutes\>**
 
