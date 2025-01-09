@@ -79,10 +79,7 @@ During this lab, you ingest fraudulent and non fraudulent transactions dataset i
 
 For all methods, we are ingesting data from the Google Cloud bucket you have created in the previous lab through `bootstrap.sh`. Feel free to have a look at the contents of this bucket:
 
-```bash
-```
-
-### **External table using BigLake**
+### External table using BigLake
 
 BigLake tables let you query structured data in external data stores with access delegation. Access delegation decouples access to the BigLake table from access to the underlying data store. An external connection associated with a service account is used to connect to the data store.
 

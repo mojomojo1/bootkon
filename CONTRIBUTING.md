@@ -57,7 +57,8 @@ cp vars.sh vars.local.sh
 ```
 
 And <walkthrough-editor-open-file filePath="vars.local.sh">edit it</walkthrough-editor-open-file>. It also runs on Argolis (for Google employees).
-Also add the following line at the bottom of your `vars.local.sh`.
+
+The last line in `vars.local.sh` lets you reload the tutorial using the `r` command:
 
 ```bash
 alias r='cloudshell launch-tutorial -d TUTORIAL.md'
