@@ -1,6 +1,8 @@
 # Bootkon (Bootcamp + Hackathon): innovate and build with Google Cloud
 Bootkon is an immersive hackathon designed for tech enthusiasts, developers, and innovators to explore the power of Google Cloud products through hands-on learning. This event provides a unique, integrated experience using Google Cloud Shell tutorials, enabling participants to dive deep into cutting-edge cloud technologies.
 
+If you are a participant of the event, please follow the steps below. If you are a contributor or want to create your own version of these labs, please see [CONTRIBUTING.md](CONTRIBUTING.md)
+
 ## Toy Use Case
 
 FraudFix Technologies is a cutting-edge company focused on making financial transactions safer for Google Cloud enterprise customers across industries (financial institutions, online retailers, etc…)   
