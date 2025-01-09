@@ -2,7 +2,7 @@
 
 ## Rationale
 
-This document describes how to set up your environment in order to modify and extend the the bootkon code labs. You can use the Cloud Shell IDE directly to do this. This has the advantage that the tutorial markdown can be rendered without having to commit to GitHub or reloading Cloud Shell, drastically reducing the feedback time.
+This document describes how to set up your environment in order to modify and extend the bootkon code labs. You can use the Cloud Shell IDE directly to do this. This has the advantage that the tutorial markdown can be rendered without having to commit to GitHub or reloading Cloud Shell, drastically reducing the feedback time.
 
 First, [open `CONTRIBUTING.md` in Cloud Shell](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon-ng&page=editor&tutorial=CONTRIBUTING.md&show=ide&cloudshell_workspace=) in tutorial mode and follow the next steps directly in Cloud Shell.
 
