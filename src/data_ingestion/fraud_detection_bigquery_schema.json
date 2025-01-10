@@ -1,0 +1,130 @@
+[
+  {
+    "name": "Time",
+    "type": "float64"
+  },
+  {
+    "name": "V1",
+    "type": "float64"
+  },
+  {
+    "name": "V2",
+    "type": "float64"
+  },
+  {
+    "name": "V3",
+    "type": "float64"
+  },
+  {
+    "name": "V4",
+    "type": "float64"
+  },
+  {
+    "name": "V5",
+    "type": "float64"
+  },
+  {
+    "name": "V6",
+    "type": "float64"
+  },
+  {
+    "name": "V7",
+    "type": "float64"
+  },
+  {
+    "name": "V8",
+    "type": "float64"
+  },
+  {
+    "name": "V9",
+    "type": "float64"
+  },
+  {
+    "name": "V10",
+    "type": "float64"
+  },
+  {
+    "name": "V11",
+    "type": "float64"
+  },
+  {
+    "name": "V12",
+    "type": "float64"
+  },
+  {
+    "name": "V13",
+    "type": "float64"
+  },
+  {
+    "name": "V14",
+    "type": "float64"
+  },
+  {
+    "name": "V15",
+    "type": "float64"
+  },
+  {
+    "name": "V16",
+    "type": "float64"
+  },
+  {
+    "name": "V17",
+    "type": "float64"
+  },
+  {
+    "name": "V18",
+    "type": "float64"
+  },
+  {
+    "name": "V19",
+    "type": "float64"
+  },
+  {
+    "name": "V20",
+    "type": "float64"
+  },
+  {
+    "name": "V21",
+    "type": "float64"
+  },
+  {
+    "name": "V22",
+    "type": "float64"
+  },
+  {
+    "name": "V23",
+    "type": "float64"
+  },
+  {
+    "name": "V24",
+    "type": "float64"
+  },
+  {
+    "name": "V25",
+    "type": "float64"
+  },
+  {
+    "name": "V26",
+    "type": "float64"
+  },
+  {
+    "name": "V27",
+    "type": "float64"
+  },
+  {
+    "name": "V28",
+    "type": "float64"
+  },
+  {
+    "name": "Amount",
+    "type": "float64"
+  },
+  {
+    "name": "Class",
+    "type": "integer"
+  },
+  {
+    "name": "Feedback",
+    "type": "string"
+  }
+]

@@ -131,7 +131,7 @@ bq mk --table \
   ml_datasets.ulb_fraud_detection_blake
 ```
 
-Go to the [BigQuery Console](https://console.cloud.google.com/bigquery) console again and open the dataset and table you just created. Click on `Query` and insert the following SQL query. Substitude `PROJECT_ID` with your project id:
+Go to the [BigQuery Console](https://console.cloud.google.com/bigquery) console again and open the dataset and table you just created. Click on `Query` and insert the following SQL query.
 
 ```sql
 SELECT * FROM `<walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_blake` LIMIT 1000;
@@ -147,216 +147,68 @@ Note that the data we are querying still resides on Cloud Storage and there are 
 
 ### Real time data ingestion into BigQuery using Pub/Sub
 
+This variant of data ingestion allows real-time streaming into BigQuery using Pub/Sub.
 
-### ***Step 1: Create PUBSUB Topic with schema and BQ subscription***
+We create an empty table and then stream data into it. For this to work, we need to specify a schema. Have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/my_avro_fraud_detection_schema.json">fraud_detection_bigquery_schema.json</walkthrough-editor-open-file>. This is the schema we are going to use.
 
-1. Run the following SQL to create an empty BQ table 
-
-   
-
-| *BigQuery SQL : Create BigQuery Table for streaming ingestion Replace your-project-id with your current project ID* |
-| :---- |
-
- ```
-CREATE OR REPLACE TABLE  `your-project-id.ml_datasets.ulb_fraud_detection`
-(
-Time FLOAT64 ,
-V1 FLOAT64 ,
-V2 FLOAT64 ,
-V3 FLOAT64 ,
-V4 FLOAT64 ,
-V5 FLOAT64 ,
-V6 FLOAT64 ,
-V7 FLOAT64 ,
-V8 FLOAT64 ,
-V9 FLOAT64 ,
-V10 FLOAT64 ,
-V11 FLOAT64 ,
-V12 FLOAT64 ,
-V13 FLOAT64 ,
-V14 FLOAT64 ,
-V15 FLOAT64 ,
-V16 FLOAT64 ,
-V17 FLOAT64 ,
-V18 FLOAT64 ,
-V19 FLOAT64 ,
-V20 FLOAT64 ,
-V21 FLOAT64 ,
-V22 FLOAT64 ,
-V23 FLOAT64 ,
-V24 FLOAT64 ,
-V25 FLOAT64 ,
-V26 FLOAT64 ,
-V27 FLOAT64 ,
-V28 FLOAT64 ,
-Amount FLOAT64 ,
-Class INTEGER,
-Feedback String
-);
-
- ```
-
-2. You can find the PUBSUB schema definition ***my\_avro\_fraud\_detection\_schema.json*** file in $HOME/bootkon-h2-2024/data-ingestion/src directory
-
-
-| *JSON : PubSub Schema Definition (This is the content of the schema definition file, for you information ONLY)* |
-| :---- |
-
-```
-{
-  "type": "record",
-  "name": "Avro",
-  "fields": [
-    {"name": "Time","type": "float"}, 
-    {"name": "V1","type": "float"},
-    {"name": "V2","type": "float"}, 
-    {"name": "V3","type": "float"},
-    {"name": "V4","type": "float"},
-    {"name": "V5","type": "float"},
-    {"name": "V6","type": "float"},
-    {"name": "V7","type": "float"},
-    {"name": "V8","type": "float"},
-    {"name": "V9","type": "float"},
-    {"name": "V10","type": "float"},
-    {"name": "V11","type": "float"},
-    {"name": "V12","type": "float"},
-    {"name": "V13","type": "float"},
-    {"name": "V14","type": "float"},
-    {"name": "V15","type": "float"},
-    {"name": "V16","type": "float"},
-    {"name": "V17","type": "float"},
-    {"name": "V18","type": "float"},
-    {"name": "V19","type": "float"},
-    {"name": "V20","type": "float"},
-    {"name": "V21","type": "float"},
-    {"name": "V22","type": "float"},
-    {"name": "V23","type": "float"},
-    {"name": "V24","type": "float"},
-    {"name": "V25","type": "float"},
-    {"name": "V26","type": "float"},
-    {"name": "V27","type": "float"},
-    {"name": "V28","type": "float"},
-    {"name": "Amount","type": "float"}, 
-    {"name": "Class","type": "int"} , 
-    {"name": "Feedback","type": "string"} 
-
-  ]
-}
-
+Create an empty table using this schema:
+```bash
+bq --location=$REGION mk --table \
+<walkthrough-project-id/>:ml_datasets.ulb_fraud_detection src/data_ingestion/fraud_detection_bigquery_schema.json
 ```
 
-3. Create the PubSub Schema Using gcloud
-
-| *Linux command line : Create PubSub Schema* |
-| :---- |
-
-```
-cd $HOME/bootkon-h2-2024/data-ingestion/src
-
-export PROJECT_ID=your_project_id
-
-gcloud pubsub schemas create my_fraud_detection_schema \
+We also need to a Pub/Sub schema:
+```bash
+gcloud pubsub schemas create fraud_detection_schema \
     --project=$PROJECT_ID  \
     --type=AVRO \
-    --definition-file=my_avro_fraud_detection_schema.json
+    --definition-file=src/data_ingestion/fraud_detection_pubsub_schema.json
 ```
 
-4. Create the Pub/Sub Topic:
-
-| *Linux command line : Create PubSub Topic* |
-| :---- |
-
-```
-gcloud pubsub topics create  my_fraud_detection-topic \
+And them create a Pub/Sub topic using this schema:
+```bash
+gcloud pubsub topics create fraud_detection-topic \
     --project=$PROJECT_ID  \
-    --schema=my_fraud_detection_schema \
+    --schema=fraud_detection_schema \
     --message-encoding=BINARY
 ```
 
-5. In order to grant  The Pub/Sub service account in IAM needs the following BigQuery roles:  
-   
-   roles/bigquery.dataEditor \
-   roles/bigquery.jobUser 
-
-   
-
-   First, Find Your Pub/Sub Service Account:
-
-
-| *Linux command line : Find out the  Pub/Sub service account email address* |
-| :---- |
-
-```
-#export PROJECT_ID=your_project_id
+We also need to give Pub/Sub permissions to write data to BigQuery. The Pub/Sub service account is comprised of the project number (not the id) and an identifier. Let's first figure out the number:
+```bash
 export PROJECT_NUM=$(gcloud projects describe ${PROJECT_ID} --format="value(projectNumber)")
-echo $PROJECT_NUM
-export PUBSUBSVCACCT=service-$PROJECT_NUM@gcp-sa-pubsub.iam.gserviceaccount.com
-echo $PUBSUBSVCACCT
-   
+export PUBSUB_SERVICE_ACCOUNT="service-${PROJECT_NUM}@gcp-sa-pubsub.iam.gserviceaccount.com"
+echo $PUBSUB_SERVICE_ACCOUNT
 ```
 
-* Then, Grant Permissions (if not already granted), see below commands:
+And grant the service account access to BigQuery:
 
-
-| *Linux command line : Grant privileges to the Pub/Sub service account* |
-| :---- |
-
-```
+```bash
 gcloud projects add-iam-policy-binding $PROJECT_ID \
-  --member=serviceAccount:$PUBSUBSVCACCT --role=roles/bigquery.dataEditor
+    --member=serviceAccount:$PUBSUB_SERVICE_ACCOUNT --role=roles/bigquery.dataEditor
 
-gcloud projects add-iam-policy-binding $PROJECT_ID \  --member=serviceAccount:$PUBSUBSVCACCT --role=roles/bigquery.jobUser  
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member=serviceAccount:$PUBSUB_SERVICE_ACCOUNT --role=roles/bigquery.jobUser  
 ```
 
-
-6. Create the Pub/Sub BQ subscription:  
-
-
-| *Linux command line : Create a PUBSUB to BQ Subscription* |
-| :---- |
-
-```
-gcloud pubsub subscriptions create my_fraud_detection-subscription \
+Next, we create the Pub/Sub subscription:
+```bash
+gcloud pubsub subscriptions create fraud_detection-subscription \
     --project=$PROJECT_ID  \
-    --topic=my_fraud_detection-topic \
+    --topic=fraud_detection-topic \
     --bigquery-table=$PROJECT_ID.ml_datasets.ulb_fraud_detection \
---use-topic-schema  
+    --use-topic-schema  
 ```
 
-*Note: Make sure $PROJECT\_ID is set correctly.* |
-
-### ***Step 2: Ingest data into BQ through PUBSUB***
-
-1.  Create Virtual env:
-
-| *Linux command line : Create a local virtual environment*  |
-| :---- |
-
-```
-cd $HOME
-python3 -m venv hack
-source hack/bin/activate
+Since we'll be using Python, let's install the Python <walkthrough-editor-open-file filePath="requirements.txt">packages</walkthrough-editor-open-file> we want to make use of:
+```bash
+pip install -r requirements.txt
 ```
 
-2. Install library requirements 
+Please have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/import_csv_to_bigquery_1.py">import_csv_to_bigquery_1.py</walkthrough-editor-open-file>
 
-Navigate to the root directory of the cloned repository, for example , bootkon-h2-2024. You find requirements.txt file. By using the requirements file you will be able to install the following packages ; 
-
-google-cloud-aiplatform \
-google-api-python-client \
-google-cloud \
-google-cloud-bigquery \
-google-cloud-bigquery-storage \
-google-cloud-pubsub \
-google-cloud-logging
-
-| *Linux command line : Install the required packages, Run the following commands within your virtual environment called “hack”* |
-| :---- |
-
-```
-cd $HOME
-cd bootkon-h2-2024/
-pip install -r requirements.txt 
+Let's execute it
+```bash
+./src/data_ingestion/import_csv_to_bigquery_1.py
 ```
 
 3. **METHOD 1:** Find the **import\_csv\_to\_bigquery\_1.p**y script under *$HOME/bootkon-h2-2024/data-ingestion/src* directory
