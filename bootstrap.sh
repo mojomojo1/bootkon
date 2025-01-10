@@ -15,8 +15,6 @@ MSG="${RED}Please edit vars.sh and execute \`source vars.sh\` before running thi
 
 set -x # print out commands that are being executed
 
-gcloud config set project $PROJECT_ID
-
 # Enable necessary APIs
 gcloud services enable storage-component.googleapis.com notebooks.googleapis.com serviceusage.googleapis.com cloudresourcemanager.googleapis.com pubsub.googleapis.com compute.googleapis.com metastore.googleapis.com datacatalog.googleapis.com analyticshub.googleapis.com bigquery.googleapis.com dataplex.googleapis.com datalineage.googleapis.com dataform.googleapis.com dataproc.googleapis.com bigqueryconnection.googleapis.com aiplatform.googleapis.com
 
@@ -27,28 +25,13 @@ if ! $(git lfs >/dev/null); then
   sudo apt-get install git-lfs
 fi
 
-# Clone the repository
-git clone https://github.com/fhirschmann/bootkon-h2-2024.git
-cd bootkon-h2-2024/
-git lfs pull
+# Retrieve data files
+if [ ! -d "bootkon-data" ]; then
+  git clone https://github.com/fhirschmann/bootkon-data.git
+  cd bootkon-data && git lfs pull
+fi
 
-# Verify checksums and remove checksum files
-cd data-prediction
-sha256sum -c checksums.sha256
-rm -f checksums.sha256
-cd ..
-cd data-ingestion/csv/ulb_fraud_detection/
-sha256sum -c checksums.sha256
-rm -f checksums.sha256
-cd ../..
-cd parquet/ulb_fraud_detection/
-sha256sum -c checksums.sha256
-rm -f checksums.sha256
-cd ../../..
-cd metadata-mapping/
-sha256sum -c checksums.sha256
-rm -f checksums.sha256
-cd ../
+gcloud config set project $PROJECT_ID
 
 declare -a user_roles=(
     "roles/bigquery.jobUser" # Can run BigQuery jobs
@@ -127,14 +110,6 @@ if ! $(gsutil ls -b gs://${BUCKET_NAME} 2>>/dev/null 1>>/dev/null); then
 fi
 
 # Copy files to GCS
-gsutil cp -R data-ingestion/csv/* gs://$BUCKET_NAME/data-ingestion/csv/
-gsutil cp -R data-ingestion/jar/* gs://$BUCKET_NAME/data-ingestion/jar/
-gsutil cp -R data-ingestion/src/* gs://$BUCKET_NAME/data-ingestion/src/
-gsutil cp -R data-ingestion/parquet/* gs://$BUCKET_NAME/data-ingestion/parquet/
-gsutil cp -R data-prediction/* gs://$BUCKET_NAME/data-prediction/
-gsutil cp metadata-mapping/pca gs://$BUCKET_NAME/metadata-mapping/pca
-
-# Direct upload the JAR file to GCS
-gsutil cp gs://spark-lib/bigquery/spark-3.3-bigquery-0.37.0.jar gs://$BUCKET_NAME/jar/
+gsutil -m cp -R bootkon-data/* gs://$BUCKET_NAME/bootkon-data/
 
 echo "Environment setup complete!"
