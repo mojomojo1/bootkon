@@ -77,13 +77,13 @@ Original document: [here](https://docs.google.com/document/d/1NAcQb9qUZsyGSe2yPQ
 
 
 During this lab, you ingest fraudulent and non fraudulent transactions dataset into BigQuery using three methods:
-* Using BigLake with data stored in Google Cloud Storage (GCS)
-* Near real-time ingestion into BigQuery using [Cloud PubSub](https://cloud.google.com/pubsub)
-* Batch Ingestion into BigQuery using Dataproc Serverless
+* Method 1: Using BigLake with data stored in Google Cloud Storage (GCS)
+* Method 2: Near real-time ingestion into BigQuery using [Cloud PubSub](https://cloud.google.com/pubsub)
+* Method 3: Batch Ingestion into BigQuery using Dataproc Serverless
 
 For all methods, we are ingesting data from the Google Cloud bucket you have created in the previous lab through `bootstrap.sh`. Feel free to have a look at the contents of this bucket:
 
-### External table using BigLake
+### Method 1: External table using BigLake
 
 BigLake tables let you query structured data in external data stores with access delegation. Access delegation decouples access to the BigLake table from access to the underlying data store. An external connection associated with a service account is used to connect to the data store.
 
@@ -127,25 +127,25 @@ Finally, create a table in BigQuery pointing to the data in Cloud Storage:
 
 ```bash
 bq mk --table \
-  --external_table_definition=@PARQUET="gs://${PROJECT_ID}-bucket/data-ingestion/parquet/ulb_fraud_detection/*"@projects/${PROJECT_ID}/locations/${REGION}/connections/fraud-transactions-conn \
-  ml_datasets.ulb_fraud_detection_blake
+  --external_table_definition=@PARQUET="gs://${PROJECT_ID}-bucket/bootkon-data/parquet/ulb_fraud_detection/*"@projects/${PROJECT_ID}/locations/${REGION}/connections/fraud-transactions-conn \
+  ml_datasets.ulb_fraud_detection_biglake
 ```
 
 Go to the [BigQuery Console](https://console.cloud.google.com/bigquery) console again and open the dataset and table you just created. Click on `Query` and insert the following SQL query.
 
 ```sql
-SELECT * FROM `<walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_blake` LIMIT 1000;
+SELECT * FROM `<walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_biglake` LIMIT 1000;
 ```
 
 Note that you can also execute a query using the `bq` tool:
 
 ```bash
-bq --location=$REGION query --nouse_legacy_sql "SELECT * FROM <walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_blake LIMIT 10;
+bq --location=$REGION query --nouse_legacy_sql "SELECT Time, V1, Amount, Class FROM <walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_biglake LIMIT 10;"
 ```
 
 Note that the data we are querying still resides on Cloud Storage and there are no copies stored in BigQuery. Using BigLake, BigQuery acts as query engine but not as storage layer.
 
-### Real time data ingestion into BigQuery using Pub/Sub
+### Method 2: Real time data ingestion into BigQuery using Pub/Sub
 
 This variant of data ingestion allows real-time streaming into BigQuery using Pub/Sub.
 
@@ -154,7 +154,7 @@ We create an empty table and then stream data into it. For this to work, we need
 Create an empty table using this schema:
 ```bash
 bq --location=$REGION mk --table \
-<walkthrough-project-id/>:ml_datasets.ulb_fraud_detection src/data_ingestion/fraud_detection_bigquery_schema.json
+<walkthrough-project-id/>:ml_datasets.ulb_fraud_detection_pubsub src/data_ingestion/fraud_detection_bigquery_schema.json
 ```
 
 We also need to a Pub/Sub schema:
@@ -195,205 +195,27 @@ Next, we create the Pub/Sub subscription:
 gcloud pubsub subscriptions create fraud_detection-subscription \
     --project=$PROJECT_ID  \
     --topic=fraud_detection-topic \
-    --bigquery-table=$PROJECT_ID.ml_datasets.ulb_fraud_detection \
+    --bigquery-table=$PROJECT_ID.ml_datasets.ulb_fraud_detection_pubsub \
     --use-topic-schema  
 ```
+
+Feel free to [check it out in the Pub/Sub console](https://console.cloud.google.com/cloudpubsub/subscription).
 
 Since we'll be using Python, let's install the Python <walkthrough-editor-open-file filePath="requirements.txt">packages</walkthrough-editor-open-file> we want to make use of:
 ```bash
 pip install -r requirements.txt
 ```
 
-Please have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/import_csv_to_bigquery_1.py">import_csv_to_bigquery_1.py</walkthrough-editor-open-file>
+Please have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/import_csv_to_bigquery_1.py">import_csv_to_bigquery_1.py</walkthrough-editor-open-file>. This script loads CSV files from Cloud Storage, parses it in Python, and sends it to Pub/Sub - row by row.
 
-Let's execute it
+Let's execute it.
 ```bash
 ./src/data_ingestion/import_csv_to_bigquery_1.py
 ```
 
-3. **METHOD 1:** Find the **import\_csv\_to\_bigquery\_1.p**y script under *$HOME/bootkon-h2-2024/data-ingestion/src* directory
+Each line you see on the screen corresponds to one transaction being send to Pub/Sub and written to BigQuery. It would take approximately 40 to 60 minutes for it to finish. So, please cancel the command using 'CTRL + C'.
 
-   *In the script:* 
-
-* *Replace  your-project-id with your project\_id (in 1 location) (leave the double quotes “ unchanged)*   
-* *Replace your-project-id with your project\_id in “bucket\_name” (leave “-bucket” at the end) (in 1 location) (leave the double quotes “ unchanged)*  
-* *Comment out the Line (just add **\#** at the beginning):  'os.environ\['GOOGLE\_APPLICATION\_CREDENTIALS'\] \= \<service key json location\>/service-key.json'* 
-
- 
-
-| *Python Script : Import data into BigQuery in near real time \[Method 1\]* |
-| :---- |
-
-```
-import io
-import csv
-import json
-import avro.schema
-from avro.io import BinaryEncoder, DatumWriter
-from google.cloud import pubsub_v1
-from google.cloud import storage
-import os
-
-
-# Set Google Cloud credentials and project details
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '<service key json location>/service-key.json'
-
-project_id = "your-project-id"
-topic_id = "my_fraud_detection-topic"
-bucket_name = "your-project-id-bucket"
-csv_folder_path = "data-ingestion/csv/ulb_fraud_detection/"
-schema_file_path = "data-ingestion/src/my_avro_fraud_detection_schema.json"
-
-
-# Initialize Cloud Storage client and get the bucket
-storage_client = storage.Client()
-bucket = storage_client.bucket(bucket_name)
-
-
-# Load the AVRO schema from GCS
-blob = bucket.blob(schema_file_path)
-schema_json = json.loads(blob.download_as_text())
-avro_schema = avro.schema.parse(json.dumps(schema_json))
-
-
-# Pub/Sub client initialization
-publisher = pubsub_v1.PublisherClient()
-topic_path = publisher.topic_path(project_id, topic_id)
-
-
-def publish_avro_record(record):
-    bytes_io = io.BytesIO()
-    writer = DatumWriter(avro_schema)
-    encoder = BinaryEncoder(bytes_io)
-    writer.write(record, encoder)
-    future = publisher.publish(topic_path, bytes_io.getvalue())
-    return future.result()
-
-
-def process_csv_blob(blob):
-    temp_file_path = "/tmp/tempfile.csv"
-    blob.download_to_filename(temp_file_path)
-
-
-    with open(temp_file_path, mode='r', encoding='utf-8') as csv_file:
-        csv_reader = csv.reader(csv_file)
-        for row in csv_reader:
-            feedback = row[-1]
-            record = {
-               "Time": float(row[0]),
-               "V1": float(row[1]),
-               "V2": float(row[2]),
-               "V3": float(row[3]),
-               "V4": float(row[4]),
-               "V5": float(row[5]),
-               "V6": float(row[6]),
-               "V7": float(row[7]),
-               "V8": float(row[8]),
-               "V9": float(row[9]),
-               "V10": float(row[10]),
-               "V11": float(row[11]),
-               "V12": float(row[12]),
-               "V13": float(row[13]),
-               "V14": float(row[14]),
-               "V15": float(row[15]),
-               "V16": float(row[16]),
-               "V17": float(row[17]),
-               "V18": float(row[18]),
-               "V19": float(row[19]),
-               "V20": float(row[20]),
-               "V21": float(row[21]),
-               "V22": float(row[22]),
-               "V23": float(row[23]),
-               "V24": float(row[24]),
-               "V25": float(row[25]),
-               "V26": float(row[26]),
-               "V27": float(row[27]),
-               "V28": float(row[28]),
-               "Amount": float(row[29]),
-               "Class": int(row[30]),
-               "Feedback": feedback
-           }
-            message_id = publish_avro_record(record)
-            print(f"Published message with ID: {message_id}")
-
-
-# Process all CSV files in the folder
-blobs = storage_client.list_blobs(bucket, prefix=csv_folder_path)
-for blob in blobs:
-    if blob.name.endswith('.csv'):
-        process_csv_blob(blob)
-```
-
-4. **(you can skip this step if you completed LAB 1\)**  Ensure that your project compute engine service account has access to Dataproc worker , BigQuery Data editor, BigQuery Job user , PUBSUB and GCS bucket.  
-5. Run the Python Job
-
-| *Linux command line : Execute the script*  |
-| :---- |
-
-```
-time python $HOME/bootkon-h2-2024/data-ingestion/src/import_csv_to_bigquery_1.py   
-```
-**Note: Make sure you run the command within your virtual environment called “hack”.***  |
-
-6. Notice the output of the command execution.  
-7. After 4 or 5 minutes do interrupt the execution of the script, (perform a ***ctrl \+ c*** command). This method would have taken approximately between ***40 \- 60*** minutes.   
-8. Check that there are some rows  inserted into the ulb\_fraud\_detection table. 
-
-| *BigQuery SQL : Check there are some rows inserted into ulb\_fraud\_detection table* |
-| :---- |
-
-```
-select * from  `your_project_id.ml_datasets.ulb_fraud_detection` ;
-```
-
-9. **Important:** Recreate the *\`your\_project\_id.ml\_datasets.ulb\_fraud\_detection\`* table. 
-
-   
-
-| *BigQuery SQL :  Drop and Recreate BigQuery table   \`your-project-id.ml\_datasets.ulb\_fraud\_detection\`* |
-| :---- |
-
-```
-DROP TABLE  `your-project-id.ml_datasets.ulb_fraud_detection` ;
-
-
-CREATE OR REPLACE TABLE  `your-project-id.ml_datasets.ulb_fraud_detection`
-(
-Time FLOAT64 ,
-V1 FLOAT64 ,
-V2 FLOAT64 ,
-V3 FLOAT64 ,
-V4 FLOAT64 ,
-V5 FLOAT64 ,
-V6 FLOAT64 ,
-V7 FLOAT64 ,
-V8 FLOAT64 ,
-V9 FLOAT64 ,
-V10 FLOAT64 ,
-V11 FLOAT64 ,
-V12 FLOAT64 ,
-V13 FLOAT64 ,
-V14 FLOAT64 ,
-V15 FLOAT64 ,
-V16 FLOAT64 ,
-V17 FLOAT64 ,
-V18 FLOAT64 ,
-V19 FLOAT64 ,
-V20 FLOAT64 ,
-V21 FLOAT64 ,
-V22 FLOAT64 ,
-V23 FLOAT64 ,
-V24 FLOAT64 ,
-V25 FLOAT64 ,
-V26 FLOAT64 ,
-V27 FLOAT64 ,
-V28 FLOAT64 ,
-Amount FLOAT64 ,
-Class INTEGER,
-Feedback String
-);
-```
-
+### Method 3: Cloud Dataproc (Apache Spark)
 10. **METHOD 2 \[OPTIONAL\] :** find the  import\_csv\_to\_bigquery\_2.py under *$HOME/bootkon-h2-2024/data-ingestion/src* directory
 
     *In the script:* 

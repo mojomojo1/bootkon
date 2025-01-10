@@ -20,11 +20,8 @@ storage_client = storage.Client()
 bucket = storage_client.bucket(bucket_name)
 
 
-# Load the AVRO schema from GCS
-blob = bucket.blob(schema_file_path)
-schema_json = json.loads(blob.download_as_text())
-avro_schema = avro.schema.parse(json.dumps(schema_json))
-
+# Load the AVRO schema
+avro_schema = avro.schema.parse(open(schema_file_path, "rb").read())
 
 # Pub/Sub client initialization
 publisher = pubsub_v1.PublisherClient()
@@ -47,7 +44,7 @@ def process_csv_blob(blob):
 
     with open(temp_file_path, mode='r', encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file)
-        for row in csv_reader:
+        for i, row in enumerate(csv_reader):
             feedback = row[-1]
             record = {
                "Time": float(row[0]),
@@ -84,11 +81,12 @@ def process_csv_blob(blob):
                "Feedback": feedback
            }
             message_id = publish_avro_record(record)
-            print(f"Published message with ID: {message_id}")
+            print(f"Published message with ID: {message_id} (n={i})")
 
 
 # Process all CSV files in the folder
 blobs = storage_client.list_blobs(bucket, prefix=csv_folder_path)
-for blob in blobs:
+for i, blob in enumerate(blobs):
+    print(blob)
     if blob.name.endswith('.csv'):
         process_csv_blob(blob)
