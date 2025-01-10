@@ -56,6 +56,10 @@ Verify that they have been set correctly:
 echo "PROJECT_ID=$PROJECT_ID REGION=$REGION GCP_USERNAME=$GCP_USERNAME"
 ```
 
+Please also select your project in the next widget and ignore the comment about creating a new project.
+
+<walkthrough-project-setup></walkthrough-project-setup>
+
 Have a <walkthrough-editor-open-file filePath="bootstrap.sh">look</walkthrough-editor-open-file> at the bootstrap script and what it does; exeucte it:
 ```bash
 ./bootstrap.sh
@@ -97,13 +101,19 @@ When you create a connection resource, BigQuery creates a unique system service 
 ```bash
 bq show --connection ${PROJECT_ID}.${REGION}.fraud-transactions-conn
 ```
-Note down the `serviceAccountID`. It should resemble `connection-...@...gserviceaccount.com`.
+Note the `serviceAccountID`. It should resemble `connection-...@...gserviceaccount.com`.
 
-To connect to Cloud Storage, you must give the new connection read-only access to Cloud Storage so that BigQuery can access files on behalf of users. In the following command, replace `MEMBER` with the service account id you noted down earlier.:
+To connect to Cloud Storage, you must give the new connection read-only access to Cloud Storage so that BigQuery can access files on behalf of users. Let's assign the service account to a variable:
+```bash
+CONN_SERVICE_ACCOUNT=$(bq --format=prettyjson show --connection ${PROJECT_ID}.${REGION}.fraud-transactions-conn | jq -r ".cloudResource.serviceAccountId")
+echo $CONN_SERVICE_ACCOUNT
+```
+
+And grant it access to Cloud Storage:
 ```bash
 gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-bucket \
 --role=roles/storage.objectViewer \
---member=serviceAccount:MEMBER
+--member=serviceAccount:$CONN_SERVICE_ACCOUNT
 ```
 
 Next, we create a dataset that our external table will live in:
@@ -124,20 +134,19 @@ bq mk --table \
 Go to the [BigQuery Console](https://console.cloud.google.com/bigquery) console again and open the dataset and table you just created. Click on `Query` and insert the following SQL query. Substitude `PROJECT_ID` with your project id:
 
 ```sql
-SELECT * FROM `PROJECT_ID.ml_datasets.ulb_fraud_detection_blake` LIMIT 1000;
+SELECT * FROM `<walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_blake` LIMIT 1000;
 ```
 
-*click on ![][image13]* 
+Note that you can also execute a query using the `bq` tool:
 
-The simple select statement should query and return data from our parquet format data files in our Data Lake.   
-We can also  explore results with SAVE RESULTS or EXPLORE DATA.  
-![][image14]
+```bash
+bq --location=$REGION query --nouse_legacy_sql "SELECT * FROM <walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_blake LIMIT 10;
+```
 
-### **\[LAB\] Real time data ingestion into BigQuery using PUB/SUB**
+Note that the data we are querying still resides on Cloud Storage and there are no copies stored in BigQuery. Using BigLake, BigQuery acts as query engine but not as storage layer.
 
-### **Prerequisite : Enable API (you can skip this step if you completed LAB 1\)**
+### Real time data ingestion into BigQuery using Pub/Sub
 
-* Make sure all the following APIs are enabled: BigQuery API, Vertex AI API, Pubsub API, BigQuery Connection API, Dataform API, Secret Manager API 
 
 ### ***Step 1: Create PUBSUB Topic with schema and BQ subscription***
 
