@@ -110,6 +110,6 @@ if ! $(gsutil ls -b gs://${BUCKET_NAME} 2>>/dev/null 1>>/dev/null); then
 fi
 
 # Copy files to GCS
-gsutil -m cp -R bootkon-data/* gs://$BUCKET_NAME/bootkon-data/
+gsutil -m cp -R bootkon-data/* gs://$BUCKET_NAME/
 
 echo "Environment setup complete!"

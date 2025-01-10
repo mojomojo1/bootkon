@@ -1,4 +1,5 @@
-# Author: Wissem Khlifi
+#!/usr/bin/env python
+# Author: Wissem Khlifi, Fabian Hirschmann
 import io
 import csv
 import json
@@ -8,22 +9,18 @@ from google.cloud import pubsub_v1
 from google.cloud import storage
 import os
 
-# Google Cloud credentials and project details
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '<service key json location>/service-key.json'
-
-project_id = "your-project-id"
-topic_id = "my_fraud_detection-topic"
-bucket_name = "your-project-id-bucket"
-csv_folder_path = "data-ingestion/csv/ulb_fraud_detection/"
-schema_file_path = "data-ingestion/src/my_avro_fraud_detection_schema.json"
+project_id = os.environ['PROJECT_ID']
+topic_id = "fraud-detection-topic"
+bucket_name = os.environ['PROJECT_ID'] + "-bucket"
+csv_folder_path = "bootkon-data/csv/ulb_fraud_detection/"
+schema_file_path = "src/data_ingestion/fraud_detection_pubsub_schema.json"
 
 # Initialize Cloud Storage client
 storage_client = storage.Client()
 bucket = storage_client.bucket(bucket_name)
-# Load the AVRO schema from GCS
-blob = bucket.blob(schema_file_path)
-schema_json = json.loads(blob.download_as_text())
-avro_schema = avro.schema.parse(json.dumps(schema_json))
+
+# Load the AVRO schema
+avro_schema = avro.schema.parse(open(schema_file_path, "rb").read())
 
 # Pub/Sub client initialization with batch settings
 batch_settings = pubsub_v1.types.BatchSettings(

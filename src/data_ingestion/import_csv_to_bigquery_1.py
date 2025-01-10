@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# Author: Wissem Khlifi, Fabian Hirschmann
 import io
 import csv
 import json
@@ -10,15 +10,14 @@ from google.cloud import storage
 import os
 
 project_id = os.environ['PROJECT_ID']
-topic_id = "fraud_detection-topic"
+topic_id = "fraud-detection-topic"
 bucket_name = os.environ['PROJECT_ID'] + "-bucket"
 csv_folder_path = "bootkon-data/csv/ulb_fraud_detection/"
 schema_file_path = "src/data_ingestion/fraud_detection_pubsub_schema.json"
 
-# Initialize Cloud Storage client and get the bucket
+# Initialize Cloud Storage client
 storage_client = storage.Client()
 bucket = storage_client.bucket(bucket_name)
-
 
 # Load the AVRO schema
 avro_schema = avro.schema.parse(open(schema_file_path, "rb").read())
