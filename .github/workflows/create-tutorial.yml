@@ -1,4 +1,4 @@
-name: Concatenate Files
+name: Render jinja2 template into .TUTORIAL.md
 
 on:
   push:
@@ -17,12 +17,14 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
-      - name: Concatenate all files in "labs" directory
+      - name: Remove old .TUTORIAL.md
         run: |
-          # Ensure the output file doesn't already exist
           rm -f .TUTORIAL.md
-          # Concatenate all files
-          cat labs/* > .TUTORIAL.md
+      - name: Render jinja2 template
+        uses: cuchi/jinja2-action@v1.2.2
+        with:
+          template: labs/main.md.j2
+          output_file: .TUTORIAL.md
       - name: Push to GitHub
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
