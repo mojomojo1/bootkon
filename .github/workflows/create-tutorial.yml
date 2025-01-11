@@ -21,15 +21,10 @@ jobs:
       - name: Concatenate all files in "labs" directory
         run: |
           # Ensure the output file doesn't already exist
-          rm -f output.txt
+          rm -f .TUTORIAL.md
           # Concatenate all files
           cat labs/* > .TUTORIAL.md
-          echo "Concatenated files into output.txt"
-
-      - name: Display output file contents
-        run: |
-          echo "Contents of output.txt:"
-          cat output.txt
+          echo "Concatenated files into .TUTORIAL.md"
 
       - name: Commit and push the concatenated file
         env:
