@@ -1,3 +1,13 @@
 # Summary
 
-- [Chapter 1](./chapter_1.md)
+[Introduction](./introduction.md)
+
+# Getting Started
+
+- [Cloud Shell](./cloud_shell.md)
+
+# Labs
+
+---
+
+[Contributors](./contributors.md)
