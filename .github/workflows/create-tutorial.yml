@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  concatenate-files:
+  render-tutorial:
     runs-on: ubuntu-latest
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the
@@ -17,14 +17,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
-      - name: Remove old .TUTORIAL.md
-        run: |
-          rm -f .TUTORIAL.md
-      - name: Render jinja2 template
-        uses: rondefreitas/jinja2-action@v1.2.3
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          template: labs/main.md.j2
-          output_file: .TUTORIAL.md
+          python-version: '3.13'
+          cache: 'pip'
+      - name: Install jinja2-cli
+        run: pip install jinja2-cli
+      - name: Render jinja2 template
+        run: jinja2 labs/main.md.j2 > .TUTORIAL.md
       - name: Push to GitHub
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
