@@ -2,5 +2,5 @@
 authors = ["Fabian Hirschmann"]
 language = "en"
 multilingual = false
-src = "book"
+src = "booksrc"
 title = "Bootkon Handbook"
