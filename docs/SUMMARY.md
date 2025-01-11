@@ -8,6 +8,8 @@
 
 # Labs
 
+- [Environment Setup](./1_environment_setup.md)
+
 ---
 
 [Contributors](./contributors.md)
