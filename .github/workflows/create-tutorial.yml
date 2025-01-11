@@ -21,7 +21,7 @@ jobs:
         run: |
           rm -f .TUTORIAL.md
       - name: Render jinja2 template
-        uses: cuchi/jinja2-action@v1.2.2
+        uses: rondefreitas/jinja2-action@v1.2.3
         with:
           template: labs/main.md.j2
           output_file: .TUTORIAL.md
