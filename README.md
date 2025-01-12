@@ -1,7 +1,8 @@
 # Bootkon (Bootcamp + Hackathon): innovate and build with Google Cloud
+# Bootkon: innovate and build with Google Cloud
 Bootkon is an immersive hackathon designed for tech enthusiasts, developers, and innovators to explore the power of Google Cloud products through hands-on learning. This event provides a unique, integrated experience using Google Cloud Shell tutorials, enabling participants to dive deep into cutting-edge cloud technologies.
 
-Please see the handbook at https://fhirschmann.github.io/bootkon
+Please open the [![Button Click]][https://fhirschmann.github.io/bootkon] 
 
 ## Authors
 
