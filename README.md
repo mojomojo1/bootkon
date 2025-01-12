@@ -4,9 +4,7 @@ Bootkon is an immersive hackathon designed for tech enthusiasts, developers, and
 
 To start your bootkon journey, please open the [handbook](https://fhirschmann.github.io/bootkon)
 
-<p align="center">
 [![handbook](https://img.shields.io/badge/Handbook-37a779?style=for-the-badge)](https://fhirschmann.github.io/bootkon)
-</p>
 
 ## Authors
 
