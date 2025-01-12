@@ -3,4 +3,5 @@ authors = ["Fabian Hirschmann"]
 language = "en"
 multilingual = false
 src = "docs"
+extra-watch-dirs = ["docs"]
 title = "Bootkon Handbook"

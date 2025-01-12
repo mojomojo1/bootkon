@@ -1,15 +1,19 @@
 # Summary
+ 
+ # Bootkon
 
-[Introduction](./book/introduction.md)
+- [Introduction](./book/introduction.md)
+- [Getting Started](./book/getting_started.md)
 
-# Getting Started
-
-- [Cloud Shell](./book/cloud_shell.md)
-
-# Labs
-
-- [Environment Setup](./labs/1_environment_setup.md)
+- [Labs](./labs/main.md)
+    - [Lab 1: Environment Setup](./labs/1_environment_setup.md)
+    - [Lab 2: Data Ingestion](./labs/2_data_ingestion.md)
+    - [Lab 3: Dataform](./labs/3_dataform.md)
+    - [Lab 4: Machine Learning](./labs/4_ml.md)
+- [Conclusion](./labs/conclusion.md)
 
 ---
 
-[Contributors](./book/contributors.md)
+[Running your own bootkon](./book/fork.md)
+
+[Authors](./book/authors.md)
