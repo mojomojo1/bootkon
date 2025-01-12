@@ -1,15 +1,15 @@
 # Summary
 
-[Introduction](./introduction.md)
+[Introduction](./book/introduction.md)
 
 # Getting Started
 
-- [Cloud Shell](./cloud_shell.md)
+- [Cloud Shell](./book/cloud_shell.md)
 
 # Labs
 
-- [Environment Setup](./1_environment_setup.md)
+- [Environment Setup](./labs/1_environment_setup.md)
 
 ---
 
-[Contributors](./contributors.md)
+[Contributors](./book/contributors.md)

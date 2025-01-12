@@ -31,13 +31,13 @@ And execute by pressing the return key in the terminal that has been opened in t
 
 Press the `START` button below to get started!
 
-{% include '1_environment_setup.md' %}
+{% include 'labs/1_environment_setup.md' %}
 
-{% include '2_data_ingestion.md' %}
+{% include 'labs/2_data_ingestion.md' %}
 
-{% include '3_dataform.md' %}
+{% include 'labs/3_dataform.md' %}
 
-{% include '4_ml.md' %}
+{% include 'labs/4_ml.md' %}
 
 
 ## **\[Hands-on Lab \- 5\] Agent Builder and Gemini**
