@@ -5,3 +5,6 @@ multilingual = false
 src = "docs"
 extra-watch-dirs = ["docs"]
 title = "Bootkon Handbook"
+
+[preprocessor.cloud_shell]
+command = "python3 docs/scripts/mdbook_preprocessor_cloudshell.py"
