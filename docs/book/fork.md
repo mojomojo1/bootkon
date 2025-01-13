@@ -8,7 +8,7 @@ You can use the Cloud Shell IDE directly to do this. This has the advantage that
 
 ## Editing the tutorials
 
-First, [open `CONTRIBUTING.md` in Cloud Shell](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/{{ GITHUB_REPOSITORY }}&page=editor&tutorial=docs/book/fork.md&show=ide&cloudshell_workspace=) in tutorial mode and follow the next steps directly in Cloud Shell.
+First, [open `CONTRIBUTING.md` in Cloud Shell](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon&page=editor&tutorial=docs/book/fork.md&show=ide&cloudshell_workspace=) in tutorial mode and follow the next steps directly in Cloud Shell.
 
 ### Create SSH keys and add them to GitHub
 

@@ -2,6 +2,15 @@
 
 <walkthrough-tutorial-duration duration="45"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
+{% if MDBOOK_VIEW %}
+<div class="mdbook-alerts mdbook-alerts-caution">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  caution
+</p>
+<p>You are viewing this lab from the handbook. However, this lab is meant to be loaded as Cloud Shell tutorial.</p>
+</div>
+{% endif %}
 
 Original document [here](https://docs.google.com/document/d/1NxfggQunrCn6ZfwGXAaA_lABDmXtRsfH88jkMDbqlJo/edit?usp=drive_link)
 

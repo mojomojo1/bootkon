@@ -18,11 +18,12 @@ if __name__ == '__main__':
     context, book = json.load(sys.stdin)
     book_str = json.dumps(book)
 
-    environment = jinja2.Environment()
+    environment = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath="docs"))
     template = environment.from_string(book_str)
 
     # we are done with the book's modification, we can just print it to stdout.
     rendered = template.render(
-        GITHUB_REPOSITORY=GITHUB_REPOSITORY
+        GITHUB_REPOSITORY=GITHUB_REPOSITORY,
+        MDBOOK_VIEW=True
     )
     print(rendered)

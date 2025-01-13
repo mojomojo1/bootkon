@@ -6,6 +6,9 @@ src = "docs"
 extra-watch-dirs = ["docs"]
 title = "Bootkon Handbook"
 
+[output.html]
+additional-css = ["docs/css/alerts.css"]
+
 [preprocessor.cloud_shell]
 command = "python3 docs/scripts/mdbook_preprocessor_cloudshell.py"
 
