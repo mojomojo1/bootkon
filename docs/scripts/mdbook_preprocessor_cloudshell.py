@@ -16,6 +16,8 @@ def replace_cloudshell_tags(s):
         r'<walkthrough-tutorial-difficulty difficulty=\\"(\d+)\\"></walkthrough-tutorial-difficulty>',
         r'![](https://img.shields.io/badge/difficulty-\1%2F5-red)',
         s)
+    # <walkthrough-project-id/>
+    s = s.replace("<walkthrough-project-id/>", "<PROJECT_ID>")
 
     return s
 
