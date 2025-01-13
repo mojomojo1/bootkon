@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# mdBook preprocessor to catch and render Cloud Shell's markdown extensions
+# author: Fabian Hirschmann
+
 import json
 import sys
 import re
