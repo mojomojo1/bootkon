@@ -1,11 +1,48 @@
+#!/usr/bin/env python
+# mdBook preprocessor to render markdown using the jinja2 template engine
+# author: Fabian Hirschmann
+
 import json
 import sys
-import re
 import os
 
 import jinja2
 
 GITHUB_REPOSITORY=os.environ.get("GITHUB_REPOSITORY", "fhirschmann/bootkon")
+
+
+def apply_to_content(data, func):
+    """
+    Recursively apply a function to the value of the key 'content' in a nested dictionary or list.
+
+    :param data: The dictionary or list to process.
+    :param func: The function to apply to 'content' values.
+    :return: The modified dictionary or list.
+    """
+    if isinstance(data, dict):
+        # Check if the key 'content' exists, and apply the function to its value.
+        if "content" in data:
+            data["content"] = func(data["content"])
+        # Recursively apply the function to nested dictionaries or lists.
+        for key, value in data.items():
+            apply_to_content(value, func)
+    elif isinstance(data, list):
+        # Recursively apply the function to each item in the list.
+        for item in data:
+            apply_to_content(item, func)
+    return data
+
+
+def render(content):
+    environment = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath="docs"))
+    template = environment.from_string(content)
+
+    rendered = template.render(
+        GITHUB_REPOSITORY=GITHUB_REPOSITORY,
+        MDBOOK_VIEW=True
+    )
+
+    return rendered
 
 
 if __name__ == '__main__':
@@ -16,14 +53,7 @@ if __name__ == '__main__':
 
     # load both the context and the book representations from stdin
     context, book = json.load(sys.stdin)
-    book_str = json.dumps(book)
-
-    environment = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath="docs"))
-    template = environment.from_string(book_str)
+    apply_to_content(book, render)
 
     # we are done with the book's modification, we can just print it to stdout.
-    rendered = template.render(
-        GITHUB_REPOSITORY=GITHUB_REPOSITORY,
-        MDBOOK_VIEW=True
-    )
-    print(rendered)
+    print(json.dumps(book))

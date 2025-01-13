@@ -2,15 +2,7 @@
 
 <walkthrough-tutorial-duration duration="60"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
-{% if MDBOOK_VIEW %}
-<div class="mdbook-alerts mdbook-alerts-caution">
-<p class="mdbook-alerts-title">
-  <span class="mdbook-alerts-icon"></span>
-  caution
-</p>
-<p>You are viewing this lab from the handbook. However, this lab is meant to be loaded as Cloud Shell tutorial.</p>
-</div>
-{% endif %}
+<bootkon-cloud-shell-note/>
 
 Original document: [here](https://docs.google.com/document/d/1UdI1ffZdjy--_2xNmemQKzPCRXvCVw8JAroZqewiPMs/edit?usp=drive_link)
 

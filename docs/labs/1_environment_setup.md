@@ -2,15 +2,7 @@
 
 <walkthrough-tutorial-duration duration="30"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="1"></walkthrough-tutorial-difficulty>
-{% if MDBOOK_VIEW %}
-<div class="mdbook-alerts mdbook-alerts-caution">
-<p class="mdbook-alerts-title">
-  <span class="mdbook-alerts-icon"></span>
-  caution
-</p>
-<p>You are viewing this lab from the handbook. However, this lab is meant to be loaded as Cloud Shell tutorial.</p>
-</div>
-{% endif %}
+<bootkon-cloud-shell-note/>
 
 In this lab you will grant permissions and set up a default VPC network as a preparatory step.
 

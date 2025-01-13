@@ -1,7 +1,7 @@
 # Create Cloud Shell instance
 
-1. Open new browser window in **Incognito** mode (<span style="color:red">important</span>).  
-2. Open this GitHub repository in your newly opened incognito window and keep reading; close this window in your main browser window (<span style="color:red">important</span>).
+1. Open a new browser window in **Incognito** mode (<span style="color:red">important</span>).  
+2. Open this handbook in your newly opened incognito window and keep reading; close this window in your main browser window (<span style="color:red">important</span>).
 3. Open [https://console.cloud.google.com](https://console.cloud.google.com) and log in with the provided credentials.
 4. Accept the Terms of Services.   
 
@@ -17,7 +17,3 @@
 
 
     ![alt selectproject](../img/selectproject3.png)
-
-6. Press the button below in your incognito window and embark on your journey.
-
-    [![Open this project in Cloud Shell](../img/journey.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/{{ GITHUB_REPOSITORY }}&page=editor&tutorial=.TUTORIAL.md&show=ide&cloudshell_workspace=)
