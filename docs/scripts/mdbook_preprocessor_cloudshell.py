@@ -32,8 +32,5 @@ if __name__ == '__main__':
     book_str = json.dumps(book)
     book_str = replace_cloudshell_tags(book_str)
 
-    with open("foo.json", "w") as f:
-        print(book_str, file=f)
-
     # we are done with the book's modification, we can just print it to stdout, 
     print(book_str)

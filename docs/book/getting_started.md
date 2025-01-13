@@ -20,4 +20,4 @@
 
 6. Press the button below in your incognito window and embark on your journey.
 
-    [![Open this project in Cloud Shell](../img/journey.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon&page=editor&tutorial=.TUTORIAL.md&show=ide&cloudshell_workspace=)
+    [![Open this project in Cloud Shell](../img/journey.svg)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/{{ GITHUB_REPOSITORY }}&page=editor&tutorial=.TUTORIAL.md&show=ide&cloudshell_workspace=)

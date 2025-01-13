@@ -8,3 +8,6 @@ title = "Bootkon Handbook"
 
 [preprocessor.cloud_shell]
 command = "python3 docs/scripts/mdbook_preprocessor_cloudshell.py"
+
+[preprocessor.jinja2]
+command = "python3 docs/scripts/mdbook_preprocessor_jinja2.py"
