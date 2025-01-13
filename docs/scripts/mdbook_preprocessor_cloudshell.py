@@ -12,7 +12,10 @@ CLOUD_SHELL_NOTE = """
   <span class="mdbook-alerts-icon"></span>
   caution
 </p>
-<p>You are viewing this lab from the handbook. However, this lab is meant to be loaded as Cloud Shell tutorial.</p>
+<p>
+You are viewing this lab from the handbook. This lab is meant to be loaded as Cloud Shell tutorial.
+Please see the <a href="main.html">labs section</a> on how to do so.
+</p>
 </div>
 """
 

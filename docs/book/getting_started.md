@@ -1,4 +1,4 @@
-# Create Cloud Shell instance
+# Logging into Google Cloud
 
 1. Open a new browser window in **Incognito** mode (<span style="color:red">important</span>).  
 2. Open this handbook in your newly opened incognito window and keep reading; close this window in your main browser window (<span style="color:red">important</span>).

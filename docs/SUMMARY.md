@@ -3,6 +3,7 @@
  # Bootkon
 
 - [Introduction](./book/introduction.md)
+- [Use Case](./book/use_case.md)
 - [Getting Started](./book/getting_started.md)
 
 - [Labs](./labs/main.md)
