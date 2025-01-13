@@ -25,7 +25,7 @@ jobs:
       - name: Install jinja2-cli
         run: pip install jinja2-cli
       - name: add warning to tutorial
-        run: echo "<!-- DO NOT EDIT .TUTORIAL.md BY HAND -- EDIT docs/TUTORIAL.md instead -->" >> .TUTORIAL.md
+        run: echo "<!-- DO NOT EDIT .TUTORIAL.md BY HAND -- EDIT docs/TUTORIAL.md instead -->" > .TUTORIAL.md
       - name: Render jinja2 template
         run: jinja2 -D GITHUB_REPOSITORY=$GITHUB_REPOSITORY docs/TUTORIAL.md >> .TUTORIAL.md
       - name: Push to GitHub
