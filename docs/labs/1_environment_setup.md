@@ -28,7 +28,7 @@ Please also select your project in the next widget and ignore the comment about 
 
 <walkthrough-project-setup></walkthrough-project-setup>
 
-Have a <walkthrough-editor-open-file filePath="bootstrap.sh">look</walkthrough-editor-open-file> at the bootstrap script and what it does; exeucte it:
+Have a look at <walkthrough-editor-open-file filePath="bootstrap.sh">`bootstrap.sh`</walkthrough-editor-open-file> and what it does; exeucte it:
 ```bash
 ./bootstrap.sh
 ```

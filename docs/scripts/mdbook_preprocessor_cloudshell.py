@@ -50,8 +50,15 @@ def replace_cloudshell_tags(s):
         r'<walkthrough-tutorial-difficulty difficulty="(\d+)"></walkthrough-tutorial-difficulty>',
         r'![](https://img.shields.io/badge/difficulty-\1%2F5-red)',
         s)
+    # <walkthrough-editor-open-file filePath="src/data_ingestion/my_avro_fraud_detection_schema.json">fraud_detection_bigquery_schema.json</walkthrough-editor-open-file>
+    s = re.sub(
+        r'<walkthrough-editor-open-file filePath="([^"]+)">([^<]+)</walkthrough-editor-open-file>',
+        r'<a href="https://github.com/{{ GITHUB_REPOSITORY }}/blob/main/\1" target="_blank">\2</a>',
+        s
+    )
     # <walkthrough-project-id/>
     s = s.replace("<walkthrough-project-id/>", "<PROJECT_ID>")
+
     s = s.replace("<bootkon-cloud-shell-note/>", CLOUD_SHELL_NOTE)
 
     return s
