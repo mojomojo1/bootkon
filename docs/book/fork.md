@@ -6,14 +6,19 @@ You can use the Cloud Shell IDE directly to do this. This has the advantage that
 
 ## Forking the GitHub repository
 
-## Editing the tutorials
+If you want to create your custom version of bootkon, please fork the repository on GitHub first.
 
-First, [open `CONTRIBUTING.md` in Cloud Shell](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon&page=editor&tutorial=docs/book/fork.md&show=ide&cloudshell_workspace=) in tutorial mode and follow the next steps directly in Cloud Shell.
+Forks by default have GitHub actions disabled. You need to enable them by navigating to **Settings** and then **Actions**. Set `Allow all actions and reusable workflows` and `
+Read and write permissions`.
+
+Next, [open this file in Cloud Shell](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon&page=editor&tutorial=docs/book/fork.md&show=ide&cloudshell_workspace=) in tutorial mode and follow the next steps directly in Cloud Shell.
+
+## Editing the tutorials
 
 ### Authenticate to GitHub
 
 Cloud Shell editor supports authentication to GitHub via an interactive authentication flow.
-In this case, you just push your changes and a notification appears to do so.
+In this case, you just push your changes and a notification appears to guide you through this process. If you go this route, please continue with **Set up git**.
 
 If, for some reason, this doesn't work for you, you can use the following method:
 
@@ -27,12 +32,12 @@ Display your newly created SSH key and [add it to your GitHub account](https://g
 cat ~/.ssh/id_rsa.pub
 ```
 
-### Set up Git
-
 Overwrite the remote URL to use the SSH protocol insead of HTTPS. Adjust the command in case you are working on your personal fork:
 ```bash
-git remote set-url origin git@github.com:fhirschmann/bootkon-ng.git
+git remote set-url origin git@github.com:fhirschmann/bootkon.git
 ```
+
+### Set up git
 
 ```bash
 git config --global user.name "John Doe"
@@ -71,7 +76,7 @@ The last line in `vars.local.sh` lets you reload a tutorial using the `r` comman
 alias r='cloudshell launch-tutorial -d'
 ```
 
-If you, for some reason, clone this repository again through Cloud Shell, you end up in a different working directory. Hence, just move your `vars.local.sh` to your home directory to easily find it again:
+If you accidentally clone this repository again through Cloud Shell, you end up in a different working directory. Hence, just move your `vars.local.sh` to your home directory to easily find it again:
 ```bash
 mv vars.local.sh ~/
 ```
@@ -87,7 +92,7 @@ Please note that you might have to **re-execute the last command** in case you r
 
 You can reload a lab on-the-fly by typing `r` followed by the lab markdown file into the terminal and pressing return. This is the alias we set up in `vars.local.sh`. Let's start by opening the tutorial:
 ```bash
-r docs/labs/1_environment_setup.md
+r docs/book/fork.md
 ```
 
 ## Working with mdbook
@@ -105,4 +110,4 @@ Next, run mdbook:
 ./mdbook serve -p 8080
 ```
 
-You can now read the book using Cloud Shell's web preview by pressing the ![](https://cloud.google.com/static/shell/docs/images/web_preview.svg) button in Cloud Shell.
+You can now read the book using Cloud Shell's web preview by pressing the ![](https://cloud.google.com/static/shell/docs/images/web_preview.svg) button in Cloud Shell. Select **Preview on port 8080**. As soon as you change any of the markdown source files, mdbook will automatically reload it.
