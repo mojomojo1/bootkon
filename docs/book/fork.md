@@ -98,14 +98,17 @@ r docs/book/fork.md
 ## Working with mdbook
 
 You can run mdbook and compile the book in Cloud Shell directly. First, download mdbook:
-
 ```bash
 wget https://github.com/rust-lang/mdBook/releases/download/v0.4.43/mdbook-v0.4.43-x86_64-unknown-linux-gnu.tar.gz
 tar xvzf mdbook-v0.4.43-x86_64-unknown-linux-gnu.tar.gz
 ```
 
-Next, run mdbook:
+Install jinja2:
+```bash
+pip install jinja2
+```
 
+Next, run mdbook:
 ```bash
 ./mdbook serve -p 8080
 ```
