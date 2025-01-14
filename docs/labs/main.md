@@ -15,7 +15,7 @@ If you accidentally close the Cloud Shell window, just [open it again](https://s
 In case you no longer see the tutorial on the right-hand side, open it again with:
 ```bash
 cd $PWD
-cloudshell launch-tutorial -d TUTORIAL.md
+cloudshell launch-tutorial TUTORIAL.md
 ```
 
 ---
