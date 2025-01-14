@@ -8,6 +8,9 @@ title = "Bootkon Handbook"
 
 [output.html]
 additional-css = ["docs/css/alerts.css"]
+default-theme = "navy"
+smart-punctuation = true
+git-repository-url = "https://github.com/fhirschmann/bootkon"
 
 [preprocessor.cloud_shell]
 command = "python3 docs/scripts/mdbook_preprocessor_cloudshell.py"
