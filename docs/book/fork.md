@@ -62,10 +62,10 @@ cp vars.sh vars.local.sh
 
 And <walkthrough-editor-open-file filePath="vars.local.sh">edit it</walkthrough-editor-open-file>. It also runs on Argolis (for Google employees).
 
-The last line in `vars.local.sh` lets you reload the tutorial using the `r` command:
+The last line in `vars.local.sh` lets you reload a tutorial using the `r` command:
 
 ```bash
-alias r='cloudshell launch-tutorial -d TUTORIAL.md'
+alias r='cloudshell launch-tutorial -d'
 ```
 
 If you, for some reason, clone this repository again through Cloud Shell, you end up in a different working directory. Hence, just move your `vars.local.sh` to your home directory to easily find it again:
@@ -82,7 +82,7 @@ Please note that you might have to **re-execute the last command** in case you r
 
 ### Reloading the tutorial
 
-You can reload the tutorial on-the-fly by typing `r` into the terminal and pressing return. This is the alias we set up in `vars.local.sh`. Let's start by opening the tutorial:
+You can reload a lab on-the-fly by typing `r` followed by the lab markdown file into the terminal and pressing return. This is the alias we set up in `vars.local.sh`. Let's start by opening the tutorial:
 ```bash
-r
+r docs/labs/1_environment_setup.md
 ```
