@@ -88,7 +88,7 @@ bq --location=$REGION mk --table \
 <walkthrough-project-id/>:ml_datasets.ulb_fraud_detection_pubsub src/data_ingestion/fraud_detection_bigquery_schema.json
 ```
 
-We also need to a Pub/Sub schema:
+We also need to a Pub/Sub schema. We use Apache Avro, as it is better suited for appending row-wise:
 ```bash
 gcloud pubsub schemas create fraud-detection-schema \
     --project=$PROJECT_ID  \
@@ -96,7 +96,7 @@ gcloud pubsub schemas create fraud-detection-schema \
     --definition-file=src/data_ingestion/fraud_detection_pubsub_schema.json
 ```
 
-And them create a Pub/Sub topic using this schema:
+And then create a Pub/Sub topic using this schema:
 ```bash
 gcloud pubsub topics create fraud-detection-topic \
     --project=$PROJECT_ID  \
@@ -104,7 +104,8 @@ gcloud pubsub topics create fraud-detection-topic \
     --message-encoding=BINARY
 ```
 
-We also need to give Pub/Sub permissions to write data to BigQuery. The Pub/Sub service account is comprised of the project number (not the id) and an identifier. Let's first figure out the number:
+We also need to give Pub/Sub permissions to write data to BigQuery. The Pub/Sub service account is created automatically and
+is comprised of the project number (not the id) and an identifier. Let's first figure out the number:
 ```bash
 export PROJECT_NUM=$(gcloud projects describe ${PROJECT_ID} --format="value(projectNumber)")
 export PUBSUB_SERVICE_ACCOUNT="service-${PROJECT_NUM}@gcp-sa-pubsub.iam.gserviceaccount.com"
@@ -144,7 +145,7 @@ Let's execute it.
 ./src/data_ingestion/import_csv_to_bigquery_1.py
 ```
 
-Each line you see on the screen corresponds to one transaction being send to Pub/Sub and written to BigQuery. It would take approximately 40 to 60 minutes for it to finish. So, please cancel the command using 'CTRL + C'.
+Each line you see on the screen corresponds to one transaction being sent to Pub/Sub and written to BigQuery. It would take approximately 40 to 60 minutes for it to finish. So, please cancel the command using 'CTRL + C'.
 
 <!-- 
 We can make this faster by using different parameters for Pub/Sub. First, remove all rows you just ingested:
