@@ -10,9 +10,12 @@ You can use the Cloud Shell IDE directly to do this. This has the advantage that
 
 First, [open `CONTRIBUTING.md` in Cloud Shell](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon&page=editor&tutorial=docs/book/fork.md&show=ide&cloudshell_workspace=) in tutorial mode and follow the next steps directly in Cloud Shell.
 
-### Create SSH keys and add them to GitHub
+### Authenticate to GitHub
 
-In order to commit and push changes to GitHub, perform the following steps.
+Cloud Shell editor supports authentication to GitHub via an interactive authentication flow.
+In this case, you just push your changes and a notification appears to do so.
+
+If, for some reason, this doesn't work for you, you can use the following method:
 
 Create SSH keys if they don't exist yet (just hit return when it asks for passphrases):
 ```bash
@@ -86,3 +89,20 @@ You can reload a lab on-the-fly by typing `r` followed by the lab markdown file 
 ```bash
 r docs/labs/1_environment_setup.md
 ```
+
+## Working with mdbook
+
+You can run mdbook and compile the book in Cloud Shell directly. First, download mdbook:
+
+```bash
+wget https://github.com/rust-lang/mdBook/releases/download/v0.4.43/mdbook-v0.4.43-x86_64-unknown-linux-gnu.tar.gz
+tar xvzf mdbook-v0.4.43-x86_64-unknown-linux-gnu.tar.gz
+```
+
+Next, run mdbook:
+
+```bash
+./mdbook serve -p 8080
+```
+
+You can now read the book using Cloud Shell's web preview by pressing the ![](https://cloud.google.com/static/shell/docs/images/web_preview.svg) button in Cloud Shell.
