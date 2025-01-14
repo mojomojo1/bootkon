@@ -8,15 +8,16 @@ Original document: [here](https://docs.google.com/document/d/1NAcQb9qUZsyGSe2yPQ
 
 
 During this lab, you ingest fraudulent and non fraudulent transactions dataset into BigQuery using three methods:
-* Method 1: Using BigLake with data stored in Google Cloud Storage (GCS)
-* Method 2: Near real-time ingestion into BigQuery using [Cloud PubSub](https://cloud.google.com/pubsub)
-* Method 3: Batch Ingestion into BigQuery using Dataproc Serverless
+* **Method 1**: Using BigLake with data stored in [Google Cloud Storage (GCS)](https://cloud.google.com/storage/docs)
+* **Method 2**: Near real-time ingestion into BigQuery using [Cloud Pub/Sub](https://cloud.google.com/pubsub/docs)
+* **Method 3**: Batch ingestion into BigQuery using [Dataproc Serverless](https://cloud.google.com/dataproc-serverless/docs)
+
 
 For all methods, we are ingesting data from the Google Cloud bucket you have created in the previous lab through `bootstrap.sh`. Feel free to have a look at the contents of this bucket:
 
 ### Method 1: External table using BigLake
 
-BigLake tables let you query structured data in external data stores with access delegation. Access delegation decouples access to the BigLake table from access to the underlying data store. An external connection associated with a service account is used to connect to the data store.
+BigLake tables allow querying structured data in external data stores with access delegation. For an overview, refer to the [BigLake documentation](https://cloud.google.com/biglake/docs). Access delegation decouples access to the BigLake table from access to the underlying data store. An external connection associated with a service account is used to connect to the data store.
 
 Because the service account handles retrieving data from the data store, you only have to grant users access to the BigLake table. This lets you enforce fine-grained security at the table level, including row-level and column-level security. For BigLake tables based on Cloud Storage, you can also use dynamic data masking. To learn more about multi-cloud analytic solutions using BigLake tables with Amazon S3 or Blob Storage data, see BigQuery Omni.
 
@@ -78,7 +79,7 @@ Note that the data we are querying still resides on Cloud Storage and there are 
 
 ### Method 2: Real time data ingestion into BigQuery using Pub/Sub
 
-This variant of data ingestion allows real-time streaming into BigQuery using Pub/Sub.
+Pub/Sub enables real-time streaming into BigQuery. Learn more about [Pub/Sub integrations with BigQuery](https://cloud.google.com/pubsub/docs/bigquery).
 
 We create an empty table and then stream data into it. For this to work, we need to specify a schema. Have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/fraud_detection_bigquery_schema.json">`fraud_detection_bigquery_schema.json`</walkthrough-editor-open-file>. This is the schema we are going to use.
 
@@ -161,7 +162,7 @@ Next, have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/
 
 ### Method 3: Ingestion using Cloud Dataproc (Apache Spark)
 
-Google Cloud Dataproc is a fully managed and scalable service for running Apache Hadoop, Apache Spark, Apache Flink, Presto, and 30+ open source tools and frameworks. Dataproc allows data to be loaded and also transformed or pre-processed as it is brought in.
+[Dataproc](https://cloud.google.com/dataproc/docs/concepts/overview) is a fully managed and scalable service for running Apache Hadoop, Apache Spark, Apache Flink, Presto, and 30+ open source tools and frameworks. Dataproc allows data to be loaded and also transformed or pre-processed as it is brought in.
 
 Create an empty BigQuery table:
 ```bash
