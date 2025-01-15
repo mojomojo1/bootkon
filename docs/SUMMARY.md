@@ -15,6 +15,12 @@
 
 ---
 
-[Running your own bootkon](./book/fork.md)
+# Contributions and development
+
+- [Running your own bootkon](./book/run_own_bootkon.md)
+    - [Forking bootkon](./book/run_own_bootkon_fork.md)
+    - [Development workflow](./book/run_own_bootkon_workflow.md)
+
+---
 
 [Authors](./book/authors.md)

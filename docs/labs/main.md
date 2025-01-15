@@ -4,19 +4,57 @@ During this event, we will guide you through a series of labs using Google Cloud
 
 Cloud Shell is a fully interactive, browser-based environment for learning, experimenting, and managing Google Cloud projects. It comes preloaded with the Google Cloud CLI, essential utilities, and a built-in code editor with Cloud Code integration, enabling you to develop, debug, and deploy cloud apps entirely in the cloud.
 
-Below you can find a picture of Cloud Shell.
+Below you can find a screenshot of Cloud Shell.
 
 ![](../img/cloud_shell_window.png)
 
-It is based on Visual Studio Code and hence looks like a normal IDE. However, on the right hand side you see the tutorial you will be working through. Wen you encouter code chunks in the tutorial, there are two icons on the right hand side. One to copy the code chunk to your clipboard and the other one to insert it directly into the terminal of Cloud Shell.
+It is based on Visual Studio Code and hence looks like a normal IDE. However, on the right hand side you see the tutorial you will be working through. When you encouter code chunks in the tutorial, there are two icons on the right hand side. One to copy the code chunk to your clipboard and the other one to insert it directly into the terminal of Cloud Shell.
 
-If you accidentally close the Cloud Shell window, just [open it again](https://shell.cloud.google.com/cloudshell/open?page=editor&show=ide). Do not press the **Start labs** button below again.
+## Things to know before you get started
 
-In case you no longer see the tutorial on the right-hand side, open it again with:
-```bash
-cd $PWD
-cloudshell launch-tutorial TUTORIAL.md
-```
+There are a few common pitfall that may arise while you work on the labs. Please read them before you start.
+
+<div class="mdbook-alerts mdbook-alerts-tip">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  Tip
+</p>
+<p>
+If you accidentally close the Cloud Shell window, just
+<a href="https://shell.cloud.google.com/cloudshell/open?page=editor&show=ide" target="_blank">open it again</a>.
+Do not press the <b>START LABS</b> button below again.
+</p>
+</div>
+
+<div class="mdbook-alerts mdbook-alerts-tip">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  Tip
+</p>
+<p>
+In case there is no open project in Cloud Shell, please open <code>cloudshell_open/bootkon</code>.
+</p>
+</div>
+
+<div class="mdbook-alerts mdbook-alerts-tip">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  Tip
+</p>
+<p>
+All code chunks in the tutorial are expected to be executed from the <code>cloudshell_open/bootkon</code> directory.</p>
+</div>
+
+<div class="mdbook-alerts mdbook-alerts-tip">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  Tip
+</p>
+<p>In case you no longer see the tutorial on the right-hand side, open it again with:</p>
+<pre><code class="language-bash">cd ~/cloudshell_open/bootkon
+cloudshell launch-tutorial .TUTORIAL.md
+</code></pre>
+</div>
 
 ---
 
