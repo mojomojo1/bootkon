@@ -1,3 +1,6 @@
 .DS_Store
 *.pyc
 .ipynb_checkpoints
+mdbook-v0.4.43-x86_64-unknown-linux-gnu.tar.gz
+mdbook
+./book
