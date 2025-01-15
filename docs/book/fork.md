@@ -6,10 +6,24 @@ You can use the Cloud Shell IDE directly to do this. This has the advantage that
 
 ## Forking the GitHub repository
 
-If you want to create your custom version of bootkon, please fork the repository on GitHub first.
+If you want to create your custom version of bootkon, please fork the [repository on GitHub](https://github.com/fhirschmann/bootkon)
+using the `fork` button.
 
-Forks by default have GitHub actions disabled. You need to enable them by navigating to **Settings** and then **Actions**. Set `Allow all actions and reusable workflows` and `
-Read and write permissions`.
+![](../img/github/fork_screen.png)
+
+Forks by default have GitHub actions disabled. You need to enable them by navigating to the `Actions` tab in the top menu on Github and then press the button to enable it.
+
+![](../img/github/enable_actions.png)
+
+You also need to have GitHub Pages enabled so that the action can publish the markdown book as HTML website. Navigate to `Settings` and then `Pages`.
+Use the dropdown menu to set the `Source` to `GitHub Actions`. **Do not configure mdBook here** -- the repository already containes an improved mdBook action.
+
+![](../img/github/pages_screen.png)
+
+You can now simply push your changes to *your own* GitHub repository to trigger all actions. Once the actions have run, you can see the URL of your handbook
+in the `Actions` tab.
+
+![](../img/github/actions_url.png)
 
 Next, [open this file in Cloud Shell](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon&page=editor&tutorial=docs/book/fork.md&show=ide&cloudshell_workspace=) in tutorial mode and follow the next steps directly in Cloud Shell.
 
