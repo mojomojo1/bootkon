@@ -114,7 +114,17 @@ if ! $(gsutil ls -b gs://${BUCKET_NAME} 2>>/dev/null 1>>/dev/null); then
     gsutil mb -l $REGION gs://${BUCKET_NAME}
 fi
 
-# Copy files to GCS
+# Set up the workbench bootstrap script
+REPO_URL=$(git config --get remote.origin.url | sed 's#git@github.com:#https://github.com/#')
+cat <<EOF >/tmp/bootstrap_workbench.sh
+#!/bin/sh
+cd /home/jupyter
+sudo -H -u jupyter git clone $REPO_URL
+EOF
+chmod +x /tmp/bootstrap_workbench.sh
+gsutil -m cp /tmp/bootstrap_workbench.sh gs://$BUCKET_NAME/
+
+# Copy data to GCS
 gsutil -m cp -R bootkon-data/* gs://$BUCKET_NAME/
 
 echo "Environment setup complete!"

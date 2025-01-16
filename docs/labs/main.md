@@ -56,6 +56,16 @@ cloudshell launch-tutorial .TUTORIAL.md
 </code></pre>
 </div>
 
+<div class="mdbook-alerts mdbook-alerts-tip">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  Tip
+</p>
+<p>If <code>$PROJECT_ID</code> is no longer set, execute:</p>
+<pre><code class="language-bash">source vars.sh
+</code></pre>
+</div>
+
 ---
 
 To start the code labs, press the button below. The source repository will be cloned automatically, and the tutorial will appear on the right-hand side for easy reference. Continue your journey inside Cloud Shell.
