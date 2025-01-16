@@ -3,7 +3,8 @@
 We recommend using Cloud Shell on GCP to develop bootkon. However, you can of course use any (local) editor you like.
 Cloud Shell has the advantage that the tutorial markdown can be rendered without having to commit to GitHub or reloading Cloud Shell, drastically reducing the feedback time in the development cycle.
 
-If you take the Cloud Shell route, [open this file in Cloud Shell](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon&page=editor&tutorial=docs/book/run_own_bootkon_workflow.md.md&show=ide&cloudshell_workspace=) in tutorial mode and follow the next steps directly in Cloud Shell.
+
+If you take the Cloud Shell route, <a href="https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon&page=editor&tutorial=docs/book/run_own_bootkon_workflow.md&show=ide&cloudshell_workspace=" target="_blank">open this file in Cloud Shell</a> in tutorial mode and follow the next steps directly in Cloud Shell.
 
 <div class="mdbook-alerts mdbook-alerts-tip">
 <p class="mdbook-alerts-title">
