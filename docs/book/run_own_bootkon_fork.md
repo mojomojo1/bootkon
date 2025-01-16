@@ -1,6 +1,14 @@
 # Forking the GitHub repository
 
-If you want to create your custom version of bootkon, please fork the [repository on GitHub](https://github.com/fhirschmann/bootkon)
+<div class="mdbook-alerts mdbook-alerts-tip">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  Tip
+</p>
+<p>If you want to commit to the main repository <code>fhirschmann/bootkon</code> directly, you can skip this step. </p>
+</div>
+
+To create your personal version of bootkon, please fork the [repository on GitHub](https://github.com/fhirschmann/bootkon)
 using the `fork` button.
 
 ![](../img/github/fork_screen.png)
