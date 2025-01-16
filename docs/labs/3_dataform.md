@@ -255,5 +255,4 @@ Release configurations allow you to compile your pipeline code at specific inter
 You've nailed the data ingestion lab -- great job!
 
 
-
 # **\<Lunch Time: 60 Minutes\>**
