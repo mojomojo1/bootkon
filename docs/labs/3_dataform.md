@@ -206,7 +206,6 @@ Feedback
 FROM `ml_datasets.sentiment_inference` LIMIT 10;
 ```
    
-
 **\[Max 2 minutes\]** Discuss the table results within your team group.
 
 Before moving to the challenge section of the Lab, go back to the CODE section of the Dataform workspace. At the top of the “Files” section on the left, click **“Commit X Changes”** (X should be about 7), add a commit message like, “Bootkon Lab 3”, then click “**Commit all files***” and then **“Push to Default Branch”**
