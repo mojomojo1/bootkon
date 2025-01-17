@@ -7,7 +7,7 @@ extra-watch-dirs = ["docs"]
 title = "Data & AI Bootkon Handbook"
 
 [output.html]
-additional-css = ["docs/css/alerts.css"]
+additional-css = ["docs/css/alerts.css", "docs/css/custom.css"]
 default-theme = "navy"
 smart-punctuation = true
 git-repository-url = "https://github.com/fhirschmann/bootkon"
