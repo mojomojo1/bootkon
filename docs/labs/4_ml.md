@@ -34,6 +34,8 @@ Open the [Vertex AI Console](https://console.cloud.google.com/vertex-ai/workbenc
 
 Now, please open `notebooks/bootkon_lab4_vertex.ipynb` and continue your journey.
 
+{% if MDBOOK_VIEW %}
+
 ---
 
 <div class="mdbook-alerts mdbook-alerts-caution">
@@ -47,3 +49,5 @@ Below you can find the content of <code>notebooks/bootkon_lab4_vertex.ipynb</cod
 </div>
 
 {{ jupyter('notebooks/bootkon_lab4_vertex.ipynb') }}
+
+{% endif %}
