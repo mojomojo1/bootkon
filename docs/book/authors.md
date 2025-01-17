@@ -1,6 +1,6 @@
 # Authors
 
-The main authors of Bootkon are:
+The main authors of Data & AI Bootkon are:
 - [Wissem Khlifi](https://www.linkedin.com/in/orawiss/) (original version)
 - [Fabian Hirschmann](https://www.linkedin.com/in/fhirschmann/) (this version)
 
