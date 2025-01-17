@@ -4,3 +4,5 @@
 mdbook-v0.4.43-x86_64-unknown-linux-gnu.tar.gz
 mdbook
 /book
+notebooks/train.py
+notebooks/serve.py
