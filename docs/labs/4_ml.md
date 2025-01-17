@@ -2,7 +2,7 @@
 
 <walkthrough-tutorial-duration duration="60"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
-<walkthrough-project-setup></walkthrough-project-setup>
+<bootkon-cloud-shell-note/>
 
 In this lab, you will create a Vertex AI Workbench Instance and perform machine learning on the data set you previously ingested.
 
