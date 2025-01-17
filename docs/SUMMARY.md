@@ -1,6 +1,6 @@
 # Summary
  
- # Bootkon
+ # Data & AI Bootkon
 
 - [Introduction](./book/introduction.md)
 - [Use Case](./book/use_case.md)

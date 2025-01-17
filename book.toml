@@ -4,7 +4,7 @@ language = "en"
 multilingual = false
 src = "docs"
 extra-watch-dirs = ["docs"]
-title = "Bootkon Handbook"
+title = "Data & AI Bootkon Handbook"
 
 [output.html]
 additional-css = ["docs/css/alerts.css"]

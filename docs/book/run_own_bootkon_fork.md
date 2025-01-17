@@ -8,7 +8,7 @@
 <p>If you want to commit to the main repository <code>fhirschmann/bootkon</code> directly, you can skip this step. </p>
 </div>
 
-To create your personal version of bootkon, please fork the [repository on GitHub](https://github.com/fhirschmann/bootkon)
+To create your personal version of Data & AI Bootkon, please fork the [repository on GitHub](https://github.com/fhirschmann/bootkon)
 using the `fork` button.
 
 ![](../img/github/fork_screen.png)

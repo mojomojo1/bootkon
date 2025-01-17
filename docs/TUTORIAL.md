@@ -10,7 +10,7 @@
 
 ## Introduction
 
-Welcome to bootkon. 
+Welcome to Data & AI Bootkon. 
 
 An imaginary company named FraudFix Technologies specializes in enhancing financial transaction security for Google Cloud enterprise customers across industries like finance and e-commerce.
 
