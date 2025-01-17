@@ -5,6 +5,9 @@
 import json
 import sys
 import os
+import nbformat
+import base64
+from nbconvert import HTMLExporter, MarkdownExporter
 
 import jinja2
 
@@ -33,13 +36,34 @@ def apply_to_content(data, func):
     return data
 
 
+def jupyter(path):
+    with open(path) as f:
+        nb = nbformat.read(f, as_version=4)
+        exporter = HTMLExporter()
+        exporter = MarkdownExporter()
+        body, resource = exporter.from_notebook_node(nb)
+        with open("test.md", "w") as f:
+            f.write(body)
+        for k, v in resource["outputs"].items():
+            if k.endswith(".png"):
+                enc = base64.b64encode(v).decode()
+                body = body.replace(
+                    f"![png]({k})",
+                    f'<img src="data:image/png;base64,{enc}" />'
+                )
+
+        return body
+    
+
+
 def render(content):
     environment = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath="docs"))
     template = environment.from_string(content)
 
     rendered = template.render(
         GITHUB_REPOSITORY=GITHUB_REPOSITORY,
-        MDBOOK_VIEW=True
+        MDBOOK_VIEW=True,
+        jupyter=jupyter
     )
 
     return rendered
