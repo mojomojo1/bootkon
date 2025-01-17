@@ -102,8 +102,6 @@ Edit  **workflow\_settings.yaml** file :
   *Package installation succeeded*
 
 Remove the default auto-generated SQLX files; Delete the following files from the “definitions” folder:
-* *first\_view.sqlx*  
-* *second\_view.sqlx*
 
  <img src= "../img/lab3/viewsqlx.png" alt="viewsqlx" style="border: 1px solid grey;">
 
@@ -195,10 +193,6 @@ Check the execution status. It should be a success.
 Verify the new table **sentiment\_inference** in the **ml\_datasets** dataset in BigQuery.  
 Query the BigQuery table content (At this point you should be familiar with running BigQuery SQL)  
    
-
-| *BigQuery SQL : Check few rows of* sentiment\_inference table |
-| :---- |
-
 ```bash
 SELECT distinct ml_generate_text_llm_result,
 prompt,
@@ -215,7 +209,7 @@ Before moving to the challenge section of the Lab, go back to the CODE section o
 You should now have the message   
  <img src= "../img/lab3/workspaceuptodate.png" alt="workspaceuptodate" style="border: 1px solid grey;"> 
 
-# ***CHALLENGE Section : Production, Scheduling and Automation*** 
+### **CHALLENGE Section : Production, Scheduling and Automation** 
 
 Automate and schedule the compilation and execution of the pipeline. This is done using release configurations and workflow configurations.
 
@@ -238,21 +232,21 @@ Release configurations allow you to compile your pipeline code at specific inter
 
   The pipeline will run at the defined frequency using the compiled code from the specified release configuration. For more information, refer to the [workflow configurations documentation](https://cloud.google.com/dataform/docs/workflow-configurations).
 
-  *\[TASK\] Challenge : Take up to 10 minutes to Setup a Daily Frequency Execution of the Workflow*
+*\[TASK\] Challenge : Take up to 10 minutes to Setup a Daily Frequency Execution of the Workflow*
 
 
 ***Goal:*** Set up a daily schedule to automate and execute the workflow you created.
 
-1. Automate and schedule the pipeline’s compilation and execution.  
-2. Define release configurations for one production environment (optionally: you can create another one for dev environment)  
-3. Set up workflow configurations to schedule pipeline execution (use dataform service account).  
-4. Set up a 3 minute frequency execution of the workflow you have created.  
+* Automate and schedule the pipeline’s compilation and execution.  
+* Define release configurations for one production environment (optionally: you can create another one for dev environment)  
+* Set up workflow configurations to schedule pipeline execution (use dataform service account).  
+* Set up a 3 minute frequency execution of the workflow you have created.  
      
      
 ***Note:*** If you are stuck and cannot figure out how to proceed after a few minutes, ask the your team captain.
 
 
-You've nailed the data ingestion lab -- great job!
+You've nailed the Dataform lab -- great job!
 
 
-# **\<Lunch Time: 60 Minutes\>**
+# **Lunch Time: 60 Minutes**
