@@ -21,7 +21,8 @@ gcloud services enable storage-component.googleapis.com notebooks.googleapis.com
     serviceusage.googleapis.com cloudresourcemanager.googleapis.com pubsub.googleapis.com \
     compute.googleapis.com metastore.googleapis.com datacatalog.googleapis.com analyticshub.googleapis.com \
     bigquery.googleapis.com dataplex.googleapis.com datalineage.googleapis.com dataform.googleapis.com \
-    dataproc.googleapis.com bigqueryconnection.googleapis.com aiplatform.googleapis.com
+    dataproc.googleapis.com bigqueryconnection.googleapis.com aiplatform.googleapis.com \
+    artifactregistry.googleapis.com
 
 # Install Git and Git LFS
 if ! $(git lfs >/dev/null); then
@@ -120,6 +121,8 @@ cat <<EOF >/tmp/bootstrap_workbench.sh
 #!/bin/sh
 cd /home/jupyter
 sudo -H -u jupyter git clone $REPO_URL
+sudo -H -u jupyter /opt/conda/bin/pip install -r bootkon/requirements.txt
+sudo -H -u jupyter gcloud auth configure-docker ${REGION}-docker.pkg.dev --quiet
 EOF
 chmod +x /tmp/bootstrap_workbench.sh
 gsutil -m cp /tmp/bootstrap_workbench.sh gs://$BUCKET_NAME/
