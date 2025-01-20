@@ -62,10 +62,16 @@ cp vars.sh vars.local.sh
 And <walkthrough-editor-open-file filePath="vars.local.sh">edit it</walkthrough-editor-open-file>. It also runs on Argolis (for Google employees).
 
 The last line in `vars.local.sh` is inteded for participants to reload the tutorial in case it disappears from Cloud Shell. We will use a different
-command for development that applies jinja2 processing so that you can load and render individual markdown files instead of `.TUTORIAL.md`. Replace the last line with the following:
+command for development that applies jinja2 processing so that you can load and render individual markdown files instead of `.TUTORIAL.md`.
+It also remembers the last file you opened so that you can just do `r` (without filename) for consecutive runs. Replace the last line with the following:
 
 ```bash
 alias r='bash ~/cloudshell_open/bootkon/book/scripts/reload-tutorial'
+```
+
+Install dependencies:
+```bash
+pip install jinja2-cli
 ```
 
 If you accidentally clone this repository again through Cloud Shell, you end up in a different working directory. Hence, just move your `vars.local.sh` to your home directory to easily find it again:
@@ -94,9 +100,9 @@ You can run mdbook and compile the book in Cloud Shell directly. First, download
 wget -qO - https://github.com/rust-lang/mdBook/releases/download/v0.4.43/mdbook-v0.4.43-x86_64-unknown-linux-gnu.tar.gz | tar xvzf -
 ```
 
-Install jinja2:
+Install dependencies:
 ```bash
-pip install jinja2 jinja2-cli nbformat nbconvert
+pip install jinja2 nbformat nbconvert
 ```
 
 Next, run mdbook:
