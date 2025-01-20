@@ -95,7 +95,7 @@ wget -qO - https://github.com/rust-lang/mdBook/releases/download/v0.4.43/mdbook-
 
 Install jinja2:
 ```bash
-pip install jinja2
+pip install jinja2 nbformat nbconvert
 ```
 
 Next, run mdbook:
