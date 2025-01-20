@@ -4,6 +4,19 @@
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 
+```sql
+config {
+    type : "operations",
+  tags: ["dataset_ulb_fraud_detection_llm"]
+}
+
+CREATE SCHEMA IF NOT EXISTS ulb_fraud_detection_llm
+  OPTIONS (
+    description = 'Dataset to store LLM models used for LLM usecases_01',
+    location = 'US'
+  )
+```
+
 Original document [here](https://docs.google.com/document/d/1NxfggQunrCn6ZfwGXAaA_lABDmXtRsfH88jkMDbqlJo/edit?usp=drive_link)
 
 During this lab, you gather user feedback to assess the impact of model adjustments on real-world use (prediction), ensuring that our fraud detection system effectively balances accuracy with user satisfaction. 
