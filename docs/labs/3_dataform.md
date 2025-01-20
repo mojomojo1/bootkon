@@ -46,7 +46,7 @@ First step in implementing a pipeline in Dataform is to set up a repository and 
 
 Navigate to the BigQuery section in the Google Cloud Platform console, and then select Dataform.
 
-<img src= "../img/lab3/dataform.png" alt="dataform" style="border: 1px solid grey;">
+Go to [Dataform](https://console.cloud.google.com/bigquery/dataform) and then
 
 
 ### **Create a Repository in Dataform** 
@@ -89,7 +89,8 @@ Click on the newly created **development workspace**
 Click **Initialize workspace**.
 
 You will copy the dataform files from the following repository, in the next steps.   
-   [https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform](https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform)   
+   [https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform](https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform)
+   
 Edit  **workflow\_settings.yaml** file :   
   Replace defaultDataset value with **ml\_datasets ,**   
   make sure defaultProject value is **your project id**   
@@ -113,6 +114,7 @@ Click on **definitions** and create a new directory called **“models”**:
 * [create\_dataset.sqlx](https://github.com/dace-de/bootkon-h2-2024/blob/main/dataform/definitions/models/create_dataset.sqlx)  
 * [llm\_model\_connection.sqlx](https://github.com/dace-de/bootkon-h2-2024/blob/main/dataform/definitions/models/llm_model_connection.sqlx)
 
+<walkthrough-editor-open-file filePath="src/dataform/definitions/models/create_dataset.sqlx">`create_dataset.sqlx`</walkthrough-editor-open-file>
 	  
 Those files should be created under ***definitions/models*** directory
 
@@ -247,6 +249,3 @@ Release configurations allow you to compile your pipeline code at specific inter
 
 
 You've nailed the Dataform lab -- great job!
-
-
-# **Lunch Time: 60 Minutes**
