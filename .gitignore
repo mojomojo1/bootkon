@@ -6,3 +6,4 @@ mdbook
 /book
 notebooks/train.py
 notebooks/serve.py
+vars.local.sh

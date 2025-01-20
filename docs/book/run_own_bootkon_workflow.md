@@ -74,14 +74,9 @@ Install dependencies:
 pip install jinja2-cli
 ```
 
-If you accidentally clone this repository again through Cloud Shell, you end up in a different working directory. Hence, just move your `vars.local.sh` to your home directory to easily find it again:
-```bash
-mv vars.local.sh ~/
-```
-
 Next, instead of doing `source vars.sh` as requested in the labs, do
 ```bash
-source ~/vars.local.sh
+source vars.local.sh
 ```
 
 Please note that you might have to **re-execute the last command** in case you reopen Cloud Shell.
