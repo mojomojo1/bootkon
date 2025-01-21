@@ -130,4 +130,10 @@ gsutil -m cp /tmp/bootstrap_workbench.sh gs://$BUCKET_NAME/
 # Copy data to GCS
 gsutil -m cp -R bootkon-data/* gs://$BUCKET_NAME/
 
+# Create artifact repository for container images if it doesn't exist
+gcloud artifacts repositories list 2>>/dev/null | \
+    grep "REPOSITORY: bootkon" || \
+    gcloud artifacts repositories create bootkon \
+        --repository-format=docker --location=$REGION --description="Bootkon repository"
+
 echo "Environment setup complete!"

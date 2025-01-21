@@ -6,11 +6,6 @@
 
 In this lab, you will create a Vertex AI Workbench Instance and perform machine learning on the data set you previously ingested.
 
-Since we will be using a custom docker container to train and serve our machine learning model, let's first create a repository for it:
-```bash
-gcloud artifacts repositories create bootkon --repository-format=docker --location=$REGION --description="Bootkon repository"
-```
-
 Vertex AI Workbench is a Jupyter notebook-based development environment for the entire data science workflow. You can interact with Vertex AI and other Google Cloud services from within a Vertex AI Workbench instance's Jupyter notebook.
 
 Vertex AI Workbench integrations and features can make it easier to access your data, process data faster, schedule notebook runs, and more.

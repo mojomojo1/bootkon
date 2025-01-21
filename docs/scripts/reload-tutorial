@@ -13,6 +13,5 @@ fi
 
 echo $FILE > /tmp/last_opened_tutorial.txt
 
-
 jinja2 $FILE -o $RENDERED
 cloudshell launch-tutorial -d $RENDERED
