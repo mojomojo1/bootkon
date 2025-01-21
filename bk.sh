@@ -41,7 +41,7 @@ BK_TUTORIAL="${BK_TUTORIAL:-.TUTORIAL.md}" # defaults to .TUTORIAL.md; can be ov
 cd ~/
 
 if [ -d $BK_GITHUB_REPOSITORY ]; then
-    echo -e "${GREEN}Not cloning $BK_REPO_URL because folder $BK_GITHUB_REPOSITORY already exists.${NC}"
+    echo -e "${GREEN}Not cloning $BK_REPO_URL because folder ~/$BK_GITHUB_REPOSITORY already exists.${NC}"
 else
     echo -e "Cloning $BK_REPO_URL into $BK_GITHUB_REPOSITORY..."
     git clone https://github.com/${BK_REPO}.git
