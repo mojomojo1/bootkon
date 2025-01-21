@@ -1,0 +1,517 @@
+#!/usr/bin/env python3
+# Copyright 2017 Google Inc. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""Control utility for Google Cloud Shell."""
+
+import argparse
+import contextlib
+import json
+import os
+import re
+import shutil
+import socket
+import subprocess
+import sys
+import time
+import tempfile
+
+# Client action requests as PBLite-formatted JSON objects
+EDIT_FILES_REQUEST = '[null,null,null,[[[%s]]]]'
+DOWNLOAD_FILES_REQUEST = '[null,null,null,[null,[[%s]]]]'
+LAUNCH_TUTORIAL_REQUEST = '[null,null,null,[null,null,["%s",%s,%s,%s,"%s","%s"]]]'
+OPEN_WORKSPACE_REQUEST = '[null,null,null,[null,null,null,["%s",[%s],%s]]]'
+OPEN_WORKSPACE_FAILED = '[null,null,null,[null,null,null,[null,null,2]]]'
+
+# The tag to apply to the custom env image.
+CUSTOM_IMAGE_TAG = 'custom-cloud-shell-local'
+
+HOST_DOCKER_DIR = '/google/host'
+HOST_DOCKER_SOCKET = HOST_DOCKER_DIR + '/var/run/docker.sock'
+
+# Tutorial file size limit 128K
+MAX_TUTORIAL_FILE_SIZE = 128 * 1024
+
+def abort(msg):
+  sys.stderr.write(msg + '\n')
+  sys.exit(1)
+
+def send_request(args, req):
+  if args.dry_run:
+    print(req)
+  else:
+
+    sock = socket.socket()
+
+    # The credentials service might not be there when first starting
+    # Cloud Shell, so retry.
+    # Also verify there are client channels to the front end. Unfortunately errors from
+    # the proxy service do not propadate to this script, so need to validate on this end.
+    attempts = 0
+    while True:
+      try:
+        # DEVSHELL_CLIENTS_DIR is unset in some tests that just expose a test server on 8998 directly.
+        if not os.getenv('DEVSHELL_CLIENTS_DIR') or os.listdir(os.getenv('DEVSHELL_CLIENTS_DIR')):
+          sock.connect(('localhost', 8998))
+          break
+      except ConnectionRefusedError:
+        pass
+      time.sleep(.5)
+      attempts += 1
+      if attempts >= 60:
+        raise Exception("Cannot send messages to client. Please try again later")
+
+    msg = '%s\n%s' % (len(req), req)
+    sock.sendall(msg.encode())
+
+def open_workspace(args):
+    if args.workspace is None:
+      args.workspace = os.path.curdir
+    if not os.path.exists(args.workspace):
+      send_request(args, OPEN_WORKSPACE_FAILED)
+      abort('Workspace path does not exist')
+    ws_abs = os.path.abspath(args.workspace)
+    workspace = os.path.relpath(ws_abs, os.path.expanduser('~'))
+    if (workspace.startswith('..')):
+      send_request(args, OPEN_WORKSPACE_FAILED)
+      abort('Workspace path must be within the user\'s home directory')
+    files = []
+    for file in map(lambda f: os.path.join(args.workspace,f), args.open_file):
+      if not os.path.exists(file):
+        send_request(args, OPEN_WORKSPACE_FAILED)
+        abort('Path %s does not exist' % file)
+      abspath = os.path.abspath(file)
+      relpath = os.path.relpath(abspath, args.workspace)
+      if (relpath.startswith('..')):
+        send_request(args, OPEN_WORKSPACE_FAILED)
+        abort('Files opened with open-workspace must be relative to the workspace.')
+      files.append('"%s"' % relpath)
+    send_request(args, OPEN_WORKSPACE_REQUEST % (workspace, ','.join(files), 1))
+
+def edit_files(args):
+  request_paths = []
+  for filename in args.filename:
+    abspath = os.path.abspath(filename)
+    hdrelpath = os.path.relpath(abspath, os.path.expanduser('~'))
+    if (hdrelpath.startswith('..')):
+      abort('Google Cloud Shell editor can only edit files within'
+            ' user\'s home directory.')
+    if not os.path.exists(filename):
+      open(filename, 'a').close()
+    request_paths.append('"%s"' % hdrelpath)
+  send_request(args, EDIT_FILES_REQUEST % ','.join(request_paths))
+
+def download_files(args):
+  request_paths = []
+  for filename in args.filename:
+    if (not os.path.isfile(filename) and not os.path.isdir(filename)):
+      abort('File or directory %s does not exist' % filename)
+    abspath = os.path.abspath(filename)
+    homepath = os.path.expanduser('~')
+    if not abspath.startswith(homepath):
+      abort('File %s is not in user\'s home directory' % abspath)
+    request_paths.append('"%s"' % abspath)
+  send_request(args, DOWNLOAD_FILES_REQUEST % ','.join(request_paths))
+
+@contextlib.contextmanager
+def temp_directory():
+  """Creates a temporary directory, and cleans it up."""
+  tempdir = '/var/run/env_ssh'
+  # TODO(wilford): Remove once hosts docker socket is always present.
+  if os.path.exists(HOST_DOCKER_SOCKET):
+    tempdir = HOST_DOCKER_DIR + tempdir
+  subprocess.call('sudo mkdir -p {} && sudo chmod 777 {}'.format(tempdir, tempdir), shell=True)
+  try:
+    yield tempdir
+  finally:
+    subprocess.call('sudo rm  -rf {}'.format(tempdir), shell=True)
+
+def run_environment(args):
+  if not detect_custom_environment():
+    return
+
+  with temp_directory() as tempdir:
+    key_file = os.path.join(tempdir, 'key')
+    keypub_file = key_file + '.pub'
+    subprocess.check_output(
+        ['ssh-keygen',
+        '-t', 'rsa',
+        '-N', '',
+        '-C', 'Testing.',
+        '-f', key_file])
+    key_dir = os.path.dirname(key_file)
+    host_key_dir = key_dir
+    # TODO(wilford): Remove once hosts docker socket is always present.
+    if os.path.exists(HOST_DOCKER_SOCKET):
+      host_key_dir = tempdir.replace(HOST_DOCKER_DIR, '')
+    with open(keypub_file) as f:
+      user = "envtestuser"
+      pubkey = f.read().strip()
+      command = (get_host_docker_command() +
+                       ' run -it --privileged '
+                       ' -e ATTACHING_DISK=false'
+                       ' -e DEVSHELL_USER=' + user +
+                       ' -e DEVSHELL_SERVER_BASE_URL=http://localhost'
+                       ' -e AUTHORIZED_KEYS="' + pubkey + '"'
+                       ' -v ' + host_key_dir + ':' + key_dir +
+                       ' -v /etc/ssh/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key '
+                       ' -v /etc/ssh/ssh_host_rsa_key.pub:/etc/ssh/ssh_host_rsa_key.pub '
+                       ' -v /etc/ssh/ssh_host_dsa_key:/etc/ssh/ssh_host_dsa_key '
+                       ' -v /etc/ssh/ssh_host_dsa_key.pub:/etc/ssh/ssh_host_dsa_key.pub '
+                       ' ' + get_image_name() +
+                       ' ssh -t -t -4'
+                       ' -i ' + key_file +
+                       ' -o StrictHostKeyChecking=no '
+                       ' -o UserKnownHostsFile=/dev/null ' +
+                       user + '@localhost')
+      subprocess.call(command, shell=True)
+
+def build_environment(args):
+  if not detect_custom_environment():
+    return
+
+  if not os.path.exists("Dockerfile"):
+    print("No Dockerfile in current directory")
+    return
+
+  dockerfile = open("Dockerfile")
+  for line in dockerfile:
+    if re.match(r"^\W*USER ", line):
+      print("USER instruction not allowed in custom environment Dockerfile")
+      return
+
+  command = (get_host_docker_command() + ' build . -t ' + get_image_name())
+  subprocess.call(command, shell=True)
+
+def get_image_name():
+  if os.path.exists(".cloudshellcustomimagerepo.json"):
+    with open(".cloudshellcustomimagerepo.json") as f:
+      data = json.load(f)
+      return 'gcr.io/' + data["projectId"] + '/' + data["repoId"]
+  else:
+    project_id = os.getenv("CUSTOM_ENV_PROJECT_ID")
+    repo_id = os.getenv("CUSTOM_ENV_REPO_ID")
+    return 'gcr.io/' + project_id + '/' + repo_id
+
+def get_host_docker_command():
+  docker_host = "/var/run/docker.sock"
+  if os.path.exists(HOST_DOCKER_SOCKET):
+    docker_host = HOST_DOCKER_SOCKET
+  return 'sudo docker -H unix://' + docker_host
+
+def push_environment(args):
+  if not detect_custom_environment():
+    return
+
+  command = (get_host_docker_command() + ' login -u _token -p  `gcloud auth print-access-token` https://gcr.io && ' +
+             get_host_docker_command() + ' push ' + get_image_name())
+  subprocess.call(command, shell=True)
+
+def print_image_name(args):
+  if not detect_custom_environment():
+    return
+  print(get_image_name())
+
+def create_custom_image(args):
+  repo_image_name = args.name
+  project = os.getenv("DEVSHELL_PROJECT_ID")
+  repo_url = 'https://source.developers.google.com/p/{}/r/{}'.format(project, repo_image_name)
+  image_url = 'gcr.io/{}/{}'.format(project, repo_image_name)
+  FNULL = open(os.devnull, 'w')
+
+  print('Creating $HOME/{} directory to host image skeleton git repostitory...'.format(repo_image_name))
+  command = ('mkdir $HOME/{}'.format(repo_image_name))
+  try:
+    subprocess.check_call(command, shell=True, stdout=FNULL)
+  except subprocess.CalledProcessError:
+    print('$HOME/{} already exists. Please delete the directory or use a diferent name.'.format(repo_image_name))
+    return
+
+  print('Creating git repository {} in project {}...'.format(repo_image_name, project))
+  command = ('gcloud source repos create {} --project {}'.format(repo_image_name, project))
+  try:
+    subprocess.check_call(command, shell=True,  stdout=FNULL)
+  except subprocess.CalledProcessError:
+    print('A repository named {} already exists in project {}. Please delete the repository or use a diferent name.'.format(repo_image_name, project))
+    return
+
+  print('Creating Cloud Build trigger to create {}'.format(image_url))
+  command = ('curl -s -XPOST -d \'{ "trigger_template": { "repoName": "' + repo_image_name + '",'
+             '"branchName": "master" }, "filename": "cloudbuild.yaml" }\' ' +
+             '-H "Content-Type: application/json" ' +
+             '-H "Authorization: Bearer $(gcloud auth print-access-token)" ' +
+             'https://cloudbuild.googleapis.com/v1/projects/' + project + '/triggers')
+  try:
+    subprocess.call(command, shell=True, stdout=FNULL)
+  except subprocess.CalledProcessError:
+    print('Failed to create build trigger. Aborting')
+    return
+
+  print("Populating repository with custom image definition...")
+  command = ('cp -a /google/devshell/customimageskeleton/. $HOME/{} && '.format(repo_image_name) +
+             'cd  $HOME/{} && '.format(repo_image_name) +
+             # Literal escape characters must also be escaped in Python 3.12+.
+             "sed -i s/GCR_REPO_URL/'{}'/g Dockerfile && ".format(image_url.replace('/', '\\/')) +
+             "sed -i s/CSR_FILE_URL/'{}'/g Dockerfile && ".format(repo_url.replace('/', '\\/')) +
+             "sed -i s/GCR_REPO_URL/'{}'/g baseimagetrigger.json && ".format(image_url.replace('/', '\\/')) +
+             "sed -i s/CSR_REPO_NAME/'{}'/g baseimagetrigger.json && ".format(repo_image_name) +
+             "sed -i s/PROJECT_ID/'{}'/g .cloudshellcustomimagerepo.json && ".format(project) +
+             "sed -i s/REPO_NAME/'{}'/g .cloudshellcustomimagerepo.json && ".format(repo_image_name) +
+             'git init && '  +
+             'git add Dockerfile cloudbuild.yaml .cloudshellcustomimagerepo.json && ' +
+             'git commit -a -m "Initial commit of custom Cloud Shell image." && ' +
+             'git remote add origin {} && '.format(repo_url) +
+             'git push --set-upstream origin master' )
+  try:
+    subprocess.call(command, shell=True, stdout=FNULL, stderr=FNULL)
+  except subprocess.CalledProcessError:
+    print('Failed to populate repository. Aborting')
+    return
+
+  print('Creating Cloud Build trigger on changes to Cloud Shell base image')
+  command = ('cd  $HOME/{} && '.format(repo_image_name) +
+             'curl -s -XPOST -T baseimagetrigger.json ' +
+             '-H "Authorization: Bearer $(gcloud auth print-access-token)" ' +
+             'https://cloudbuild.googleapis.com/v1/projects/' + project + '/triggers && '
+             'rm baseimagetrigger.json')
+  try:
+    subprocess.call(command, shell=True, stdout=FNULL)
+  except subprocess.CalledProcessError:
+    print('Failed to create build trigger over Cloud Shell base image. Aborting')
+    return
+
+  print("\nYour custom image skeleton is now ready. Please run the following before continuing:")
+  print("\ncd $HOME/{} && cloudshell edit Dockerfile\n".format(repo_image_name))
+
+
+def detect_custom_environment():
+  if os.path.exists(".cloudshellcustomimagerepo.json"):
+    with open(".cloudshellcustomimagerepo.json") as f:
+      data = json.load(f)
+      if data["projectId"] != None and data["repoId"] != None:
+        return True
+  project_id = os.getenv("CUSTOM_ENV_PROJECT_ID")
+  repo_id = os.getenv("CUSTOM_ENV_REPO_ID")
+  if project_id == None or repo_id == None:
+    print("""
+  The CUSTOM_ENV_PROJECT_ID and CUSTOM_ENV_REPO_ID environment
+  variables must be set to use this command. Please set these
+  to the correct project and Cloud Source Repository for your image.
+    """)
+
+    # Try to guess what the user wants to set these variables to by inspecting their bash
+    # history for cloudshell_open commands with create_custom_image
+    command = ('grep -a -e \"--create_custom_image\" $HOME/.bash_history | '
+               'grep -v grep  | '
+               'sed  \'s/.*--\\(repo_url\\|git_repo\\) "//g\' | '
+               'sed \'s/".*//g\'')
+    repos = subprocess.check_output(command, shell=True)
+    repos = repos.decode('utf-8')
+    if repos != None and repos != "":
+      repo_lines = repos.strip().split("\n")
+      if len(repo_lines) == 1:
+        print ("  Based on your bash history, we recommend running the following command:")
+      else:
+        print ("  Based on your bash history, we recommend running one of the following commands:")
+
+      for line in repo_lines:
+        line_parts = re.match(r"https://source.developers.google.com/p/(.*)/r/(.*)", line)
+        print("""
+  $ cloudshell edit-file $HOME/{}/Dockerfile &&
+    export CUSTOM_ENV_PROJECT_ID={} &&
+    export CUSTOM_ENV_REPO_ID={}""".format(line_parts.group(2), line_parts.group(1), line_parts.group(2)))
+
+    return False
+  else:
+    return True
+
+def launch_tutorial(args):
+  filename = args.filename
+  if not os.path.isfile(filename):
+    abort('Tutorial file %s does not exist or is not a file' % filename)
+  filestat = os.stat(filename)
+  if (filestat.st_size > MAX_TUTORIAL_FILE_SIZE):
+    abort('Tutorial file size is over the allowed file size limit.')
+
+  with open(filename, 'r') as tutorial:
+    data = tutorial.read()
+  abspath = os.path.abspath(filename)
+  authoring_mode = 'true' if args.debug else 'false'
+  oics_tutorial = 'true' if args.oics else 'false'
+
+  repository_url = ''
+  repository_branch = ''
+  # Pass repo url and branch if the url allowlisted.
+  if args.repository_url is not None and args.repository_url.lower().startswith('https://github.com/googlecloudplatform/'):
+    repository_url = args.repository_url
+    repository_branch = args.repository_branch or ''
+
+  send_request(args, LAUNCH_TUTORIAL_REQUEST % (abspath,
+                                                json.dumps(data),
+                                                authoring_mode,
+                                                oics_tutorial,
+                                                repository_url,
+                                                repository_branch))
+
+def aliases(args):
+  print('alias edit="cloudshell edit-files";')
+  print('alias dl="cloudshell download-files";')
+  print('alias teachme="cloudshell launch-tutorial";')
+  print('alias dt="cloudshell launch-tutorial -d";')
+
+def generate_web_preview_url(args):
+  print('https://{}-{}'.format(args.port, os.getenv('WEB_HOST')))
+
+def main():
+  parser = argparse.ArgumentParser()
+  parser.add_argument(
+    '--dry-run',
+    '-n',
+    action='store_true',
+    help=argparse.SUPPRESS)
+
+  subparsers = parser.add_subparsers(help='Commands', dest='command')
+  subparsers.required = True
+
+  help_parser = subparsers.add_parser('help', help='shows this message.')
+  help_parser.set_defaults(handler=lambda args: parser.print_help())
+
+  ef_parser = subparsers.add_parser(
+    'edit-files', aliases=['edit-file', 'edit', 'open'],
+    help='opens specified file in the Google Cloud Shell editor.')
+  ef_parser.add_argument(
+    'filename',
+    nargs='+',
+    type=str,
+    help=('name of the file to open; this file must be '
+          'located inside the user\'s home directory.'))
+  ef_parser.set_defaults(handler=edit_files)
+
+  ow_parser = subparsers.add_parser(
+    'open-workspace', aliases=['workspace', 'ws'],
+    help='opens specified directory as workspace in the Google Cloud Shell editor.'
+  )
+  ow_parser.add_argument(
+    'workspace',
+    type=str,
+    help=('Name of the directory to open; this file must be located '
+         'inside the user\'s home directory.'))
+  ow_parser.add_argument(
+    'open_file',
+    nargs='*',
+    type=str,
+    help=('Optional names of the files to open in the workspace; '
+          'this path must be relative to workspace directory.'))
+  ow_parser.set_defaults(handler=open_workspace)
+
+  dl_parser = subparsers.add_parser(
+    'download-files', aliases=['download-file', 'download', 'dl'],
+    help='initiates the download of the specified file.')
+  dl_parser.add_argument(
+    'filename',
+    nargs='+',
+    type=str,
+    help='name of the file to download.')
+  dl_parser.set_defaults(handler=download_files)
+
+  lt_parser = subparsers.add_parser(
+    'launch-tutorial',
+    help='launches the specified tutorial.')
+  lt_parser.add_argument(
+    '-d',
+    '--debug',
+    action='store_true',
+    help='whether to run tutorial in debug (authoring) mode')
+  lt_parser.add_argument(
+    '-o',
+    '--oics',
+    action='store_true',
+    help=argparse.SUPPRESS)
+  lt_parser.add_argument(
+    '-u',
+    '--repository_url',
+    type=str,
+    help=argparse.SUPPRESS)
+  lt_parser.add_argument(
+    '-b',
+    '--repository_branch',
+    type=str,
+    help=argparse.SUPPRESS)
+  lt_parser.add_argument(
+    'filename',
+    type=str,
+    help='name of the tutorial file.')
+  lt_parser.set_defaults(handler=launch_tutorial)
+
+  env_parser = subparsers.add_parser('env')
+  env_subparsers = env_parser.add_subparsers(help='Commands', dest='command')
+  env_subparsers.required= True
+
+  env_help_parser = env_subparsers.add_parser('help', help='shows this message.')
+  env_help_parser.set_defaults(handler=lambda args: env_parser.print_help())
+
+  re_parser = env_subparsers.add_parser(
+    'run',
+    help='Runs the local custom Cloud Shell environment. Environment must have been built in this session via the build-local command.')
+  re_parser.set_defaults(handler=run_environment)
+
+  pe_parser = env_subparsers.add_parser(
+    'push',
+    help='Pushes the local custom Cloud Shell environment to Google Container Registry.'
+         'Environment must have been built in this session via the build-local command.')
+  pe_parser.set_defaults(handler=push_environment)
+
+  be_parser = env_subparsers.add_parser(
+    'build-local',
+    help='Builds a custom Cloud Shell environment locally from a Dockerfile in the current directory')
+  be_parser.set_defaults(handler=build_environment)
+
+  gin_parser = env_subparsers.add_parser(
+    'get-image-name',
+    help='Retrieves the backing image name for a custom Cloud Shell environment built in this session.')
+  gin_parser.set_defaults(handler=print_image_name)
+
+  cis_parser = env_subparsers.add_parser(
+    'create-custom-image',
+    help='Creates a custom image in the current active project. This creates a number of resources in that project: '
+         '1) A git repository hosted on Cloud Source Repositories containing a Dockerfile.'
+         '2) Cloud Build triggers to automatically build the repo into a Docker image on every change to the repo and to the Cloud Shell base image.'
+         '3) An initial Docker image built from the Dockerfile in the git repository.')
+  cis_parser.add_argument(
+    'name',
+    type=str,
+    help=('The name to use for the Cloud Source Repositories repo and Google Container Registry image URL.'))
+  cis_parser.set_defaults(handler=create_custom_image)
+
+  al_parser = subparsers.add_parser(
+    'aliases',
+    help='generates a sequence of shell "alias" commands to create short aliases '
+         'for common subcommands.  Example use: eval `cloudshell aliases`')
+  al_parser.set_defaults(handler=aliases)
+
+  wp_parser = subparsers.add_parser(
+    'get-web-preview-url',
+    help='generates web preview URL.')
+  wp_parser.add_argument(
+    '-p',
+    '--port',
+    required=True,
+    type=int,
+    help='port to use when generating web preview URL')
+  wp_parser.set_defaults(handler=generate_web_preview_url)
+
+  args = parser.parse_args()
+  args.handler(args)
+
+if __name__ == '__main__':
+  main()
