@@ -4,4 +4,3 @@ export REGION="us-central1" # do not change this value
 export BUCKET="${PROJECT_ID}-bucket"
 
 alias r='cloudshell launch-tutorial TUTORIAL.md'
-gcloud config set project $PROJECT_ID

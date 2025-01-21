@@ -5,9 +5,9 @@
 # Author: Fabian Hirschmann
 #
 # You can run this command directly from GitHub:
-#   curl s
+#    BK_REPO=fhirschmann/bootkon; . <(wget -qO- https://raw.githubusercontent.com/${BK_REPO}/refs/heads/main/bk.sh)
 # or locally:
-#   BK_REPO=fhirschmann/bootkon . bk.sh
+#    BK_REPO=fhirschmann/bootkon . bk.sh
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -63,5 +63,18 @@ if [[ ":$PATH:" != *":$NEW_PATH:"* ]]; then
 echo -e "${MAGENTA}Adding $NEW_PATH to your PATH${NC}"
     export PATH=${NEW_PATH}:$PATH
 else
-    echo -e "${GREEN}Your path already contains $NEW_PATH. Not adding it again.${NC}"
+    echo -e "${GREEN}Your PATH already contains $NEW_PATH. Not adding it again.${NC}"
+fi
+
+source vars.sh
+if [ -f vars.local.sh ]; then
+    echo -e "${MAGENTA}vars.local.sh exists -- sourcing${NC}"
+    source vars.local.sh
+fi
+
+if [ -z $PROJECT_ID ]; then
+    echo -e "The variable PROJECT_ID is empty. Not setting the default Google Cloud project."
+else
+    echo -e "${MAGENTA}Setting Google Cloud project to ${PROJECT_ID}...${NC}"
+    gcloud config set project $PROJECT_ID
 fi
