@@ -108,5 +108,6 @@ if [ "$(basename $PWD)" == $BK_GITHUB_REPOSITORY ]; then
         echo -e "${BLUE}export BK_NO_WORKSPACE_OPEN=1${NC}"
         sleep 3
         cloudshell open-workspace .
+        cloudshell edit-file WELCOME.txt
     fi
 fi
