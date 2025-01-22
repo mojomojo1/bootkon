@@ -7,7 +7,7 @@
 # You can run this command directly from GitHub:
 #    BK_REPO=fhirschmann/bootkon; . <(wget -qO- https://raw.githubusercontent.com/${BK_REPO}/refs/heads/main/bk.sh)
 # or locally:
-#    BK_REPO=fhirschmann/bootkon . bk.sh
+#    BK_REPO=fhirschmann/bootkon . bootkon/bk.sh
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -17,9 +17,26 @@ MAGENTA='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
+cat << "EOF"
+         __                 --------------------------------------------------------
+ _(\    |@@|                | Welcome to the Data & AI Bootkon!                    |
+(__/\__ \--/ __             |                                                      |
+   \___|----|  |   __       | We're getting things ready for you, please stand by. |
+       \ }{ /\ )_ / _\      --------------------------------------------------------
+       /\__/\ \__O (__
+      (--/\--)    \__/
+      _)(  )(_
+     `---''---`
+EOF
+
+
+
 err() {
   echo -e "${RED}Error: $1${NC}" >&2
 }
+
+echo -e "${YELLOW}Running bootkon init script $(readlink -f ${BASH_SOURCE[0]})...${NC}"
+
 
 if [ "${BASH_SOURCE[0]}" == "$0" ]; then
     err 'Script is not sourced. Please source it.'
@@ -47,8 +64,7 @@ else
     git clone https://github.com/${BK_REPO}.git
 fi
 
-cd bootkon
-cloudshell open-workspace .
+cd $BK_GITHUB_REPOSITORY
 
 echo -e "${MAGENTA}Loading tutorial from ${BK_TUTORIAL}${NC}"
 
@@ -77,4 +93,20 @@ if [ -z $PROJECT_ID ]; then
 else
     echo -e "${MAGENTA}Setting Google Cloud project to ${PROJECT_ID}...${NC}"
     gcloud config set project $PROJECT_ID
+fi
+
+line="export BK_REPO=$BK_REPO"
+grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
+
+line="if [ -f ~/${BK_GITHUB_REPOSITORY}/bk.sh ]; then source ~/${BK_GITHUB_REPOSITORY}/bk.sh; fi"
+grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
+
+if [ "$(basename $PWD)" == $BK_GITHUB_REPOSITORY ]; then
+    if [ -z $BK_NO_WORKSPACE_OPEN ]; then
+        echo -e "${RED}Warning: Force-opening workspace $PWD. Press CTRL+C to cancel."
+        echo -e "${RED}If this is unintended, add the following to ~/.bashrc just above bk.sh${NC}:"
+        echo -e "${BLUE}export BK_NO_WORKSPACE_OPEN=1${NC}"
+        sleep 3
+        cloudshell open-workspace .
+    fi
 fi
