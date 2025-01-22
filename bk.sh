@@ -17,26 +17,16 @@ MAGENTA='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
-cat << "EOF"
-         __                 --------------------------------------------------------
- _(\    |@@|                | Welcome to the Data & AI Bootkon!                    |
-(__/\__ \--/ __             |                                                      |
-   \___|----|  |   __       | We're getting things ready for you, please stand by. |
-       \ }{ /\ )_ / _\      --------------------------------------------------------
-       /\__/\ \__O (__
-      (--/\--)    \__/
-      _)(  )(_
-     `---''---`
-EOF
-
-
-
 err() {
   echo -e "${RED}Error: $1${NC}" >&2
 }
 
 echo -e "${YELLOW}Running bootkon init script $(readlink -f ${BASH_SOURCE[0]})...${NC}"
 
+if [ -z $CLOUD_SHELL ]; then
+    err 'Please run this script in Cloud Shell.'
+    return 1
+fi
 
 if [ "${BASH_SOURCE[0]}" == "$0" ]; then
     err 'Script is not sourced. Please source it.'
@@ -111,3 +101,18 @@ if [ "$(basename $PWD)" == $BK_GITHUB_REPOSITORY ]; then
         cloudshell edit-file WELCOME.txt
     fi
 fi
+
+echo
+
+cat << "EOF"
+         __                 --------------------------------------------------------
+ _(\    |@@|                |                                                      |
+(__/\__ \--/ __             |          Welcome to the Data & AI Bootkon!           |
+   \___|----|  |   __       |                                                      |
+       \ }{ /\ )_ / _\      --------------------------------------------------------
+       /\__/\ \__O (__
+      (--/\--)    \__/
+      _)(  )(_
+     `---''---`
+EOF
+echo
