@@ -34,17 +34,24 @@ if [ "${BASH_SOURCE[0]}" == "$0" ]; then
     exit 1
 fi
 
-if [ -z $BK_REPO ]; then
-    err 'Variable BK_REPO is not set. Please set it to a GitHub username and repository'
-    err 'Example: BK_REPO=fhirschmann/bootkon . bk.sh'
-    return 1
+if [ -z "$1" ]; then
+    if [ -z $BK_REPO ]; then
+        err 'Variable BK_REPO is not set. Please set it to a GitHub username and repository'
+        err 'Example: BK_REPO=fhirschmann/bootkon . bk.sh'
+        return 1
+    fi
+else
+    export BK_REPO=$1
+    echo -e "Setting BK_REPO to $BK_REPO based on first argument to this script."
 fi
 
-BK_GITHUB_USERNAME=$(echo $BK_REPO | cut -d/ -f1) # first part of fhirschmann/bootkon
-BK_GITHUB_REPOSITORY=$(echo $BK_REPO | cut -d/ -f2) # second part of fhirschmann/bootkon
-BK_REPO_URL="https://github.com/${BK_REPO}.git"
-BK_TUTORIAL="${BK_TUTORIAL:-.TUTORIAL.md}" # defaults to .TUTORIAL.md; can be overwritten
-BK_DIR="~/${BK_GITHUB_REPOSITORY}"
+
+export BK_GITHUB_USERNAME=$(echo $BK_REPO | cut -d/ -f1) # first part of fhirschmann/bootkon
+export BK_GITHUB_REPOSITORY=$(echo $BK_REPO | cut -d/ -f2) # second part of fhirschmann/bootkon
+export BK_REPO_URL="https://github.com/${BK_REPO}.git"
+export BK_TUTORIAL="${BK_TUTORIAL:-.TUTORIAL.md}" # defaults to .TUTORIAL.md; can be overwritten
+export BK_DIR="~/${BK_GITHUB_REPOSITORY}"
+export BK_INIT_SCRIPT=~/${BK_GITHUB_REPOSITORY}/bk.sh
 
 
 cd ~/
@@ -88,10 +95,33 @@ else
     gcloud config set project $PROJECT_ID
 fi
 
-line="export BK_REPO=$BK_REPO"
-grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
+## Set or update $BK_REPO in ~/.bashrc
+line="export BK_REPO=${BK_REPO}"
+if grep -q '^export BK_REPO=' ~/.bashrc; then
+    # If the line exists but differs, update it
+    if ! grep -Fxq "$line" ~/.bashrc; then
+        sed -i "s|^export BK_REPO=.*|$line|" ~/.bashrc
+        echo "Updated the existing BK_REPO line in ~/.bashrc."
+    fi
+else
+    echo "Adding BK_REPO to .bashrc"
+    echo "$line" >> ~/.bashrc
+fi
 
-line="if [ -f ~/${BK_GITHUB_REPOSITORY}/bk.sh ]; then source ~/${BK_GITHUB_REPOSITORY}/bk.sh; fi"
+## Set or update $BK_INIT_SCRIPT in ~/.bashrc
+line="export BK_INIT_SCRIPT=~/${BK_GITHUB_REPOSITORY}/bk.sh"
+if grep -q '^export BK_INIT_SCRIPT=' ~/.bashrc; then
+    # If the line exists but differs, update it
+    if ! grep -Fxq "$line" ~/.bashrc; then
+        sed -i "s|^export BK_INIT_SCRIPT=.*|$line|" ~/.bashrc
+        echo "Updated the existing BK_INIT_SCRIPT line in ~/.bashrc."
+    fi
+else
+    echo "$line" >> ~/.bashrc
+fi
+
+## Load $BK_INIT_SCRIPT in ~/.bashrc
+line='if [ -f ${BK_INIT_SCRIPT} ]; then source ${BK_INIT_SCRIPT}; fi'
 grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
 
 mkdir -p docs/output
