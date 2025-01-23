@@ -1,13 +1,27 @@
 #!/bin/bash
-# Bootkon init script. Executing it will clone bootkon,
-# open it in Cloud Shell, and launch the tutorial.
+# This script initializes the Data & AI Bootkon environment in Cloud Shell.
+# It clones the Bootkon repository (or uses an existing one), sets up necessary
+# environment variables, installs required packages, renders the tutorial markdown file,
+# and finally opens the tutorial in Cloud Shell. It also adds helpful aliases and
+# configurations to the .bashrc file for easier future access and customization.
 #
 # Author: Fabian Hirschmann
 #
-# You can run this command directly from GitHub:
-#    BK_REPO=fhirschmann/bootkon; . <(wget -qO- https://raw.githubusercontent.com/${BK_REPO}/refs/heads/main/bk.sh)
-# or locally:
-#    BK_REPO=fhirschmann/bootkon . bootkon/bk.sh
+# Usage:
+#   From GitHub (replace <username/repo>):
+#     BK_REPO=<username/repo> BK_TUTORIAL=<tutorial.md> . <(wget -qO- https://raw.githubusercontent.com/<username/repo>/main/bk.sh)
+#   Locally:
+#     BK_REPO=<username/repo> BK_TUTORIAL=<tutorial.md> . bk.sh
+#   Defaults, repo as argument:
+#     . bk.sh <username/repo>
+#
+#   Skip workspace opening (add to ~/.bashrc above bk.sh):
+#     export BK_NO_WORKSPACE_OPEN=1
+#
+# Environment variables:
+#   BK_REPO: GitHub repository (<username/repo>). Defaults to fhirschmann/bootkon.
+#   BK_TUTORIAL: Path to tutorial markdown (relative to repo root). Defaults to .TUTORIAL.md.
+#   BK_NO_WORKSPACE_OPEN: Prevents workspace auto-opening.
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -134,7 +148,7 @@ bk-tutorial $BK_TUTORIAL
 if [ "$(basename $PWD)" == $BK_GITHUB_REPOSITORY ]; then
     if [ -z $BK_NO_WORKSPACE_OPEN ]; then
         echo -e "${RED}Warning: Force-opening workspace $PWD. Press CTRL+C to cancel."
-        echo -e "${RED}If this is unintended, add the following to ~/.bashrc just above bk.sh:${NC}"
+        echo -e "${RED}If this is unintended, add the following to ~/.bashrc just above BK_REPO:${NC}"
         echo -e "${BLUE}export BK_NO_WORKSPACE_OPEN=1${NC}"
         sleep 3
         cloudshell open-workspace .
