@@ -90,6 +90,7 @@ def render_tutorial(content):
         MDBOOK_VIEW=False,
         PROJECT_ID=os.getenv("PROJECT_ID"),
         REGION=os.getenv("REGION"),
+        MY_NAME=os.getenv("MY_NAME"),
         GCP_USERNAME=os.getenv("GCP_USERNAME"),
     )
 

@@ -9,25 +9,6 @@ and do a few other things.
 
 ### **Setup your environment**
 
-Open `vars.sh` <walkthrough-editor-open-file filePath="vars.sh"> in the Cloud Shell editor </walkthrough-editor-open-file>
-and set `GCP_USERNAME` and `PROJECT_ID`. Don't forget to save it.
-
-Now, export the variables to your environment:
-```bash
-source vars.sh
-```
-
-Verify that they have been set correctly:
-```bash
-echo "PROJECT_ID=$PROJECT_ID REGION=$REGION GCP_USERNAME=$GCP_USERNAME"
-```
-
-Please reload the tutorial and come back here to continue with the next step.
-
-```bash
-bk-tutorial docs/TUTORIAL.md
-```
-
 Have a look at <walkthrough-editor-open-file filePath="bootstrap.sh">`bootstrap.sh`</walkthrough-editor-open-file> and what it does; exeucte it:
 ```bash
 ./bootstrap.sh

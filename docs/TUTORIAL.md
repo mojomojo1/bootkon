@@ -10,18 +10,14 @@
 
 ## Introduction
 
-Welcome to Data & AI Bootkon. 
-
-An imaginary company named FraudFix Technologies specializes in enhancing financial transaction security for Google Cloud enterprise customers across industries like finance and e-commerce.
-
-**Your role**: As a senior data analytics/AI engineer at FraudFix Technologies, you will tackle the challenges of making financial transactions safer using machine learning. Your work will involve analyzing vast amounts of transaction data to detect and prevent fraud, as well as assessing customer sentiment regarding the quality of transaction services. You will leverage a unique synthetic dataset, which includes auto-generated data by Google Gemini and a public European credit card transaction dataset that has been PCA transformed and anonymized. This dataset will be used to train your models, reflecting real-world applications of GCP Data & AI in enhancing financial safety.
+{% if MY_NAME %}Hi **{{ MY_NAME }}!** {% endif %}Welcome to Data & AI Bootkon. We're delighted to have you! This sidebar contains parts of the labs you will work through. Before we get started, let's set up a few things:
 
 ### Working with labs
 
 You can insert commands into the terminal using the following icon on top of each code junk:
 <walkthrough-cloud-shell-icon></walkthrough-cloud-shell-icon>
 
-Please press this icon in the following code chunk:
+Let's try:
 
 ```bash
 echo "I'm ready to get started."
@@ -29,7 +25,20 @@ echo "I'm ready to get started."
 
 And execute by pressing the return key in the terminal that has been opened in the lower part of your screen.
 
-Press the `START` button below to get started!
+### Setting environment variables
+You can open files directly from this tutorial.
+Open `vars.sh` <walkthrough-editor-open-file filePath="vars.sh">by clicking here</walkthrough-editor-open-file>
+and set `GCP_USERNAME`, `PROJECT_ID` according to the piece of paper you received. Also let us know your (first?) name in `MY_NAME`. Don't forget to save it.
+
+Please reload bootkon and continue with the next step.
+
+```bash
+. bk.sh
+```
+
+Your project is `{{ PROJECT_ID }}` and your username is `{{ GCP_USERNAME }}`.
+
+If neither is `None`, press the `START` button below to get started!
 
 {% include 'labs/1_environment_setup.md' %}
 
