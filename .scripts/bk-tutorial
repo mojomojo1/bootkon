@@ -1,5 +1,5 @@
 #!/bin/bash
-MEMORY=/tmp/last_opened_tutorial.txt
+MEMORY="${BK_DIR}/.tutorial.memory"
 RENDERED=/tmp/bootkon.md
 
 FILE=$1
@@ -11,7 +11,7 @@ if [[ -z "${FILE}" ]]; then
     fi
 fi
 
-echo $FILE > /tmp/last_opened_tutorial.txt
+echo "$FILE" > $MEMORY
 
 bk-render-jinja2 $FILE $RENDERED
 cloudshell launch-tutorial $RENDERED

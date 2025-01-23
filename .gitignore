@@ -10,3 +10,4 @@ vars.local.sh
 docs/output
 .scripts/mdbook
 package-lock.json
+.tutorial.memory

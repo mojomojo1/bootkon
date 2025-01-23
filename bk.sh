@@ -64,7 +64,7 @@ export BK_GITHUB_USERNAME=$(echo $BK_REPO | cut -d/ -f1) # first part of fhirsch
 export BK_GITHUB_REPOSITORY=$(echo $BK_REPO | cut -d/ -f2) # second part of fhirschmann/bootkon
 export BK_REPO_URL="https://github.com/${BK_REPO}.git"
 export BK_TUTORIAL="${BK_TUTORIAL:-.TUTORIAL.md}" # defaults to .TUTORIAL.md; can be overwritten
-export BK_DIR="~/${BK_GITHUB_REPOSITORY}"
+export BK_DIR=~/${BK_GITHUB_REPOSITORY}
 export BK_INIT_SCRIPT=~/${BK_GITHUB_REPOSITORY}/bk.sh
 
 
