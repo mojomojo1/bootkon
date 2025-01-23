@@ -147,7 +147,6 @@ if [ "$(basename $PWD)" == $BK_GITHUB_REPOSITORY ]; then
         echo -e "${RED}Warning: Force-opening workspace $PWD. Press CTRL+C to cancel."
         echo -e "${RED}If this is unintended, add the following to ~/.bashrc just above BK_REPO:${NC}"
         echo -e "${BLUE}export BK_NO_WORKSPACE_OPEN=1${NC}"
-        sleep 3
         cloudshell open-workspace .
     fi
 fi
