@@ -11,7 +11,9 @@ from nbconvert import HTMLExporter, MarkdownExporter
 
 import jinja2
 
-GITHUB_REPOSITORY=os.environ.get("GITHUB_REPOSITORY", "fhirschmann/bootkon")
+BK_REPO=os.environ.get("GITHUB_REPOSITORY", "fhirschmann/bootkon")
+if not BK_REPO:
+    BK_REPO=os.environ.get("BK_REPO")
 
 
 def apply_to_content(data, func):
@@ -61,7 +63,7 @@ def render_mdbook(content):
     template = environment.from_string(content)
 
     rendered = template.render(
-        GITHUB_REPOSITORY=GITHUB_REPOSITORY,
+        BK_REPO=BK_REPO,
         MDBOOK_VIEW=True,
         jupyter=jupyter
     )

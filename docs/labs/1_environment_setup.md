@@ -6,10 +6,6 @@
 
 In this lab you will grant permissions and set up a default VPC network as a preparatory step.
 
-### **Choice of GCP Product and Service Location**
-
-You are free to choose any GCP region location for your labs. Ensure all your resources are created in the chosen location to avoid connectivity issues and minimize latency and cost. If you don’t have a preferred GCP location, use ***us-central1*** for simplicity.
-
 ### **Setup your environment**
 
 Open `vars.sh` <walkthrough-editor-open-file filePath="vars.sh"> in the Cloud Shell editor </walkthrough-editor-open-file> and adapt it. Don't forget to save it.

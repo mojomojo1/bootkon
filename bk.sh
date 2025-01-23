@@ -9,7 +9,7 @@
 #
 # Usage:
 #   From GitHub (replace <username/repo>):
-#     BK_REPO=<username/repo> . <(wget -qO- https://raw.githubusercontent.com/<username/repo>/main/bk.sh)
+#     BK_REPO=<username/repo>; . <(wget -qO- https://raw.githubusercontent.com/<username/repo>/main/bk.sh)
 #   Locally:
 #     BK_REPO=<username/repo> . bk.sh
 #   Defaults, repo as argument:
