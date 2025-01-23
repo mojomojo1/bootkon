@@ -1,0 +1,21 @@
+#!/bin/bash
+SCRIPT_DIR=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd)
+MDBOOK_URL="https://github.com/rust-lang/mdBook/releases/download/v0.4.43/mdbook-v0.4.43-x86_64-unknown-linux-gnu.tar.gz"
+
+CUR_DIR=$PWD
+
+cd $SCRIPT_DIR
+
+if [ ! -e "mdbook" ]; then
+    echo "Downloading and extracting mdbook to $SCRIPT_DIR..."
+    wget -qO - $MDBOOK_URL | tar xvzf -
+fi
+
+cd ..
+
+echo
+echo "The bootkon handbook will now be served from $BOOK_DIR and recompiled automatically."
+echo "To view it, click on the Web Preview button (right of Open Terminal) and then on Preview on port 8080"
+echo
+
+mdbook serve -p 8080

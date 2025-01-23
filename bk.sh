@@ -44,6 +44,8 @@ BK_GITHUB_USERNAME=$(echo $BK_REPO | cut -d/ -f1) # first part of fhirschmann/bo
 BK_GITHUB_REPOSITORY=$(echo $BK_REPO | cut -d/ -f2) # second part of fhirschmann/bootkon
 BK_REPO_URL="https://github.com/${BK_REPO}.git"
 BK_TUTORIAL="${BK_TUTORIAL:-.TUTORIAL.md}" # defaults to .TUTORIAL.md; can be overwritten
+BK_DIR="~/${BK_GITHUB_REPOSITORY}"
+
 
 cd ~/
 
@@ -58,11 +60,7 @@ cd $BK_GITHUB_REPOSITORY
 
 echo -e "${MAGENTA}Loading tutorial from ${BK_TUTORIAL}${NC}"
 
-teachme $BK_TUTORIAL
-# Run it twice due to bug in pantheon
-teachme $BK_TUTORIAL
-
-NEW_PATH=~/${BK_GITHUB_REPOSITORY}/docs/scripts
+NEW_PATH=~/${BK_GITHUB_REPOSITORY}/.scripts
 
 # Check if the new path is already in the PATH
 if [[ ":$PATH:" != *":$NEW_PATH:"* ]]; then
@@ -72,16 +70,21 @@ else
     echo -e "${GREEN}Your PATH already contains $NEW_PATH. Not adding it again.${NC}"
 fi
 
+echo -e "Sourcing $(readlink -f vars.sh)"
 source vars.sh
+
 if [ -f vars.local.sh ]; then
-    echo -e "${MAGENTA}vars.local.sh exists -- sourcing${NC}"
+    echo -e "Sourcing $(readlink -f vars.local.sh)"
     source vars.local.sh
 fi
+
+echo -e "Variables: PROJECT_ID=${YELLOW}$PROJECT_ID${NC} GCP_USERNAME=${YELLOW}$GCP_USERNAME${NC} REGION=${YELLOW}$REGION${NC}"
+
 
 if [ -z $PROJECT_ID ]; then
     echo -e "The variable PROJECT_ID is empty. Not setting the default Google Cloud project."
 else
-    echo -e "${MAGENTA}Setting Google Cloud project to ${PROJECT_ID}...${NC}"
+    echo -e "Setting Google Cloud project to ${PROJECT_ID}..."
     gcloud config set project $PROJECT_ID
 fi
 
@@ -91,14 +94,20 @@ grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
 line="if [ -f ~/${BK_GITHUB_REPOSITORY}/bk.sh ]; then source ~/${BK_GITHUB_REPOSITORY}/bk.sh; fi"
 grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
 
+mkdir -p docs/output
+bk-render-jinja2 docs/TUTORIAL.md docs/output/TUTORIAL.md
+
+bk-tutorial $BK_TUTORIAL
+# Run it twice due to bug in pantheon
+bk-tutorial $BK_TUTORIAL
+
 if [ "$(basename $PWD)" == $BK_GITHUB_REPOSITORY ]; then
     if [ -z $BK_NO_WORKSPACE_OPEN ]; then
         echo -e "${RED}Warning: Force-opening workspace $PWD. Press CTRL+C to cancel."
-        echo -e "${RED}If this is unintended, add the following to ~/.bashrc just above bk.sh${NC}:"
+        echo -e "${RED}If this is unintended, add the following to ~/.bashrc just above bk.sh:${NC}"
         echo -e "${BLUE}export BK_NO_WORKSPACE_OPEN=1${NC}"
         sleep 3
         cloudshell open-workspace .
-        cloudshell edit-file WELCOME.txt
     fi
 fi
 

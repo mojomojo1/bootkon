@@ -13,5 +13,6 @@ fi
 
 echo $FILE > /tmp/last_opened_tutorial.txt
 
-jinja2 $FILE -o $RENDERED
-cloudshell launch-tutorial -d $RENDERED
+bk-render-jinja2 $FILE $RENDERED
+cloudshell launch-tutorial $RENDERED
+cloudshell launch-tutorial $RENDERED
