@@ -9,9 +9,9 @@
 #
 # Usage:
 #   From GitHub (replace <username/repo>):
-#     BK_REPO=<username/repo> BK_TUTORIAL=<tutorial.md> . <(wget -qO- https://raw.githubusercontent.com/<username/repo>/main/bk.sh)
+#     BK_REPO=<username/repo> . <(wget -qO- https://raw.githubusercontent.com/<username/repo>/main/bk.sh)
 #   Locally:
-#     BK_REPO=<username/repo> BK_TUTORIAL=<tutorial.md> . bk.sh
+#     BK_REPO=<username/repo> . bk.sh
 #   Defaults, repo as argument:
 #     . bk.sh <username/repo>
 #
@@ -59,14 +59,12 @@ else
     echo -e "Setting BK_REPO to $BK_REPO based on first argument to this script."
 fi
 
-
 export BK_GITHUB_USERNAME=$(echo $BK_REPO | cut -d/ -f1) # first part of fhirschmann/bootkon
 export BK_GITHUB_REPOSITORY=$(echo $BK_REPO | cut -d/ -f2) # second part of fhirschmann/bootkon
 export BK_REPO_URL="https://github.com/${BK_REPO}.git"
-export BK_TUTORIAL="${BK_TUTORIAL:-.TUTORIAL.md}" # defaults to .TUTORIAL.md; can be overwritten
+export BK_TUTORIAL="${BK_TUTORIAL:-docs/TUTORIAL.md}" # defaults to .TUTORIAL.md; can be overwritten
 export BK_DIR=~/${BK_GITHUB_REPOSITORY}
 export BK_INIT_SCRIPT=~/${BK_GITHUB_REPOSITORY}/bk.sh
-
 
 cd ~/
 
@@ -90,6 +88,7 @@ echo -e "${MAGENTA}Adding $NEW_PATH to your PATH${NC}"
 else
     echo -e "${GREEN}Your PATH already contains $NEW_PATH. Not adding it again.${NC}"
 fi
+unset NEW_PATH
 
 echo -e "Sourcing $(readlink -f vars.sh)"
 source vars.sh
@@ -138,11 +137,9 @@ fi
 line='if [ -f ${BK_INIT_SCRIPT} ]; then source ${BK_INIT_SCRIPT}; fi'
 grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
 
-mkdir -p docs/output
-bk-render-jinja2 docs/TUTORIAL.md docs/output/TUTORIAL.md
+unset line
 
-bk-tutorial $BK_TUTORIAL
-# Run it twice due to bug in pantheon
+# Load the tutorial
 bk-tutorial $BK_TUTORIAL
 
 if [ "$(basename $PWD)" == $BK_GITHUB_REPOSITORY ]; then
