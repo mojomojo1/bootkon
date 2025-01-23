@@ -4,11 +4,13 @@
 <walkthrough-tutorial-difficulty difficulty="1"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 
-In this lab you will grant permissions and set up a default VPC network as a preparatory step.
+In this lab we will set up your environment, download the data set for this bootkon, put it to Cloud storage,
+and do a few other things.
 
 ### **Setup your environment**
 
-Open `vars.sh` <walkthrough-editor-open-file filePath="vars.sh"> in the Cloud Shell editor </walkthrough-editor-open-file> and adapt it. Don't forget to save it.
+Open `vars.sh` <walkthrough-editor-open-file filePath="vars.sh"> in the Cloud Shell editor </walkthrough-editor-open-file>
+and set `GCP_USERNAME` and `PROJECT_ID`. Don't forget to save it.
 
 Now, export the variables to your environment:
 ```bash
@@ -20,9 +22,11 @@ Verify that they have been set correctly:
 echo "PROJECT_ID=$PROJECT_ID REGION=$REGION GCP_USERNAME=$GCP_USERNAME"
 ```
 
-Please also select your project in the next widget and ignore the comment about creating a new project.
+Please reload the tutorial and come back here to continue with the next step.
 
-<walkthrough-project-setup></walkthrough-project-setup>
+```bash
+bk-tutorial docs/TUTORIAL.md
+```
 
 Have a look at <walkthrough-editor-open-file filePath="bootstrap.sh">`bootstrap.sh`</walkthrough-editor-open-file> and what it does; exeucte it:
 ```bash

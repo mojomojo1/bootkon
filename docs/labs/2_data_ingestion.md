@@ -19,7 +19,7 @@ For all methods, we are ingesting data from the Google Cloud bucket you have cre
 
 BigLake tables allow querying structured data in external data stores with access delegation. For an overview, refer to the [BigLake documentation](https://cloud.google.com/biglake/docs). Access delegation decouples access to the BigLake table from access to the underlying data store. An external connection associated with a service account is used to connect to the data store.
 
-Because the service account handles retrieving data from the data store, you only have to grant users access to the BigLake table. This lets you enforce fine-grained security at the table level, including row-level and column-level security. For BigLake tables based on Cloud Storage, you can also use dynamic data masking. To learn more about multi-cloud analytic solutions using BigLake tables with Amazon S3 or Blob Storage data, see BigQuery Omni.
+Because the service account handles retrieving data from the data store, you only have to grant users access to the BigLake table. This lets you enforce fine-grained security at the table level, including row-level and column-level security.
 
 Note that this section could also be done in the Google Cloud Console (the GUI). However, in this lab, we will do it on the command line.
 
@@ -41,7 +41,17 @@ CONN_SERVICE_ACCOUNT=$(bq --format=prettyjson show --connection ${PROJECT_ID}.${
 echo $CONN_SERVICE_ACCOUNT
 ```
 
-And grant it access to Cloud Storage:
+Let's double check the service account.
+
+1. Go to the [BigQuery Console](https://console.cloud.google.com/bigquery).
+2. Expand ``{{ PROJECT_ID }}`` in the Explorer on the left.
+3. Expand ``External connections``.
+4. Click ``{{ REGION }}.fraud-transactions-conn``.
+
+Is the service account equivalent to the one you got from the command line?
+
+
+If so, let's grant the service account access to Cloud Storage:
 ```bash
 gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-bucket \
 --role=roles/storage.objectViewer \
@@ -53,8 +63,6 @@ Next, we create a dataset that our external table will live in:
 bq --location=${REGION} mk -d ml_datasets
 ```
 
-Go to the [BigQuery Console](https://console.cloud.google.com/bigquery). check that the dataset has been created successfully (Note: you may need to click "refresh contents" from the 3-dot menu for the project in the Explorer).
-
 Finally, create a table in BigQuery pointing to the data in Cloud Storage:
 
 ```bash
@@ -63,7 +71,20 @@ bq mk --table \
   ml_datasets.ulb_fraud_detection_biglake
 ```
 
-Go to the [BigQuery Console](https://console.cloud.google.com/bigquery) console again and open the dataset and table you just created. Click on `Query` and insert the following SQL query.
+Let's have a look at the data set:
+1. Go to the [BigQuery Console](https://console.cloud.google.com/bigquery)
+2. Expand ``{{ PROJECT_ID }}`` in the Explorer on the left.
+3. Expand ``ml_datasets``.
+4. Click ``ulb_fraud_detection_biglake``.
+5. Click <walkthrough-spotlight-pointer locator="text('DETAILS')">DETAILS</walkthrough-spotlight-pointer> 
+
+Have a look at the external data configuration. You can see the Cloud Storage bucket (`gs://...`) your data
+lives in.
+
+Let's query it:
+
+1. Click <walkthrough-spotlight-pointer locator="text('QUERY')">QUERY</walkthrough-spotlight-pointer>
+2. Insert the following SQL query.
 
 ```sql
 SELECT * FROM `<walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_biglake` LIMIT 1000;
@@ -75,7 +96,7 @@ Note that you can also execute a query using the `bq` tool:
 bq --location=$REGION query --nouse_legacy_sql "SELECT Time, V1, Amount, Class FROM <walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_biglake LIMIT 10;"
 ```
 
-Note that the data we are querying still resides on Cloud Storage and there are no copies stored in BigQuery. Using BigLake, BigQuery acts as query engine but not as storage layer.
+The data you are querying still resides on Cloud Storage and there are no copies stored in BigQuery. When using BigLake, BigQuery acts as query engine but not as storage layer.
 
 ### Method 2: Real time data ingestion into BigQuery using Pub/Sub
 
@@ -83,7 +104,7 @@ Pub/Sub enables real-time streaming into BigQuery. Learn more about [Pub/Sub int
 
 We create an empty table and then stream data into it. For this to work, we need to specify a schema. Have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/fraud_detection_bigquery_schema.json">`fraud_detection_bigquery_schema.json`</walkthrough-editor-open-file>. This is the schema we are going to use.
 
-Create an empty table using this schema:
+Create an empty table using this schema. We will use it to stream data into it:
 ```bash
 bq --location=$REGION mk --table \
 <walkthrough-project-id/>:ml_datasets.ulb_fraud_detection_pubsub src/data_ingestion/fraud_detection_bigquery_schema.json
@@ -125,14 +146,18 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 
 Next, we create the Pub/Sub subscription:
 ```bash
-gcloud pubsub subscriptions create fraud_detection-subscription \
+gcloud pubsub subscriptions create fraud-detection-subscription \
     --project=$PROJECT_ID  \
-    --topic=fraud_detection-topic \
+    --topic=fraud-detection-topic \
     --bigquery-table=$PROJECT_ID.ml_datasets.ulb_fraud_detection_pubsub \
     --use-topic-schema  
 ```
 
-Feel free to [check it out in the Pub/Sub console](https://console.cloud.google.com/cloudpubsub/subscription).
+Examine it in the console:
+1. Go to the [Pub/Sub Console](https://console.cloud.google.com/cloudpubsub/subscriptions)
+2. Click <walkthrough-spotlight-pointer locator="text('fraud-detection-subscription')">fraud-detection-subscription</walkthrough-spotlight-pointer>. Here you can see messages as they arrive.
+3. Click <walkthrough-spotlight-pointer locator="text('projects/{{ PROJECT_ID }}/topics/fraud-detection-topic')">fraud-detection-topic</walkthrough-spotlight-pointer>. This is the topic you will be publishing messages to.
+
 
 Since we'll be using Python, let's install the Python <walkthrough-editor-open-file filePath="requirements.txt">packages</walkthrough-editor-open-file> we want to make use of:
 ```bash

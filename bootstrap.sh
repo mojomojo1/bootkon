@@ -25,7 +25,7 @@ gcloud services enable storage-component.googleapis.com notebooks.googleapis.com
     artifactregistry.googleapis.com
 
 # Install Git and Git LFS
-if ! $(git lfs >/dev/null); then
+if ! $(git lfs 1>>/dev/null 2>>/dev/null); then
     sudo apt-get update
     sudo apt-get install git
     sudo apt-get install git-lfs
