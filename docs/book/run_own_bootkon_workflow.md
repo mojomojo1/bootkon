@@ -75,7 +75,7 @@ Next, source it:
 . vars.local.sh
 ```
 
-Note that the init script (`bk.sh`) automatically loads `vars.local.sh` the next time and `vars.local.sh` takes presendence over `vars.sh`.
+Note that the init script (`bk`) automatically loads `vars.local.sh` the next time and `vars.local.sh` takes presendence over `vars.sh`.
 
 ## Reloading the tutorial
 

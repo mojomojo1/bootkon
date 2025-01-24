@@ -25,7 +25,7 @@ Click into the terminal that has opened at the bottom of your screen.
 And copy & paste the following command and press return:
 
 ```bash
-BK_REPO={{ BK_REPO }}; . <(wget -qO- https://raw.githubusercontent.com/{{ BK_REPO }}/main/bk.sh)
+BK_REPO={{ BK_REPO }}; . <(wget -qO- https://raw.githubusercontent.com/{{ BK_REPO }}/main/.scripts/bk)
 ```
 
 Continue your journey in the Cloud Shell Editor!

@@ -33,7 +33,7 @@ and set `GCP_USERNAME`, `PROJECT_ID` according to the piece of paper you receive
 Please reload bootkon and continue with the next step.
 
 ```bash
-. bk.sh
+. bk
 ```
 
 Your project is `{{ PROJECT_ID }}` and your username is `{{ GCP_USERNAME }}`.

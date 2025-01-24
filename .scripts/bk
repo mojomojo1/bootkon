@@ -9,13 +9,13 @@
 #
 # Usage:
 #   From GitHub (replace <username/repo>):
-#     BK_REPO=<username/repo>; . <(wget -qO- https://raw.githubusercontent.com/<username/repo>/main/bk.sh)
+#     BK_REPO=<username/repo>; . <(wget -qO- https://raw.githubusercontent.com/<username/repo>/main/.scripts/bk)
 #   Locally:
-#     BK_REPO=<username/repo> . bk.sh
+#     BK_REPO=<username/repo> . bk
 #   Defaults, repo as argument:
-#     . bk.sh <username/repo>
+#     . bk <username/repo>
 #
-#   Skip workspace opening (add to ~/.bashrc above bk.sh):
+#   Skip workspace opening (add to ~/.bashrc above bk):
 #     export BK_NO_WORKSPACE_OPEN=1
 #
 # Environment variables:
@@ -44,14 +44,14 @@ fi
 
 if [ "${BASH_SOURCE[0]}" == "$0" ]; then
     err 'Script is not sourced. Please source it.'
-    err 'Example: BK_REPO=fhirschmann/bootkon . bk.sh'
+    err 'Example: BK_REPO=fhirschmann/bootkon . bk'
     exit 1
 fi
 
 if [ -z "$1" ]; then
     if [ -z $BK_REPO ]; then
         err 'Variable BK_REPO is not set. Please set it to a GitHub username and repository'
-        err 'Example: BK_REPO=fhirschmann/bootkon . bk.sh'
+        err 'Example: BK_REPO=fhirschmann/bootkon . bk'
         return 1
     fi
 else
@@ -64,7 +64,7 @@ export BK_GITHUB_REPOSITORY=$(echo $BK_REPO | cut -d/ -f2) # second part of fhir
 export BK_REPO_URL="https://github.com/${BK_REPO}.git"
 export BK_TUTORIAL="${BK_TUTORIAL:-docs/TUTORIAL.md}" # defaults to .TUTORIAL.md; can be overwritten
 export BK_DIR=~/${BK_GITHUB_REPOSITORY}
-export BK_INIT_SCRIPT=~/${BK_GITHUB_REPOSITORY}/bk.sh
+export BK_INIT_SCRIPT=~/${BK_GITHUB_REPOSITORY}/bk
 
 cd ~/
 
@@ -122,7 +122,7 @@ else
 fi
 
 ## Set or update $BK_INIT_SCRIPT in ~/.bashrc
-line="export BK_INIT_SCRIPT=~/${BK_GITHUB_REPOSITORY}/bk.sh"
+line="export BK_INIT_SCRIPT=~/${BK_GITHUB_REPOSITORY}/.scripts/bk"
 if grep -q '^export BK_INIT_SCRIPT=' ~/.bashrc; then
     # If the line exists but differs, update it
     if ! grep -Fxq "$line" ~/.bashrc; then
