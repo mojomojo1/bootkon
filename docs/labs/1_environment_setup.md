@@ -73,4 +73,7 @@ Have a look at <walkthrough-editor-open-file filePath="bootstrap.sh">`bootstrap.
 bk-bootstrap
 ```
 
-Well done, your environment is now ready for the first lab!
+### Success
+
+🎉 Congratulations{% if MY_NAME %}, {{ MY_NAME }}{% endif %}! You've officially leveled up from "cloud-curious" to "GCP aware"! 🌩️🚀
+

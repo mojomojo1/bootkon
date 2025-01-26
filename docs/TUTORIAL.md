@@ -14,7 +14,7 @@
 
 ### Working with labs
 
-You can insert commands into the terminal using the following icon on top of each code junk:
+You can insert commands into the terminal using the following icon on top of each code chunk:
 <walkthrough-cloud-shell-icon></walkthrough-cloud-shell-icon>
 
 Let's try:

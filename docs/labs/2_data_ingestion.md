@@ -218,6 +218,10 @@ After the Dataproc job completes, confirm that data has been loaded into the Big
 bq --location=$REGION query --nouse_legacy_sql "SELECT count(*) as count FROM <walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_dataproc;"
 ```
 
-You've nailed the data ingestion lab -- great job!
+### Success
 
-<walkthrough-conclusion-trophy></walkthrough-conclusion-trophy>
+🎉 Congratulations{% if MY_NAME %}, {{ MY_NAME }}{% endif %}! 🚀
+
+You’ve officially leveled up in data wizardry! By conquering the BigQuery Code Lab, you've shown your skills in not just one, but three epic methods: BigLake (riding the waves of data), DataProc (processing like a boss), and Pub/Sub (broadcasting brilliance).
+
+Your pipelines are now flawless, your tables well-fed, and your data destiny secured. Welcome to the realm of BigQuery heroes —{% if MY_NAME %}{{ MY_NAME }}, {% endif %} the Master of Ingestion! 🦾💻
