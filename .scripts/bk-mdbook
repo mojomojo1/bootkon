@@ -23,4 +23,10 @@ echo "The bootkon handbook will now be served from $BOOK_DIR and recompiled auto
 echo "To view it, click on the Web Preview button (right of Open Terminal) and then on Preview on port 8080"
 echo
 
+EXISTING_PID=$(pidof mdbook)
+if [[ "$?" == "0" ]]; then
+echo "Killing existing mdbook instance."
+    kill $EXISTING_PID
+fi
+
 mdbook serve -p 8080
