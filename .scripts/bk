@@ -68,6 +68,11 @@ export BK_INIT_SCRIPT=~/${BK_GITHUB_REPOSITORY}/bk
 
 cd ~/
 
+if ! command -v git &> /dev/null; then
+    sudo apt update
+    sudo apt install -y git
+fi
+
 if [ -d $BK_GITHUB_REPOSITORY ]; then
     echo -e "${GREEN}Not cloning $BK_REPO_URL because folder ~/$BK_GITHUB_REPOSITORY already exists.${NC}"
 else
@@ -86,7 +91,7 @@ if [[ ":$PATH:" != *":$NEW_PATH:"* ]]; then
 echo -e "${MAGENTA}Adding $NEW_PATH to your PATH${NC}"
     export PATH=${NEW_PATH}:$PATH
 else
-    echo -e "${GREEN}Your PATH already contains $NEW_PATH. Not adding it again.${NC}"
+    echo -e "Your PATH already contains $NEW_PATH. Not adding it again."
 fi
 unset NEW_PATH
 
@@ -144,12 +149,11 @@ bk-tutorial $BK_TUTORIAL
 
 if [ "$(basename $PWD)" == $BK_GITHUB_REPOSITORY ]; then
     if [ -z $BK_NO_WORKSPACE_OPEN ]; then
-        echo -e "${RED}Warning: Force-opening workspace $PWD. Press CTRL+C to cancel."
-        echo -e "${RED}If this is unintended, add the following to ~/.bashrc just above BK_REPO:${NC}"
-        echo -e "${BLUE}export BK_NO_WORKSPACE_OPEN=1${NC}"
         cloudshell open-workspace .
     fi
 fi
+
+echo -e "Automatically loaded bootkon. To disable, execute 'bk-deactivate'."
 
 echo
 

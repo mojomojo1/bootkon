@@ -24,19 +24,6 @@ gcloud services enable storage-component.googleapis.com notebooks.googleapis.com
     dataproc.googleapis.com bigqueryconnection.googleapis.com aiplatform.googleapis.com \
     artifactregistry.googleapis.com
 
-# Install Git and Git LFS
-if ! $(git lfs 1>>/dev/null 2>>/dev/null); then
-    sudo apt-get update
-    sudo apt-get install git
-    sudo apt-get install git-lfs
-fi
-
-# Retrieve data files
-if [ ! -d "bootkon-data" ]; then
-    git clone https://github.com/fhirschmann/bootkon-data.git
-    cd bootkon-data && git lfs pull
-fi
-
 gcloud config set project $PROJECT_ID
 
 declare -a user_roles=(
