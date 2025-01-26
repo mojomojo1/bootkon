@@ -12,3 +12,4 @@ docs/output
 package-lock.json
 .tutorial.memory
 data
+*.jar
