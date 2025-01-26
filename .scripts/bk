@@ -65,6 +65,7 @@ export BK_REPO_URL="https://github.com/${BK_REPO}.git"
 export BK_TUTORIAL="${BK_TUTORIAL:-docs/TUTORIAL.md}" # defaults to .TUTORIAL.md; can be overwritten
 export BK_DIR=~/${BK_GITHUB_REPOSITORY}
 export BK_INIT_SCRIPT=~/${BK_GITHUB_REPOSITORY}/bk
+export BK_INITIALIZED=1
 
 cd ~/
 
@@ -81,8 +82,6 @@ else
 fi
 
 cd $BK_GITHUB_REPOSITORY
-
-echo -e "${MAGENTA}Loading tutorial from ${BK_TUTORIAL}${NC}"
 
 NEW_PATH=~/${BK_GITHUB_REPOSITORY}/.scripts
 
