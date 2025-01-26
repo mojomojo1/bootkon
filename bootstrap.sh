@@ -26,6 +26,8 @@ gcloud services enable storage-component.googleapis.com notebooks.googleapis.com
 
 gcloud config set project $PROJECT_ID
 
+bk-legacy-download
+
 declare -a user_roles=(
     "roles/bigquery.jobUser" # Can run BigQuery jobs
     "roles/bigquery.dataEditor" # Can edit BigQuery datasets
