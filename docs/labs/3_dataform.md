@@ -79,11 +79,8 @@ In the **Create development workspace** window, do the following:
    * Click on the newly created **hackathon-YOURLASTNAME-workspace** 
 
    Click <walkthrough-spotlight-pointer cssSelector="[id$=_4rif_initialize-workspace-button]">INITIALIZE WORKSPACE</walkthrough-spotlight-pointer>
- 
-
-You will copy the dataform files from the following repository, in the next steps.   
-   [https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform](https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform)
    
+### **Adjust workflow settings and create SQLX files**
 Edit  **workflow\_settings.yaml** file :   
   Replace defaultDataset value with **ml\_datasets ,**   
   make sure defaultProject value is **your project id**   
