@@ -4,21 +4,6 @@
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 
-```sql
-config {
-    type : "operations",
-  tags: ["dataset_ulb_fraud_detection_llm"]
-}
-
-CREATE SCHEMA IF NOT EXISTS ulb_fraud_detection_llm
-  OPTIONS (
-    description = 'Dataset to store LLM models used for LLM usecases_01',
-    location = 'US'
-  )
-```
-
-Original document [here](https://docs.google.com/document/d/1NxfggQunrCn6ZfwGXAaA_lABDmXtRsfH88jkMDbqlJo/edit?usp=drive_link)
-
 During this lab, you gather user feedback to assess the impact of model adjustments on real-world use (prediction), ensuring that our fraud detection system effectively balances accuracy with user satisfaction. 
 * Use Dataform , BigQuery and Gemini to Perform sentiment analysis of customer feedback.
 ### **Dataform** 
@@ -57,26 +42,19 @@ Dataform can be used for a variety of use cases, including:
 
 First step in implementing a pipeline in Dataform is to set up a repository and a development environment. Detailed quickstart and instructions can be found [here](https://cloud.google.com/dataform/docs/quickstart-create-workflow).
 
-Navigate to the BigQuery section in the Google Cloud Platform console, and then select Dataform.
-
-Go to [Dataform](https://console.cloud.google.com/bigquery/dataform) and then
-
+Go within BigQuery to [Dataform](https://console.cloud.google.com/bigquery/dataform) and then
 
 ### **Create a Repository in Dataform** 
 
-Click the **“+ CREATE REPOSITORY”** button near the top of the page.  
-
-<img src= "../img/lab3/createrepo.png" alt="createrepo" style="border: 1px solid grey;">
+Click on <walkthrough-spotlight-pointer locator="text('create repository')">+ CREATE REPOSITORY</walkthrough-spotlight-pointer>
 
 Use the following values when creating the repository:
 
 - Repository ID: “hackathon-repository”  
-- Region: (us-central1)  
-- Service Account: (Default Dataform service account)
+- Region: "us-central1"  
+- Service Account: "Default Dataform service account"
 
- <img src= "../img/lab3/createrepomenu.png" alt="createrepomenu" style="border: 1px solid grey;">
-
-And click **“CREATE”**
+And click on <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
 
 ### **Dataform Service Account** 
 
@@ -85,9 +63,7 @@ Example: **service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com**
 
   <img src= "../img/lab3/createreposuccess.png" alt="createreposuccess" style="border: 1px solid grey;">
 
-Click **“GO TO REPOSITORIES”**, and then click on the **“hackathon-repository”**, the new repository you just created.
-
- <img src= "../img/lab3/devworkspace.png" alt="devworkspace" style="border: 1px solid grey;">
+Click <walkthrough-spotlight-pointer locator="text('go to repositories')">GO TO REPOSITORIES</walkthrough-spotlight-pointer>, and then choose the <walkthrough-spotlight-pointer locator="text('hackathon-repository')">hackathon-repository</walkthrough-spotlight-pointer> you just created.
 
 ### **Create and initialize a Dataform development workspace**
 
@@ -262,3 +238,27 @@ Release configurations allow you to compile your pipeline code at specific inter
 
 
 You've nailed the Dataform lab -- great job!
+
+
+
+
+```sql
+config {
+    type : "operations",
+  tags: ["dataset_ulb_fraud_detection_llm"]
+}
+
+CREATE SCHEMA IF NOT EXISTS ulb_fraud_detection_llm
+  OPTIONS (
+    description = 'Dataset to store LLM models used for LLM usecases_01',
+    location = 'US'
+  )
+```
+
+
+
+Go to [Vertex AI Workbench](https://console.cloud.google.com/vertex-ai/workbench)
+
+Click on <walkthrough-spotlight-pointer locator="text('instances')">instances</walkthrough-spotlight-pointer>
+
+Click on <walkthrough-spotlight-pointer cssSelector="open-jupyterlab">Open JupyterLab</walkthrough-spotlight-pointer>
