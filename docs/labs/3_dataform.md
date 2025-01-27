@@ -67,15 +67,19 @@ Click <walkthrough-spotlight-pointer locator="text('go to repositories')">GO TO 
 
 ### **Create and initialize a Dataform development workspace**
 
-You should now be in the “DEVELOPMENT WORKSPACES” tab of the hackathon-repository page.
+You should now be in the <walkthrough-spotlight-pointer locator="text('development workspaces')">DEVELOPMENT WORKSPACES</walkthrough-spotlight-pointer> tab of the hackathon-repository page.
 
-Click add **Create development workspace**.  
+Click <walkthrough-spotlight-pointer locator="text('create development workspace')">+ CREATE DEVELOPMENT WORKSPACE</walkthrough-spotlight-pointer>
+
 In the **Create development workspace** window, do the following:  
-   * In the **Workspace ID** field, enter “hackathon-\<YOURLASTNAME\>-workspace” (replace \<YOURLASTNAME\> with your name)  
-   * Click **Create**.  
-The development workspace page appears.  
-Click on the newly created **development workspace**   
-Click **Initialize workspace**.
+   * In the <walkthrough-spotlight-pointer cssSelector="[id$=_4rif_mat-input-3]">Workspace ID</walkthrough-spotlight-pointer> field, enter “hackathon-\<YOURLASTNAME\>-workspace” (replace \<YOURLASTNAME\> with your name)
+
+   * Click <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
+   * The development workspace page appears.  
+   * Click on the newly created **hackathon-YOURLASTNAME-workspace** 
+
+   Click <walkthrough-spotlight-pointer cssSelector="[id$=_4rif_initialize-workspace-button]">INITIALIZE WORKSPACE</walkthrough-spotlight-pointer>
+ 
 
 You will copy the dataform files from the following repository, in the next steps.   
    [https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform](https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform)
