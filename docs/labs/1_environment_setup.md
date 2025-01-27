@@ -68,10 +68,12 @@ gcloud compute firewall-rules create "default-allow-all-internal" \
     --allow=tcp:0-65535,udp:0-65535,icmp
 ```
 
-Have a look at <walkthrough-editor-open-file filePath="bootstrap.sh">`bootstrap.sh`</walkthrough-editor-open-file> and what it does; exeucte it:
+Have a look at <walkthrough-editor-open-file filePath=".scripts/bk-bootstrap">`bk-bootstrap`</walkthrough-editor-open-file> and what it does; exeucte it:
 ```bash
 bk-bootstrap
 ```
+
+<walkthrough-spotlight-pointer locator="semantic({tab 'Gemini Code Assist'})"></walkthrough-spotlight-pointer>
 
 ### Success
 

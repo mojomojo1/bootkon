@@ -4,16 +4,15 @@
 <walkthrough-tutorial-difficulty difficulty="4"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 
-Original document: [here](https://docs.google.com/document/d/1NAcQb9qUZsyGSe2yPQWKrBz18ZRVCL7X9e-NDs5lQbk/edit?usp=drive_link)
-
-
-During this lab, you ingest fraudulent and non fraudulent transactions dataset into BigQuery using three methods:
+During this lab, you ingest fraudulent and non fraudulent transactions into BigQuery using three methods:
 * **Method 1**: Using BigLake with data stored in [Google Cloud Storage (GCS)](https://cloud.google.com/storage/docs)
 * **Method 2**: Near real-time ingestion into BigQuery using [Cloud Pub/Sub](https://cloud.google.com/pubsub/docs)
 * **Method 3**: Batch ingestion into BigQuery using [Dataproc Serverless](https://cloud.google.com/dataproc-serverless/docs)
 
 
-For all methods, we are ingesting data from the Google Cloud bucket you have created in the previous lab through `bootstrap.sh`. Feel free to have a look at the contents of this bucket:
+For all methods, we are ingesting data from the bucket you have created in the previous lab.
+
+***
 
 ### Method 1: External table using BigLake
 
@@ -21,9 +20,8 @@ BigLake tables allow querying structured data in external data stores with acces
 
 Because the service account handles retrieving data from the data store, you only have to grant users access to the BigLake table. This lets you enforce fine-grained security at the table level, including row-level and column-level security.
 
-Note that this section could also be done in the Google Cloud Console (the GUI). However, in this lab, we will do it on the command line.
 
-First, we create the connection:
+First, we create the connectio resource in BigQuery:
 ```bash
 bq mk --connection --location=$REGION --project_id=$PROJECT_ID \
     --connection_type=CLOUD_RESOURCE fraud-transactions-conn
@@ -87,16 +85,18 @@ Let's query it:
 2. Insert the following SQL query.
 
 ```sql
-SELECT * FROM `<walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_biglake` LIMIT 1000;
+SELECT * FROM `{{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_biglake` LIMIT 1000;
 ```
 
 Note that you can also execute a query using the `bq` tool:
 
 ```bash
-bq --location=$REGION query --nouse_legacy_sql "SELECT Time, V1, Amount, Class FROM <walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_biglake LIMIT 10;"
+bq --location=$REGION query --nouse_legacy_sql "SELECT Time, V1, Amount, Class FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_biglake LIMIT 10;"
 ```
 
 The data you are querying still resides on Cloud Storage and there are no copies stored in BigQuery. When using BigLake, BigQuery acts as query engine but not as storage layer.
+
+***
 
 ### Method 2: Real time data ingestion into BigQuery using Pub/Sub
 
@@ -107,7 +107,7 @@ We create an empty table and then stream data into it. For this to work, we need
 Create an empty table using this schema. We will use it to stream data into it:
 ```bash
 bq --location=$REGION mk --table \
-<walkthrough-project-id/>:ml_datasets.ulb_fraud_detection_pubsub src/data_ingestion/fraud_detection_bigquery_schema.json
+{{ PROJECT_ID }}:ml_datasets.ulb_fraud_detection_pubsub src/data_ingestion/fraud_detection_bigquery_schema.json
 ```
 
 We also need to a Pub/Sub schema. We use Apache Avro, as it is better suited for appending row-wise:
@@ -176,7 +176,7 @@ Each line you see on the screen corresponds to one transaction being sent to Pub
 <!-- 
 We can make this faster by using different parameters for Pub/Sub. First, remove all rows you just ingested:
 ```bash
-bq --location=$REGION query --nouse_legacy_sql "DELETE FROM <walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_pubsub WHERE true;"
+bq --location=$REGION query --nouse_legacy_sql "DELETE FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_pubsub WHERE true;"
 ```
 
 Next, have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/import_csv_to_bigquery_2.py">import_csv_to_bigquery_2.py</walkthrough-editor-open-file>. Can you make out the difference to the first script? Let's execute it:
@@ -185,6 +185,8 @@ Next, have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/
 ```
 -->
 
+***
+
 ### Method 3: Ingestion using Cloud Dataproc (Apache Spark)
 
 [Dataproc](https://cloud.google.com/dataproc/docs/concepts/overview) is a fully managed and scalable service for running Apache Hadoop, Apache Spark, Apache Flink, Presto, and 30+ open source tools and frameworks. Dataproc allows data to be loaded and also transformed or pre-processed as it is brought in.
@@ -192,7 +194,7 @@ Next, have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/
 Create an empty BigQuery table:
 ```bash
 bq --location=$REGION mk --table \
-<walkthrough-project-id/>:ml_datasets.ulb_fraud_detection_dataproc src/data_ingestion/fraud_detection_bigquery_schema.json
+{{ PROJECT_ID }}:ml_datasets.ulb_fraud_detection_dataproc src/data_ingestion/fraud_detection_bigquery_schema.json
 ```
 
 Download the Spark connector for BigQuery and copy it to our bucket:
@@ -215,8 +217,10 @@ While the command is still running, open the [DataProc Console](https://console.
 
 After the Dataproc job completes, confirm that data has been loaded into the BigQuery table. You should see over 200,000 records, but the exact count isn't critical:
 ```bash
-bq --location=$REGION query --nouse_legacy_sql "SELECT count(*) as count FROM <walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_dataproc;"
+bq --location=$REGION query --nouse_legacy_sql "SELECT count(*) as count FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_dataproc;"
 ```
+
+***
 
 ### Success
 
