@@ -45,7 +45,7 @@ wget -qO - https://github.com/fhirschmann/bootkon-data/releases/download/v1.5/da
 
 Let's upload the data to the bucket we just created:
 ```bash
-gsutil -m cp -R bootkon-data/* gs://$PROJECT_ID-bucket/
+gsutil -m cp -R data gs://$PROJECT_ID-bucket/
 ```
 
 Is the data there? Let's check and open [Cloud Storage](https://console.cloud.google.com/storage/browser/astute-ace-336608-bucket). Once you have checked, you may need to resize the window that just opened
@@ -72,8 +72,6 @@ Have a look at <walkthrough-editor-open-file filePath=".scripts/bk-bootstrap">`b
 ```bash
 bk-bootstrap
 ```
-
-<walkthrough-spotlight-pointer locator="semantic({tab 'Gemini Code Assist'})"></walkthrough-spotlight-pointer>
 
 ### Success
 

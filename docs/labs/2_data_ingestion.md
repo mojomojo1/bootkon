@@ -65,7 +65,7 @@ Finally, create a table in BigQuery pointing to the data in Cloud Storage:
 
 ```bash
 bq mk --table \
-  --external_table_definition=@PARQUET="gs://${PROJECT_ID}-bucket/bootkon-data/parquet/ulb_fraud_detection/*"@projects/${PROJECT_ID}/locations/${REGION}/connections/fraud-transactions-conn \
+  --external_table_definition=@PARQUET="gs://${PROJECT_ID}-bucket/data/parquet/ulb_fraud_detection/*"@projects/${PROJECT_ID}/locations/${REGION}/connections/fraud-transactions-conn \
   ml_datasets.ulb_fraud_detection_biglake
 ```
 

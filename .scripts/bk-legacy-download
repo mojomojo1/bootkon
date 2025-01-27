@@ -10,6 +10,7 @@ fi
 if [ ! -d "data" ]; then
     git clone https://github.com/fhirschmann/bootkon-data.git data
     cd data && git lfs pull
+    rm -rf .git .github .gitattributes
 else
     echo "Directory 'data' already exists. Not downloading data again"
 fi
