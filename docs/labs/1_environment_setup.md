@@ -38,9 +38,9 @@ a bucket where we place the data into. Let's name it ``{{ PROJECT_ID }}-bucket``
 gsutil mb -l $REGION gs://{{ PROJECT_ID }}-bucket
 ```
 
-Next, we download the data from GitHub and extract it (all in one line):
+Next, we download the data set and extract it (all in one line):
 ```bash
-wget -qO - https://github.com/fhirschmann/bootkon-data/releases/download/v1.3/data.tar.gz | tar xvzf -
+wget -qO - https://github.com/fhirschmann/bootkon-data/releases/download/v1.5/data.tar.gz | tar xvzf -
 ```
 
 Let's upload the data to the bucket we just created:
