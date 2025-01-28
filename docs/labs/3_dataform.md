@@ -233,7 +233,7 @@ Release configurations allow you to compile your pipeline code at specific inter
     
   Common practice includes setting up release configurations for both test and production environments. For more information, refer to the [release configuration documentation](https://cloud.google.com/dataform/docs/release-configurations).  
     
-  **Workflow Configurations**  
+**Workflow Configurations**  
     
   To execute a pipeline based on your specifications and code structure, you need to set up a workflow configuration. This acts as a scheduler where you define:  
     
@@ -254,31 +254,7 @@ Release configurations allow you to compile your pipeline code at specific inter
 * Set up a 3 minute frequency execution of the workflow you have created.  
      
      
-***Note:*** If you are stuck and cannot figure out how to proceed after a few minutes, ask the your team captain.
+***Note:*** If you are stuck and cannot figure out how to proceed after a few minutes, ask your team captain.
 
 
 You've nailed the Dataform lab -- great job!
-
-
-
-
-```sql
-config {
-    type : "operations",
-  tags: ["dataset_ulb_fraud_detection_llm"]
-}
-
-CREATE SCHEMA IF NOT EXISTS ulb_fraud_detection_llm
-  OPTIONS (
-    description = 'Dataset to store LLM models used for LLM usecases_01',
-    location = 'US'
-  )
-```
-
-
-
-Go to [Vertex AI Workbench](https://console.cloud.google.com/vertex-ai/workbench)
-
-Click on <walkthrough-spotlight-pointer locator="text('instances')">instances</walkthrough-spotlight-pointer>
-
-Click on <walkthrough-spotlight-pointer cssSelector="open-jupyterlab">Open JupyterLab</walkthrough-spotlight-pointer>
