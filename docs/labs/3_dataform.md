@@ -81,7 +81,7 @@ In the **Create development workspace** window, do the following:
    Click <walkthrough-spotlight-pointer cssSelector="[id$=_4rif_initialize-workspace-button]">INITIALIZE WORKSPACE</walkthrough-spotlight-pointer>
    
 ### **Adjust workflow settings and create SQLX files**
-Edit `workflow_settings.yaml`file :
+Edit the `workflow_settings.yaml`file :
 
   Replace `defaultDataset` value with
 
