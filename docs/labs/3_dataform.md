@@ -128,10 +128,10 @@ Copy the contents to each of those files:
 Click on <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> and create 3 new files: 
 
   ```
-  mview_ulb_fraud_detection.sqlx.
+  mview_ulb_fraud_detection.sqlx
   ```
   ```
-  sentiment_inference.sqlx.
+  sentiment_inference.sqlx
   ```
   ```
   ulb_fraud_detection.sqlx
@@ -143,18 +143,18 @@ Example:
 
 Copy the contents to each of those files:
 
-<walkthrough-editor-open-file filePath="src/dataform/definitions/mview_ulb_fraud_detection.sqlx">`llm_model_connection`</walkthrough-editor-open-file>
+<walkthrough-editor-open-file filePath="src/dataform/definitions/mview_ulb_fraud_detection.sqlx">`mview_ulb_fraud_detection`</walkthrough-editor-open-file>
 
-<walkthrough-editor-open-file filePath="src/dataform/definitions/sentiment_inference.sqlx">`llm_model_connection`</walkthrough-editor-open-file>
+<walkthrough-editor-open-file filePath="src/dataform/definitions/sentiment_inference.sqlx">`sentiment_inference`</walkthrough-editor-open-file>
 
-<walkthrough-editor-open-file filePath="src/dataform/definitions/ulb_fraud_detection.sqlx">`llm_model_connection`</walkthrough-editor-open-file>
+<walkthrough-editor-open-file filePath="src/dataform/definitions/ulb_fraud_detection.sqlx">`ulb_fraud_detection`</walkthrough-editor-open-file>
 
 
-Set the `database` value to your **project ID** value in `ulb\_fraud\_detection.sqlx` file:
+Set the `database` value to your **project ID** value in `ulb_fraud_detection.sqlx` file:
 
  <img src= "../img/lab3/ulb_fraud_detection_config.png" alt="ulb_fraud_detection_config" style="border: 1px solid grey;">
 
-In `llm\_model\_connection.sql`, replace the  **'us.llm-connection'** connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be “**us.fraud-transactions-conn**”
+In `llm_model_connection.sql`, replace the  **'us.llm-connection'** connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be “**us.fraud-transactions-conn**”
 
 Notice the usage of $ref in line 11, of **definitions/mview\_ulb\_fraud\_detection.sqlx**
      “sqlx” file. The advantages of using $ref in Dataform are
