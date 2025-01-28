@@ -256,5 +256,6 @@ Release configurations allow you to compile your pipeline code at specific inter
      
 ***Note:*** If you are stuck and cannot figure out how to proceed after a few minutes, ask your team captain.
 
-
 You've nailed the Dataform lab -- great job!
+
+<walkthrough-conclusion-trophy></walkthrough-conclusion-trophy>
