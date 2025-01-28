@@ -156,8 +156,7 @@ Set the `database` value to your **project ID** value in `ulb_fraud_detection.sq
 
 In `llm_model_connection.sql`, replace the  **'us.llm-connection'** connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be “**us.fraud-transactions-conn**”
 
-Notice the usage of $ref in line 11, of **definitions/mview\_ulb\_fraud\_detection.sqlx**
-     “sqlx” file. The advantages of using $ref in Dataform are
+Notice the usage of $ref in line 11, of **definitions/mview\_ulb\_fraud\_detection.sqlx**. The advantages of using $ref in Dataform are
 
 * Automatic Reference Management: Ensures correct fully-qualified names for tables and views, avoiding hardcoding and simplifying environment configuration.  
 * Dependency Tracking: Builds a dependency graph, ensuring correct creation order and automatic updates when referenced tables change.  
@@ -165,31 +164,28 @@ Notice the usage of $ref in line 11, of **definitions/mview\_ulb\_fraud\_detecti
 
 ### **Execute Dataform workflows**
 
-Run the dataset creation by **TAG**. TAG allows you to just execute parts of the workflows and not the entire workflow. Click on **Start Execution \> Tags \> "dataset\_ulb\_fraud\_detection\_llm” \> Start Execution**  
-   
- <img src= "../img/lab3/execute.png" alt="execute" style="border: 1px solid grey;">
+Run the dataset creation by **TAG**. TAG allows you to just execute parts of the workflows and not the entire workflow. 
 
-Click on **Details**;
+Click on <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer> > <walkthrough-spotlight-pointer locator="text('tags')">Tags</walkthrough-spotlight-pointer> \> <walkthrough-spotlight-pointer locator="text('dataset_ulb_fraud_detection_llm')">dataset_ulb_fraud_detection_llm</walkthrough-spotlight-pointer><walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer>
 
- <img src= "../img/lab3/workflowexecutionsuccess.png" alt="workflowexecutionsuccess" style="border: 1px solid grey;">
+Click on <walkthrough-spotlight-pointer locator="semantic({link 'Details'})">DETAILS</walkthrough-spotlight-pointer>
 
-Notice the Access Denied error on BigQuery for the dataform service account XXX@gcp-sa-dataform.iam.gserviceaccount.com;
+Notice the Access Denied error on BigQuery for the dataform service account `XXX@gcp-sa-dataform.iam.gserviceaccount.com`
 
- <img src= "../img/lab3/executionfailure.png" alt="executionfailure" style="border: 1px solid grey;">
+Go to [IAM & Admin](https://console.cloud.google.com/iam-admin). 
 
-Go to IAM & Admin  \> Grant access and grant **BigQuery Data Editor , BigQuery Job User and BigQuery Connection User**  to the dataform  service account.  Click on **Save**.
+Click on <walkthrough-spotlight-pointer locator="semantic({button 'Grant access'})">GRANT ACCESS</walkthrough-spotlight-pointer> and grant **BigQuery Data Editor , BigQuery Job User and BigQuery Connection User**  to the Dataform  service account.  Click on <walkthrough-spotlight-pointer locator="semantic({button 'Save'})">SAVE</walkthrough-spotlight-pointer>
 
  <img src= "../img/lab3/iamroles.png" alt="iamroles" style="border: 1px solid grey;">
 
-   ***Note:*** If you encounter the following policy update screen, just click on update.
+   ***Note:*** If you encounter a policy update screen, just click on update.
 
- <img src= "../img/lab3/policyoutofdate.png" alt="policyoutofdate" style="border: 1px solid grey;">
+Go back to [Dataform](https://console.cloud.google.com/bigquery/dataform) within in BigQuery, and retry <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer> > <walkthrough-spotlight-pointer locator="text('tags')">Tags</walkthrough-spotlight-pointer> \> <walkthrough-spotlight-pointer locator="text('dataset_ulb_fraud_detection_llm')">dataset_ulb_fraud_detection_llm</walkthrough-spotlight-pointer><walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer>. 
+Notice the execution status. It should be a success.  
+ 
+Go to Compiled graph and explore it.
 
-Go back to dataform from the BigQuery console, and retry **step 5**. Notice the execution status. It should be a success.  
- <img src= "../img/lab3/statussuccess.png" alt="statussuccess" style="border: 1px solid grey;">  
-Click on Compiled graph and explore it;  
-    Go to **Dataform \> hackathon-\<lastname\>-workspace \> Compiled Graph**  
- <img src= "../img/lab3/compiledgraph.png" alt="compiledgraph" style="border: 1px solid grey;">  
+Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> `hackathon-<lastname>-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
 
 ### ***LAB Section : Execute the workspace workflow***
 
