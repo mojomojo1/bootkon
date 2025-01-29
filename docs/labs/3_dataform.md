@@ -4,21 +4,6 @@
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 
-```sql
-config {
-    type : "operations",
-  tags: ["dataset_ulb_fraud_detection_llm"]
-}
-
-CREATE SCHEMA IF NOT EXISTS ulb_fraud_detection_llm
-  OPTIONS (
-    description = 'Dataset to store LLM models used for LLM usecases_01',
-    location = 'US'
-  )
-```
-
-Original document [here](https://docs.google.com/document/d/1NxfggQunrCn6ZfwGXAaA_lABDmXtRsfH88jkMDbqlJo/edit?usp=drive_link)
-
 During this lab, you gather user feedback to assess the impact of model adjustments on real-world use (prediction), ensuring that our fraud detection system effectively balances accuracy with user satisfaction. 
 * Use Dataform , BigQuery and Gemini to Perform sentiment analysis of customer feedback.
 ### **Dataform** 
@@ -57,26 +42,19 @@ Dataform can be used for a variety of use cases, including:
 
 First step in implementing a pipeline in Dataform is to set up a repository and a development environment. Detailed quickstart and instructions can be found [here](https://cloud.google.com/dataform/docs/quickstart-create-workflow).
 
-Navigate to the BigQuery section in the Google Cloud Platform console, and then select Dataform.
-
-Go to [Dataform](https://console.cloud.google.com/bigquery/dataform) and then
-
+Go within BigQuery to [Dataform](https://console.cloud.google.com/bigquery/dataform) and then
 
 ### **Create a Repository in Dataform** 
 
-Click the **“+ CREATE REPOSITORY”** button near the top of the page.  
-
-<img src= "../img/lab3/createrepo.png" alt="createrepo" style="border: 1px solid grey;">
+Click on <walkthrough-spotlight-pointer locator="text('create repository')">+ CREATE REPOSITORY</walkthrough-spotlight-pointer>
 
 Use the following values when creating the repository:
 
 - Repository ID: “hackathon-repository”  
-- Region: (us-central1)  
-- Service Account: (Default Dataform service account)
+- Region: "us-central1"  
+- Service Account: "Default Dataform service account"
 
- <img src= "../img/lab3/createrepomenu.png" alt="createrepomenu" style="border: 1px solid grey;">
-
-And click **“CREATE”**
+And click on <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
 
 ### **Dataform Service Account** 
 
@@ -85,130 +63,151 @@ Example: **service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com**
 
   <img src= "../img/lab3/createreposuccess.png" alt="createreposuccess" style="border: 1px solid grey;">
 
-Click **“GO TO REPOSITORIES”**, and then click on the **“hackathon-repository”**, the new repository you just created.
-
- <img src= "../img/lab3/devworkspace.png" alt="devworkspace" style="border: 1px solid grey;">
+Click <walkthrough-spotlight-pointer locator="text('go to repositories')">GO TO REPOSITORIES</walkthrough-spotlight-pointer>, and then choose the <walkthrough-spotlight-pointer locator="text('hackathon-repository')">hackathon-repository</walkthrough-spotlight-pointer> you just created.
 
 ### **Create and initialize a Dataform development workspace**
 
-You should now be in the “DEVELOPMENT WORKSPACES” tab of the hackathon-repository page.
+You should now be in the <walkthrough-spotlight-pointer locator="text('development workspaces')">DEVELOPMENT WORKSPACES</walkthrough-spotlight-pointer> tab of the hackathon-repository page.
 
-Click add **Create development workspace**.  
+Click <walkthrough-spotlight-pointer locator="text('create development workspace')">+ CREATE DEVELOPMENT WORKSPACE</walkthrough-spotlight-pointer>
+
 In the **Create development workspace** window, do the following:  
-   * In the **Workspace ID** field, enter “hackathon-\<YOURLASTNAME\>-workspace” (replace \<YOURLASTNAME\> with your name)  
-   * Click **Create**.  
-The development workspace page appears.  
-Click on the newly created **development workspace**   
-Click **Initialize workspace**.
+   * In the <walkthrough-spotlight-pointer cssSelector="[id$=_4rif_mat-input-3]">Workspace ID</walkthrough-spotlight-pointer> field, enter “hackathon-\<YOURLASTNAME\>-workspace” (replace \<YOURLASTNAME\> with your name)
 
-You will copy the dataform files from the following repository, in the next steps.   
-   [https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform](https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform)
+   * Click <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
+   * The development workspace page appears.  
+   * Click on the newly created **hackathon-YOURLASTNAME-workspace** 
+
+   Click <walkthrough-spotlight-pointer cssSelector="[id$=_4rif_initialize-workspace-button]">INITIALIZE WORKSPACE</walkthrough-spotlight-pointer>
    
-Edit  **workflow\_settings.yaml** file :   
-  Replace defaultDataset value with **ml\_datasets ,**   
-  make sure defaultProject value is **your project id**   
-  ***Note:*** Nevermind if you have a different dataform core version, just continue
+### **Adjust workflow settings and create SQLX files**
+Edit the `workflow_settings.yaml`file :
 
-  <img src= "../img/lab3/workflowsettings.png" alt="workflowsettings" style="border: 1px solid grey;">
+  Replace `defaultDataset` value with
 
-* Click on Install Packages ***Only*** ***Once***. You should see a message at the bottom of the page:
+  ```
+  ml_datasets
+  ```
+
+  Make sure `defaultProject` value is **your project id** 
+
+  **Note:** Nevermind if you have a different dataform core version, just continue
+
+* Click on <walkthrough-spotlight-pointer locator="text('install packages')">INSTALL PACKAGES</walkthrough-spotlight-pointer> ***Only*** ***Once***. You should see a message at the bottom of the page:
 
   *Package installation succeeded*
 
-Remove the default auto-generated SQLX files; Delete the following files from the “definitions” folder:
+Delete the following files from the <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> folder:
 
- <img src= "../img/lab3/viewsqlx.png" alt="viewsqlx" style="border: 1px solid grey;">
+`first_view.sqlx`
+`second_view.sqlx`
 
-Click on **definitions** and create a new directory called **“models”**:
+Within <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> create a new directory called `models`:
 
  <img src= "../img/lab3/newdirectory.png" alt="newdirectory" style="border: 1px solid grey;">
 
-* Click on **models** directory and create 2 new files ;  (make sure all file names are in lowercase and avoid adding spaces to the file names)*  
-* [create\_dataset.sqlx](https://github.com/dace-de/bootkon-h2-2024/blob/main/dataform/definitions/models/create_dataset.sqlx)  
-* [llm\_model\_connection.sqlx](https://github.com/dace-de/bootkon-h2-2024/blob/main/dataform/definitions/models/llm_model_connection.sqlx)
+Click on `models` directory and create 2 new files
 
-<walkthrough-editor-open-file filePath="src/dataform/definitions/models/create_dataset.sqlx">`create_dataset.sqlx`</walkthrough-editor-open-file>
-	  
-Those files should be created under ***definitions/models*** directory
+  ```
+  create_dataset.sqlx
+  ```
+  ```
+  llm_model_connection.sqlx
+  ```
 
 Example:
 
  <img src= "../img/lab3/createdataset.png" alt="createdataset" style="border: 1px solid grey;">
 
-Copy the contents from [https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform/definitions/models](https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform/definitions/models)  to each of those files.*  
-Click on **definitions** and create 3 new files: (make sure all file names are in lowercase and avoid adding spaces to the file names)*  
-* [mview\_ulb\_fraud\_detection.sqlx](https://github.com/dace-de/bootkon-h2-2024/blob/main/dataform/definitions/mview_ulb_fraud_detection.sqlx)  
-* [sentiment\_inference.sqlx](https://github.com/dace-de/bootkon-h2-2024/blob/main/dataform/definitions/sentiment_inference.sqlx)  
-* [ulb\_fraud\_detection.sqlx](https://github.com/dace-de/bootkon-h2-2024/blob/main/dataform/definitions/ulb_fraud_detection.sqlx)
+Copy the contents to each of those files:
 
+<walkthrough-editor-open-file filePath="src/dataform/definitions/models/create_dataset.sqlx">`create_dataset`</walkthrough-editor-open-file>
 
-Those files should be created under ***definitions*** directory
+<walkthrough-editor-open-file filePath="src/dataform/definitions/models/llm_model_connection.sqlx">`llm_model_connection`</walkthrough-editor-open-file>
+
+Click on <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> and create 3 new files: 
+
+  ```
+  mview_ulb_fraud_detection.sqlx
+  ```
+  ```
+  sentiment_inference.sqlx
+  ```
+  ```
+  ulb_fraud_detection.sqlx
+  ```
 
 Example:
 
  <img src= "../img/lab3/mview_fraud_detection.png" alt="mview_fraud_detection" style="border: 1px solid grey;">
 
-Copy the contents from [https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform/definitions](https://github.com/dace-de/bootkon-h2-2024/tree/main/dataform/definitions) to each of those files.  
-Set the **database** value to your project ID value in ulb\_fraud\_detection.sqlx file:
+Copy the contents to each of those files:
+
+<walkthrough-editor-open-file filePath="src/dataform/definitions/mview_ulb_fraud_detection.sqlx">`mview_ulb_fraud_detection`</walkthrough-editor-open-file>
+
+<walkthrough-editor-open-file filePath="src/dataform/definitions/sentiment_inference.sqlx">`sentiment_inference`</walkthrough-editor-open-file>
+
+<walkthrough-editor-open-file filePath="src/dataform/definitions/ulb_fraud_detection.sqlx">`ulb_fraud_detection`</walkthrough-editor-open-file>
+
+
+Set the `database` value to your **project ID** value in `ulb_fraud_detection.sqlx` file:
 
  <img src= "../img/lab3/ulb_fraud_detection_config.png" alt="ulb_fraud_detection_config" style="border: 1px solid grey;">
 
-In **llm\_model\_connection.sqlx**, replace the  **'us.llm-connection'** connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be “**us.fraud-transactions-conn**”
+In `llm_model_connection.sql`, replace the  **'us.llm-connection'** connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be “**us.fraud-transactions-conn**”
 
-Notice the usage of $ref in line 11, of **definitions/mview\_ulb\_fraud\_detection.sqlx**
-     “sqlx” file. The advantages of using $ref in Dataform are
+Notice the usage of $ref in line 11, of **definitions/mview\_ulb\_fraud\_detection.sqlx**. The advantages of using $ref in Dataform are
 
 * Automatic Reference Management: Ensures correct fully-qualified names for tables and views, avoiding hardcoding and simplifying environment configuration.  
 * Dependency Tracking: Builds a dependency graph, ensuring correct creation order and automatic updates when referenced tables change.  
 * Enhanced Maintainability: Supports modular and reusable SQL scripts, making the codebase easier to maintain and less error-prone.
 
-Run the dataset creation by **TAG**. TAG allows you to just execute parts of the workflows and not the entire workflow. Click on **Start Execution \> Tags \> "dataset\_ulb\_fraud\_detection\_llm” \> Start Execution**  
-   
- <img src= "../img/lab3/execute.png" alt="execute" style="border: 1px solid grey;">
+### **Execute Dataform workflows**
 
-Click on **Details**;
+Run the dataset creation by **TAG**. TAG allows you to just execute parts of the workflows and not the entire workflow. 
 
- <img src= "../img/lab3/workflowexecutionsuccess.png" alt="workflowexecutionsuccess" style="border: 1px solid grey;">
+Click on <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer> > <walkthrough-spotlight-pointer locator="text('tags')">Tags</walkthrough-spotlight-pointer> \> <walkthrough-spotlight-pointer locator="text('dataset_ulb_fraud_detection_llm')">dataset_ulb_fraud_detection_llm</walkthrough-spotlight-pointer><walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer>
 
-Notice the Access Denied error on BigQuery for the dataform service account XXX@gcp-sa-dataform.iam.gserviceaccount.com;
+Click on <walkthrough-spotlight-pointer locator="semantic({link 'Details'})">DETAILS</walkthrough-spotlight-pointer>
 
- <img src= "../img/lab3/executionfailure.png" alt="executionfailure" style="border: 1px solid grey;">
+Notice the Access Denied error on BigQuery for the dataform service account `XXX@gcp-sa-dataform.iam.gserviceaccount.com`
 
-Go to IAM & Admin  \> Grant access and grant **BigQuery Data Editor , BigQuery Job User and BigQuery Connection User**  to the dataform  service account.  Click on **Save**.
+Go to [IAM & Admin](https://console.cloud.google.com/iam-admin). 
+
+Click on <walkthrough-spotlight-pointer locator="semantic({button 'Grant access'})">GRANT ACCESS</walkthrough-spotlight-pointer> and grant **BigQuery Data Editor , BigQuery Job User and BigQuery Connection User**  to the Dataform  service account.  Click on <walkthrough-spotlight-pointer locator="semantic({button 'Save'})">SAVE</walkthrough-spotlight-pointer>
 
  <img src= "../img/lab3/iamroles.png" alt="iamroles" style="border: 1px solid grey;">
 
-   ***Note:*** If you encounter the following policy update screen, just click on update.
+   ***Note:*** If you encounter a policy update screen, just click on update.
 
- <img src= "../img/lab3/policyoutofdate.png" alt="policyoutofdate" style="border: 1px solid grey;">
+Go back to [Dataform](https://console.cloud.google.com/bigquery/dataform) within in BigQuery, and retry <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer> > <walkthrough-spotlight-pointer locator="text('tags')">Tags</walkthrough-spotlight-pointer> \> <walkthrough-spotlight-pointer locator="text('dataset_ulb_fraud_detection_llm')">dataset_ulb_fraud_detection_llm</walkthrough-spotlight-pointer><walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer>. 
+Notice the execution status. It should be a success.  
+ 
+Lastly, go to Compiled graph and explore it.
 
-Go back to dataform from the BigQuery console, and retry **step 5**. Notice the execution status. It should be a success.  
- <img src= "../img/lab3/statussuccess.png" alt="statussuccess" style="border: 1px solid grey;">  
-Click on Compiled graph and explore it;  
-    Go to **Dataform \> hackathon-\<lastname\>-workspace \> Compiled Graph**  
- <img src= "../img/lab3/compiledgraph.png" alt="compiledgraph" style="border: 1px solid grey;">  
+Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> `hackathon-<lastname>-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
 
 ### ***LAB Section : Execute the workspace workflow***
 
-For  the sentiment inference step to succeed . You need to grant the external connection service account the Vertex AI user privilege. More details can be found in this [link](https://cloud.google.com/bigquery/docs/generate-text-tutorial#grant-permissions). You can find the service account ID under **BigQuery Studio \> Your project ID  (example: bootkon-dryrun24ber-886) \> External connections \> fraud-transactions-conn**  
+For  the sentiment inference step to succeed, you need to grant the external connection service account the Vertex AI user privilege. More details can be found in this [link](https://cloud.google.com/bigquery/docs/generate-text-tutorial#grant-permissions). 
+
+You can find the service account ID under [BigQuery Studio](https://console.cloud.google.com/bigquery) \> Your project ID  (example: `bootkon-dryrun24ber-886`) \> <walkthrough-spotlight-pointer locator="semantic({treeitem 'External connections'})">External connections</walkthrough-spotlight-pointer> \> `fraud-transactions-conn`  
      
-<img src= "../img/lab3/externalconnection.png" alt="externalconnection" style="border: 1px solid grey;">  
  <img src= "../img/lab3/serviceaccountconnection.png" alt="serviceaccountconnection" style="border: 1px solid grey;">  
 
-Take note of the service account and grant it the ***Vertex AI User*** role.   
+Take note of the service account and grant it the **Vertex AI User** role.   
  <img src= "../img/lab3/vertexairole.png" alt="vertexairole" style="border: 1px solid grey;">
      
-Back in your Dataform workspace, click **START EXECUTION** from the top menu, then* **“Execute actions”***.  
- <img src= "../img/lab3/startexecution.png" alt="startexecution" style="border: 1px solid grey;">.  
-
-Click on **ALL ACTIONS** Tab then Click on **START EXECUTION**  
- <img src= "../img/lab3/allactionexecute.png" alt="allactionexecute" style="border: 1px solid grey;"> 
-
+Back in your Dataform workspace, click <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer> from the top menu, then <walkthrough-spotlight-pointer locator="semantic({menuitem 'Execute actions'})">Execute Actions</walkthrough-spotlight-pointer>
+ 
+Click on <walkthrough-spotlight-pointer locator="semantic({radio 'All actions'})">ALL ACTIONS</walkthrough-spotlight-pointer> Tab then Click on <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer>  
+ 
 Check the execution status. It should be a success.  
-Verify the new table **sentiment\_inference** in the **ml\_datasets** dataset in BigQuery.  
+Verify the new table `sentiment_inference` in the `ml_datasets` dataset in BigQuery.
+
 Query the BigQuery table content (At this point you should be familiar with running BigQuery SQL)  
    
-```bash
+```
 SELECT distinct ml_generate_text_llm_result,
 prompt,
 Feedback
@@ -217,13 +216,10 @@ FROM `ml_datasets.sentiment_inference` LIMIT 10;
    
 **\[Max 2 minutes\]** Discuss the table results within your team group.
 
-Before moving to the challenge section of the Lab, go back to the CODE section of the Dataform workspace. At the top of the “Files” section on the left, click **“Commit X Changes”** (X should be about 7), add a commit message like, “Bootkon Lab 3”, then click “**Commit all files***” and then **“Push to Default Branch”**
+Before moving to the challenge section of the Lab, go back to the CODE section of the Dataform workspace. At the top of the “Files” section on the left, click <walkthrough-spotlight-pointer locator="css(button[id$=commit-button])">COMMIT X CHANGES</walkthrough-spotlight-pointer> (X should be about 7), add a commit message like, “Bootkon Lab 3”, then click <walkthrough-spotlight-pointer locator="semantic({button 'Commit all files'})">COMMIT ALL FILES</walkthrough-spotlight-pointer> and then <walkthrough-spotlight-pointer locator="semantic({button 'push to default'})">PUSH TO DEFAULT BRANCH</walkthrough-spotlight-pointer>
 
- <img src= "../img/lab3/pushtodefault.png" alt="pushtodefault" style="border: 1px solid grey;"> 
-
-You should now have the message   
- <img src= "../img/lab3/workspaceuptodate.png" alt="workspaceuptodate" style="border: 1px solid grey;"> 
-
+You should now have the message: *Workspace is up to date*
+ 
 ### **CHALLENGE Section : Production, Scheduling and Automation** 
 
 Automate and schedule the compilation and execution of the pipeline. This is done using release configurations and workflow configurations.
@@ -237,7 +233,7 @@ Release configurations allow you to compile your pipeline code at specific inter
     
   Common practice includes setting up release configurations for both test and production environments. For more information, refer to the [release configuration documentation](https://cloud.google.com/dataform/docs/release-configurations).  
     
-  **Workflow Configurations**  
+**Workflow Configurations**  
     
   To execute a pipeline based on your specifications and code structure, you need to set up a workflow configuration. This acts as a scheduler where you define:  
     
@@ -258,7 +254,8 @@ Release configurations allow you to compile your pipeline code at specific inter
 * Set up a 3 minute frequency execution of the workflow you have created.  
      
      
-***Note:*** If you are stuck and cannot figure out how to proceed after a few minutes, ask the your team captain.
-
+***Note:*** If you are stuck and cannot figure out how to proceed after a few minutes, ask your team captain.
 
 You've nailed the Dataform lab -- great job!
+
+<walkthrough-conclusion-trophy></walkthrough-conclusion-trophy>
