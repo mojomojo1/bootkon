@@ -68,6 +68,7 @@ def render_mdbook(content):
         BK_REPO=BK_REPO,
         MDBOOK_VIEW=True,
         PROJECT_ID="<PROJECT_ID>",
+        PROJECT_NUMBER="<PROJECT_NUMBER>",
         REGION="us-central1",
         GCP_USERNAME="<GCP_USERNAME>",
         jupyter=render_jupyter
@@ -89,6 +90,7 @@ def render_tutorial(content):
     rendered = template.render(
         MDBOOK_VIEW=False,
         PROJECT_ID=os.getenv("PROJECT_ID"),
+        PROJECT_NUMBER=os.getenv("PROJECT_NUMBER2"),
         REGION=os.getenv("REGION"),
         MY_NAME=os.getenv("MY_NAME"),
         GCP_USERNAME=os.getenv("GCP_USERNAME"),

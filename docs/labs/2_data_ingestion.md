@@ -128,13 +128,10 @@ gcloud pubsub topics create fraud-detection-topic \
     --message-encoding=BINARY
 ```
 
+{% set PUBSUB_SA = "service-{}@gcp-sa-pubsub.iam.gserviceaccount.com".format(PROJECT_NUMBER) %}
+
 We also need to give Pub/Sub permissions to write data to BigQuery. The Pub/Sub service account is created automatically and
-is comprised of the project number (not the id) and an identifier. Let's first figure out the number:
-```bash
-export PROJECT_NUM=$(gcloud projects describe ${PROJECT_ID} --format="value(projectNumber)")
-export PUBSUB_SERVICE_ACCOUNT="service-${PROJECT_NUM}@gcp-sa-pubsub.iam.gserviceaccount.com"
-echo $PUBSUB_SERVICE_ACCOUNT
-```
+is comprised of the project number (not the id) and an identifier. In your case, it is ``{{ PUBSUB_SA }}``
 
 And grant the service account access to BigQuery:
 
