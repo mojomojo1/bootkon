@@ -90,7 +90,7 @@ if [[ ":$PATH:" != *":$NEW_PATH:"* ]]; then
 echo -e "${MAGENTA}Adding $NEW_PATH to your PATH${NC}"
     export PATH=${NEW_PATH}:$PATH
 else
-    echo -e "Your PATH already contains $NEW_PATH. Not adding it again."
+    echo -e "${GREEN}Your PATH already contains $NEW_PATH. Not adding it again.${NC}"
 fi
 unset NEW_PATH
 
@@ -102,15 +102,23 @@ if [ -f vars.local.sh ]; then
     source vars.local.sh
 fi
 
-echo -e "Variables: PROJECT_ID=${YELLOW}$PROJECT_ID${NC} GCP_USERNAME=${YELLOW}$GCP_USERNAME${NC} REGION=${YELLOW}$REGION${NC}"
+echo -e "Variables from vars.sh: PROJECT_ID=${YELLOW}$PROJECT_ID${NC} GCP_USERNAME=${YELLOW}$GCP_USERNAME${NC} REGION=${YELLOW}$REGION${NC}"
 
 
 if [ -z $PROJECT_ID ]; then
     echo -e "The variable PROJECT_ID is empty. Not setting the default Google Cloud project."
 else
-    echo -e "Setting Google Cloud project to ${PROJECT_ID}..."
-    gcloud config set project $PROJECT_ID
+    gcloud projects get-iam-policy $PROJECT_ID --quiet 2>>/dev/null 1>>/dev/null
+    if [ $? -ne 0 ]; then
+        echo -en "${RED}ERROR: Unable to get iam policy for project $PROJECT_ID. "
+        echo -e "Are you sure you set your PROJECT_ID in vars.sh correctly?${NC}"
+        return 1
+    fi
+
+    gcloud config set project $PROJECT_ID --quiet 2>>/dev/null
+
     export PROJECT_NUMBER=$(gcloud projects describe "$PROJECT_ID" --format="value(projectNumber)")
+    echo -e "Project for gcloud CLI has been set: PROJECT_ID=${YELLOW}${PROJECT_ID}${NC} PROJECT_NUMBER=${YELLOW}${PROJECT_NUMBER}${NC}."
 fi
 
 ## Set or update $BK_REPO in ~/.bashrc
@@ -153,7 +161,7 @@ if [ "$(basename $PWD)" == $BK_GITHUB_REPOSITORY ]; then
     fi
 fi
 
-echo -e "Automatically loaded bootkon. To disable, execute 'bk-deactivate'."
+echo -e "Automatically loaded bootkon and opened IDE workspace. To disable, execute 'bk-deactivate'."
 
 echo
 
