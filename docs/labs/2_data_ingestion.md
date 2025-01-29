@@ -4,6 +4,8 @@
 <walkthrough-tutorial-difficulty difficulty="4"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 
+Welcome back{% if MY_NAME %}, {{ MY_NAME }}{% endif %} 😍!
+
 During this lab, you ingest fraudulent and non fraudulent transactions into BigQuery using three methods:
 * **Method 1**: Using BigLake with data stored in [Google Cloud Storage (GCS)](https://cloud.google.com/storage/docs)
 * **Method 2**: Near real-time ingestion into BigQuery using [Cloud Pub/Sub](https://cloud.google.com/pubsub/docs)
@@ -171,7 +173,14 @@ Let's execute it.
 ./src/data_ingestion/import_csv_to_bigquery_1.py
 ```
 
-Each line you see on the screen corresponds to one transaction being sent to Pub/Sub and written to BigQuery. It would take approximately 40 to 60 minutes for it to finish. So, please cancel the command using 'CTRL + C'.
+Each line you see on the screen corresponds to one transaction being sent to Pub/Sub and written to BigQuery. It would take approximately 40 to 60 minutes for it to finish. So, please cancel the command using ``CTRL + C``.
+
+But why is it so slow?
+
+Let's ask Gemini:
+
+1. Open Gemini Code Assist <img style="vertical-align:middle" src="https://www.gstatic.com/images/branding/productlogos/gemini/v4/web-24dp/logo_gemini_color_1x_web_24dp.png" width="8px" height="8px"> on the left hand side.
+2. Insert ``Why was the last command so slow?`` into the Gemini prompt.
 
 <!-- 
 We can make this faster by using different parameters for Pub/Sub. First, remove all rows you just ingested:
