@@ -110,6 +110,7 @@ if [ -z $PROJECT_ID ]; then
 else
     echo -e "Setting Google Cloud project to ${PROJECT_ID}..."
     gcloud config set project $PROJECT_ID
+    export PROJECT_NUMBER=$(gcloud projects describe "$PROJECT_ID" --format="value(projectNumber)")
 fi
 
 ## Set or update $BK_REPO in ~/.bashrc

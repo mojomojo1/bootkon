@@ -26,14 +26,6 @@ for role in "${user_roles[@]}"; do
         --member="user:$GCP_USERNAME" --role="$role" >>/dev/null
 done
 
-# Retrieve the project number for the default compute service account
-PROJECT_NUMBER=$(gcloud projects describe "$PROJECT_ID" --format="value(projectNumber)")
-
-# Check if we successfully retrieved the project number
-if [ -z "$PROJECT_NUMBER" ]; then
-    echo "Failed to get the project number for project ID $PROJECT_ID"
-    exit 1
-fi
 # Define service account email using the project number
 COMPUTE_SERVICE_ACCOUNT="$PROJECT_NUMBER-compute@developer.gserviceaccount.com"
 
