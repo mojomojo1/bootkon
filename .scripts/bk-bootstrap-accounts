@@ -2,6 +2,17 @@
 
 # Variables
 LOCAL_CSV_FILE="$1"
+PROJECT_ID_PREFIX="$2"
+
+# Check if variables are set
+if [[ -z "$LOCAL_CSV_FILE" || -z "$PROJECT_ID_PREFIX" ]]; then
+    echo "Error: Missing required arguments."
+    echo "Usage: $(basename $0) <LOCAL_CSV_FILE> <PROJECT_ID_PREFIX>"
+    echo "Example: $(basename $0) \"Bootkon Test Accounts - Sheet1.csv\" \"bootkon-dt25test-\""
+    echo ""
+    echo "The CSV file needs to have the username in the first column."
+    exit 1
+fi
 
 # Step 1: Count the number of users (rows) in the CSV (excluding the header)
 num_users=$(tail -n +2 "$LOCAL_CSV_FILE" | grep -cve '^\s*$')
@@ -10,33 +21,38 @@ num_users=$(tail -n +2 "$LOCAL_CSV_FILE" | grep -cve '^\s*$')
 echo "Checking IAM roles for $num_users users from the CSV file."
 
 # Step 2: Iterate through each line in the CSV (skip header)
-tail -n +2 "$LOCAL_CSV_FILE" | while IFS=, read -r gcp_username gcp_password gcp_project_id first_name last_name email || [ -n "$gcp_username" ]
-do
+tail -n +2 "$LOCAL_CSV_FILE" | while IFS=, read -r -a fields; do
+    USERNAME=${fields[0]}
+    NUMERIC_SUFFIX=$(echo "$USERNAME" | grep -o '[0-9]\+')
+    # Combine PROJECT_ID_PREFIX and extracted number
+    PROJECT_ID="${PROJECT_ID_PREFIX}${NUMERIC_SUFFIX}"
+    echo "USERNAME=${USERNAME} PROJECT_ID=${PROJECT_ID}"
+
     # Step 3: Check if the IAM user exists in the project's IAM policy
-    iam_policy=$(gcloud projects get-iam-policy "$gcp_project_id" --format=json)
+    iam_policy=$(gcloud projects get-iam-policy "$PROJECT_ID" --format=json)
     
     # Check if the username exists in the IAM policy
-    if echo "$iam_policy" | grep -q "\"user:$gcp_username\""; then
-        echo "Username $gcp_username exists in project $gcp_project_id."
+    if echo "$iam_policy" | grep -q "\"user:$USERNAME\""; then
+        echo "Username $USERNAME exists in project $PROJECT_ID."
        
        	
         # Check if the user has the roles/editor role assigned
-        if echo "$iam_policy" | jq -r '.bindings[] | select(.role=="roles/editor") | .members[]' | grep -q "user:$gcp_username"; then
-            echo "Username $gcp_username has the roles/editor role assigned in project $gcp_project_id."
+        if echo "$iam_policy" | jq -r '.bindings[] | select(.role=="roles/editor") | .members[]' | grep -q "user:$USERNAME"; then
+            echo "Username $USERNAME has the roles/editor role assigned in project $PROJECT_ID."
         else
-            echo "Username $gcp_username does not have the roles/editor role assigned in project $gcp_project_id."
-            gcloud projects add-iam-policy-binding "$gcp_project_id" --member="user:$gcp_username" --role="roles/editor"
+            echo "Username $USERNAME does not have the roles/editor role assigned in project $PROJECT_ID."
+            gcloud projects add-iam-policy-binding "$PROJECT_ID" --member="user:$USERNAME" --role="roles/editor"
 	    fi
 
         # Check if the user has the roles/resourcemanager.projectIamAdmin role assigned
-        if echo "$iam_policy" | jq -r '.bindings[] | select(.role=="roles/resourcemanager.projectIamAdmin") | .members[]' | grep -q "user:$gcp_username"; then
-            echo "Username $gcp_username has the roles/resourcemanager.projectIamAdmin role assigned in project $gcp_project_id."
+        if echo "$iam_policy" | jq -r '.bindings[] | select(.role=="roles/resourcemanager.projectIamAdmin") | .members[]' | grep -q "user:$USERNAME"; then
+            echo "Username $USERNAME has the roles/resourcemanager.projectIamAdmin role assigned in project $PROJECT_ID."
         else
-            echo "Username $gcp_username does not have the roles/resourcemanager.projectIamAdmin role assigned in project $gcp_project_id."
-	        gcloud projects add-iam-policy-binding "$gcp_project_id" --member="user:$gcp_username" --role="roles/resourcemanager.projectIamAdmin"
+            echo "Username $USERNAME does not have the roles/resourcemanager.projectIamAdmin role assigned in project $PROJECT_ID."
+	        gcloud projects add-iam-policy-binding "$PROJECT_ID" --member="user:$USERNAME" --role="roles/resourcemanager.projectIamAdmin"
         fi
     else
-        echo "Username $gcp_username does not exist in project $gcp_project_id."
+        echo "Username $USERNAME does not exist in project $PROJECT_ID."
     fi
 done
 
