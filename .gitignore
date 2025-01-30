@@ -13,3 +13,4 @@ package-lock.json
 .tutorial.memory
 data
 *.jar
+*.csv

@@ -6,6 +6,8 @@
 
 Welcome back{% if MY_NAME %}, {{ MY_NAME }}{% endif %} 😍!
 
+❗ kasjdf
+
 During this lab, you ingest fraudulent and non fraudulent transactions into BigQuery using three methods:
 * **Method 1**: Using BigLake with data stored in [Google Cloud Storage (GCS)](https://cloud.google.com/storage/docs)
 * **Method 2**: Near real-time ingestion into BigQuery using [Cloud Pub/Sub](https://cloud.google.com/pubsub/docs)

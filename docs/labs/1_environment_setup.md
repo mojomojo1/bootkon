@@ -58,7 +58,17 @@ created by default. Let's create one:
 
 ```bash
 gcloud compute networks create default --project=$PROJECT_ID --subnet-mode=auto --bgp-routing-mode="regional"
+```
+
+If it already exists -- that's ok. Let's also create/update the subnet to allow internal traffic:
+
+```bash
 gcloud compute networks subnets update default --region=$REGION --enable-private-ip-google-access
+```
+
+And create a firewall rule:
+
+```bash
 gcloud compute firewall-rules create "default-allow-all-internal" \
     --network="default" \
     --project=$PROJECT_ID \
