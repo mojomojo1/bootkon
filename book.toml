@@ -16,7 +16,7 @@ smart-punctuation = true
 git-repository-url = "https://github.com/fhirschmann/bootkon"
 
 [preprocessor.cloud_shell]
-command = "bk-render-neos"
+command = "./.scripts/bk-render-neos"
 
 [preprocessor.jinja2]
-command = "bk-render-jinja2"
+command = "./.scripts/bk-render-jinja2"
