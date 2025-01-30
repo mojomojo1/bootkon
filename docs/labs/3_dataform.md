@@ -72,7 +72,7 @@ You should now be in the <walkthrough-spotlight-pointer locator="text('developme
 Click <walkthrough-spotlight-pointer locator="text('create development workspace')">+ CREATE DEVELOPMENT WORKSPACE</walkthrough-spotlight-pointer>
 
 In the **Create development workspace** window, do the following:  
-   * In the <walkthrough-spotlight-pointer cssSelector="[id$=_4rif_mat-input-3]">Workspace ID</walkthrough-spotlight-pointer> field, enter “hackathon-\<YOURLASTNAME\>-workspace” (replace \<YOURLASTNAME\> with your name)
+   * In the <walkthrough-spotlight-pointer locator="semantic({textbox 'Workspace ID'})">Workspace ID</walkthrough-spotlight-pointer> field, enter “hackathon-\<YOURLASTNAME\>-workspace” (replace \<YOURLASTNAME\> with your name)
 
    * Click <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
    * The development workspace page appears.  
@@ -93,7 +93,7 @@ Edit the `workflow_settings.yaml`file :
 
   **Note:** Nevermind if you have a different dataform core version, just continue
 
-* Click on <walkthrough-spotlight-pointer locator="text('install packages')">INSTALL PACKAGES</walkthrough-spotlight-pointer> ***Only*** ***Once***. You should see a message at the bottom of the page:
+Click on <walkthrough-spotlight-pointer locator="text('install packages')">INSTALL PACKAGES</walkthrough-spotlight-pointer> ***Only*** ***Once***. You should see a message at the bottom of the page:
 
   *Package installation succeeded*
 
@@ -187,7 +187,7 @@ Lastly, go to Compiled graph and explore it.
 
 Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> `hackathon-<lastname>-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
 
-### ***LAB Section : Execute the workspace workflow***
+### ***LAB Section: Execute the workspace workflow***
 
 For  the sentiment inference step to succeed, you need to grant the external connection service account the Vertex AI user privilege. More details can be found in this [link](https://cloud.google.com/bigquery/docs/generate-text-tutorial#grant-permissions). 
 
