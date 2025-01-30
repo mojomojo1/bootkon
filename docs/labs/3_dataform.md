@@ -16,18 +16,11 @@ Dataform is a fully managed service that helps data teams build, version control
 
 Dataform is built on top of Dataform Core, an open source SQL-based language for managing data transformations. Dataform Core provides a variety of features that make it easy to develop and maintain data pipelines, including:
 
-* Incremental updates: Dataform Core can incrementally update your tables, only processing the data that has changed since the last update. This can significantly improve the performance and scalability of your data pipelines.  
-* Slowly changing dimensions: Dataform Core provides built-in support for slowly changing dimensions, which are a common type of data in data warehouses. This simplifies the development and maintenance of data pipelines that involve slowly changing dimensions.  
+* Incremental updates: Dataform Core can incrementally update your tables, only processing the data that has changed since the last update. 
+* Slowly changing dimensions: Dataform Core provides built-in support for slowly changing dimensions, which are a common type of data in data warehouses.   
 * Reusable code: Dataform Core allows you to write reusable code in JavaScript, which can be used to implement complex data transformations and workflows.
 
 Dataform is integrated with a variety of other Google Cloud services, including GitHub, GitLab, Cloud Composer, and Workflows. This makes it easy to integrate Dataform with your existing development and orchestration workflows.  
-Benefits of using Dataform in Google Cloud  
-There are many benefits to using Dataform in Google Cloud, including:
-
-* Increased productivity: Dataform can help you to increase the productivity of your data team by automating the development, testing, and execution of data pipelines.  
-* Improved data quality: Dataform can help you to improve the quality of your data by providing a central repository for managing table definitions, column descriptions, and data quality assertions.  
-* Reduced costs: Dataform can help you to reduce the costs associated with data processing by optimizing the execution of your SQL workflows.  
-* Increased scalability: Dataform can help you to scale your data pipelines to meet the needs of your growing business.
 
 ### Use Cases for Dataform
 
@@ -63,11 +56,10 @@ Go within BigQuery to [Dataform](https://console.cloud.google.com/bigquery/dataf
 ### Dataform Service Account 
 
 Take note and save somewhere the newly created service account for Dataform.  
-Example: **service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com**
+Example: `service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com`
 
-  ![](../img/lab3/createreposuccess.png)
 
-Click <walkthrough-spotlight-pointer locator="text('go to repositories')">GO TO REPOSITORIES</walkthrough-spotlight-pointer>, and then choose the <walkthrough-spotlight-pointer locator="text('hackathon-repository')">hackathon-repository</walkthrough-spotlight-pointer> you just created.
+Next, click <walkthrough-spotlight-pointer locator="text('go to repositories')">GO TO REPOSITORIES</walkthrough-spotlight-pointer>, and then choose the <walkthrough-spotlight-pointer locator="text('hackathon-repository')">hackathon-repository</walkthrough-spotlight-pointer> you just created.
 
 ***
 
@@ -75,7 +67,7 @@ Click <walkthrough-spotlight-pointer locator="text('go to repositories')">GO TO 
 
 You should now be in the <walkthrough-spotlight-pointer locator="text('development workspaces')">DEVELOPMENT WORKSPACES</walkthrough-spotlight-pointer> tab of the hackathon-repository page.
 
-Click <walkthrough-spotlight-pointer locator="text('create development workspace')">+ CREATE DEVELOPMENT WORKSPACE</walkthrough-spotlight-pointer>
+First, click <walkthrough-spotlight-pointer locator="text('create development workspace')">+ CREATE DEVELOPMENT WORKSPACE</walkthrough-spotlight-pointer> to create a copy of your own repository.  You can create, edit, or delete content in your repository without affecting others.
 
 In the **Create development workspace** window, do the following:  
    1. In the <walkthrough-spotlight-pointer locator="semantic({textbox 'Workspace ID'})">Workspace ID</walkthrough-spotlight-pointer> field, enter “hackathon-\<YOURLASTNAME\>-workspace” (replace \<YOURLASTNAME\> with your name)
@@ -83,8 +75,7 @@ In the **Create development workspace** window, do the following:
    2. Click <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
    3. The development workspace page appears.  
    4. Click on the newly created `hackathon-YOURLASTNAME-workspace` 
-
-   Click <walkthrough-spotlight-pointer cssSelector="[id$=_4rif_initialize-workspace-button]">INITIALIZE WORKSPACE</walkthrough-spotlight-pointer>
+   5. Click <walkthrough-spotlight-pointer locator="css(button[id$=initialize-workspace-button])">INITIALIZE WORKSPACE</walkthrough-spotlight-pointer>
 
 ***
 
@@ -97,13 +88,15 @@ In the **Create development workspace** window, do the following:
     ml_datasets
     ```
 
-3.  Make sure `defaultProject` value is **your project id** 
+3.  Make sure `defaultProject` value is ``{{ PROJECT_ID }}``
 
     Note: Nevermind if you have a different dataform core version, just continue
 
 4. Click on <walkthrough-spotlight-pointer locator="text('install packages')">INSTALL PACKAGES</walkthrough-spotlight-pointer> ***Only*** ***Once***. You should see a message at the bottom of the page:
 
     *Package installation succeeded*
+
+***
 
 ### Create SQLX files
 
@@ -153,18 +146,18 @@ In the **Create development workspace** window, do the following:
 
 6. Copy the contents to each of those files:
 
-  <walkthrough-editor-open-file filePath="src/dataform/definitions/mview_ulb_fraud_detection.sqlx">`mview_ulb_fraud_detection`</walkthrough-editor-open-file>
+    <walkthrough-editor-open-file filePath="src/dataform/definitions/mview_ulb_fraud_detection.sqlx">`mview_ulb_fraud_detection`</walkthrough-editor-open-file>
 
-  <walkthrough-editor-open-file filePath="src/dataform/definitions/sentiment_inference.sqlx">`sentiment_inference`</walkthrough-editor-open-file>
+    <walkthrough-editor-open-file filePath="src/dataform/definitions/sentiment_inference.sqlx">`sentiment_inference`</walkthrough-editor-open-file>
 
-  <walkthrough-editor-open-file filePath="src/dataform/definitions/ulb_fraud_detection.sqlx">`ulb_fraud_detection`</walkthrough-editor-open-file>
+    <walkthrough-editor-open-file filePath="src/dataform/definitions/ulb_fraud_detection.sqlx">`ulb_fraud_detection`</walkthrough-editor-open-file>
 
 
-7. Set the `database` value to your **project ID** value in `ulb_fraud_detection.sqlx` file:
+7. Set the `database` value to your project ID ``{{ PROJECT_ID }}`` value in `ulb_fraud_detection.sqlx` file:
 
- <img src= "../img/lab3/ulb_fraud_detection_config.png" alt="ulb_fraud_detection_config" style="border: 1px solid grey;">
+<img src= "../img/lab3/ulb_fraud_detection_config.png" alt="ulb_fraud_detection_config" style="border: 1px solid grey;">
 
-8. In `llm_model_connection.sql`, replace the  **'us.llm-connection'** connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be “**us.fraud-transactions-conn**”
+8. In `llm_model_connection.sql`, replace the `us.llm-connection` connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be `us.fraud-transactions-conn`
 
 Notice the usage of $ref in line 11, of **definitions/mview\_ulb\_fraud\_detection.sqlx**. The advantages of using $ref in Dataform are
 
@@ -172,64 +165,70 @@ Notice the usage of $ref in line 11, of **definitions/mview\_ulb\_fraud\_detecti
 * Dependency Tracking: Builds a dependency graph, ensuring correct creation order and automatic updates when referenced tables change.  
 * Enhanced Maintainability: Supports modular and reusable SQL scripts, making the codebase easier to maintain and less error-prone.
 
+***
+
 ### **Execute Dataform workflows**
 
 Run the dataset creation by **TAG**. TAG allows you to just execute parts of the workflows and not the entire workflow. 
 
-Click on <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer> > <walkthrough-spotlight-pointer locator="text('tags')">Tags</walkthrough-spotlight-pointer> \> <walkthrough-spotlight-pointer locator="text('dataset_ulb_fraud_detection_llm')">dataset_ulb_fraud_detection_llm</walkthrough-spotlight-pointer><walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer>
+1. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer> > <walkthrough-spotlight-pointer locator="text('tags')">Tags</walkthrough-spotlight-pointer> \> <walkthrough-spotlight-pointer locator="text('dataset_ulb_fraud_detection_llm')">dataset_ulb_fraud_detection_llm</walkthrough-spotlight-pointer><walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer>
 
-Click on <walkthrough-spotlight-pointer locator="semantic({link 'Details'})">DETAILS</walkthrough-spotlight-pointer>
+2. Click on <walkthrough-spotlight-pointer locator="semantic({link 'Details'})">DETAILS</walkthrough-spotlight-pointer>
 
-Notice the Access Denied error on BigQuery for the dataform service account `XXX@gcp-sa-dataform.iam.gserviceaccount.com`
+    Notice the Access Denied error on BigQuery for the dataform service account `XXX@gcp-sa-dataform.iam.gserviceaccount.com`
 
-Go to [IAM & Admin](https://console.cloud.google.com/iam-admin). 
+3. Go to [IAM & Admin](https://console.cloud.google.com/iam-admin)
 
-Click on <walkthrough-spotlight-pointer locator="semantic({button 'Grant access'})">GRANT ACCESS</walkthrough-spotlight-pointer> and grant **BigQuery Data Editor , BigQuery Job User and BigQuery Connection User**  to the Dataform  service account.  Click on <walkthrough-spotlight-pointer locator="semantic({button 'Save'})">SAVE</walkthrough-spotlight-pointer>
+4. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Grant access'})">GRANT ACCESS</walkthrough-spotlight-pointer> and grant `BigQuery Data Editor , BigQuery Job User and BigQuery Connection User` to the Dataform  service account. \
+
+5. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Save'})">SAVE</walkthrough-spotlight-pointer>
 
  <img src= "../img/lab3/iamroles.png" alt="iamroles" style="border: 1px solid grey;">
 
-   ***Note:*** If you encounter a policy update screen, just click on update.
+  Note: If you encounter a policy update screen, just click on update.
 
-Go back to [Dataform](https://console.cloud.google.com/bigquery/dataform) within in BigQuery, and retry <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer> > <walkthrough-spotlight-pointer locator="text('tags')">Tags</walkthrough-spotlight-pointer> \> <walkthrough-spotlight-pointer locator="text('dataset_ulb_fraud_detection_llm')">dataset_ulb_fraud_detection_llm</walkthrough-spotlight-pointer><walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer>. 
+6. Go back to [Dataform](https://console.cloud.google.com/bigquery/dataform) within in BigQuery, and retry <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer> > <walkthrough-spotlight-pointer locator="text('tags')">Tags</walkthrough-spotlight-pointer> \> <walkthrough-spotlight-pointer locator="text('dataset_ulb_fraud_detection_llm')">dataset_ulb_fraud_detection_llm</walkthrough-spotlight-pointer><walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer>. \
 Notice the execution status. It should be a success.  
  
-Lastly, go to Compiled graph and explore it.
+7. Lastly, go to Compiled graph and explore it.
+Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> `hackathon-<YOURLASTNAME>-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
 
-Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> `hackathon-<lastname>-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
+***
 
 ### **LAB Section: Execute the workspace workflow**
 
 For  the sentiment inference step to succeed, you need to grant the external connection service account the Vertex AI user privilege. More details can be found in this [link](https://cloud.google.com/bigquery/docs/generate-text-tutorial#grant-permissions). 
 
-You can find the service account ID under [BigQuery Studio](https://console.cloud.google.com/bigquery) \> Your project ID  (example: `bootkon-dryrun24ber-886`) \> <walkthrough-spotlight-pointer locator="semantic({treeitem 'External connections'})">External connections</walkthrough-spotlight-pointer> \> `fraud-transactions-conn`  
+1. You can find the service account ID under [BigQuery Studio](https://console.cloud.google.com/bigquery) \> ``{{ PROJECT_ID }}`` \> <walkthrough-spotlight-pointer locator="semantic({treeitem 'External connections'})">External connections</walkthrough-spotlight-pointer> \> `fraud-transactions-conn`  
      
  <img src= "../img/lab3/serviceaccountconnection.png" alt="serviceaccountconnection" style="border: 1px solid grey;">  
 
-Take note of the service account and grant it the **Vertex AI User** role.   
+2. Take note of the service account and grant it the `Vertex AI User` role.   
  <img src= "../img/lab3/vertexairole.png" alt="vertexairole" style="border: 1px solid grey;">
      
-Back in your Dataform workspace, click <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer> from the top menu, then <walkthrough-spotlight-pointer locator="semantic({menuitem 'Execute actions'})">Execute Actions</walkthrough-spotlight-pointer>
+3. Back in your Dataform workspace, click <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer> from the top menu, then <walkthrough-spotlight-pointer locator="semantic({menuitem 'Execute actions'})">Execute Actions</walkthrough-spotlight-pointer>
  
-Click on <walkthrough-spotlight-pointer locator="semantic({radio 'All actions'})">ALL ACTIONS</walkthrough-spotlight-pointer> Tab then Click on <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer>  
+4. Click on <walkthrough-spotlight-pointer locator="semantic({radio 'All actions'})">ALL ACTIONS</walkthrough-spotlight-pointer> Tab followed by choosing <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer>  
  
-Check the execution status. It should be a success.  
-Verify the new table `sentiment_inference` in the `ml_datasets` dataset in BigQuery.
+5. Check the execution status. It should be a success.  
 
-Query the BigQuery table content (At this point you should be familiar with running BigQuery SQL)  
+6. Verify the new table `sentiment_inference` in the `ml_datasets` dataset in BigQuery and query the BigQuery table content (At this point you should be familiar with running BigQuery SQL)  
    
-```
-SELECT distinct ml_generate_text_llm_result,
-prompt,
-Feedback
-FROM `ml_datasets.sentiment_inference` LIMIT 10;
-```
+    ```
+    SELECT distinct ml_generate_text_llm_result,
+    prompt,
+    Feedback
+    FROM `ml_datasets.sentiment_inference` LIMIT 10;
+    ```
    
 **\[Max 2 minutes\]** Discuss the table results within your team group.
 
-Before moving to the challenge section of the Lab, go back to the CODE section of the Dataform workspace. At the top of the “Files” section on the left, click <walkthrough-spotlight-pointer locator="css(button[id$=commit-button])">COMMIT X CHANGES</walkthrough-spotlight-pointer> (X should be about 7), add a commit message like, “Bootkon Lab 3”, then click <walkthrough-spotlight-pointer locator="semantic({button 'Commit all files'})">COMMIT ALL FILES</walkthrough-spotlight-pointer> and then <walkthrough-spotlight-pointer locator="semantic({button 'push to default'})">PUSH TO DEFAULT BRANCH</walkthrough-spotlight-pointer>
+7. Before moving to the challenge section of the Lab, go back to the CODE section of the Dataform workspace. At the top of the “Files” section on the left, click <walkthrough-spotlight-pointer locator="css(button[id$=commit-button])">COMMIT X CHANGES</walkthrough-spotlight-pointer> (X should be about 7), add a commit message like, “Bootkon Lab 3”, then click <walkthrough-spotlight-pointer locator="semantic({button 'Commit all files'})">COMMIT ALL FILES</walkthrough-spotlight-pointer> and then <walkthrough-spotlight-pointer locator="semantic({button 'push to default'})">PUSH TO DEFAULT BRANCH</walkthrough-spotlight-pointer>
 
-You should now have the message: *Workspace is up to date*
+    You should now have the message: *Workspace is up to date*
  
+***
+
 ### **CHALLENGE Section : Production, Scheduling and Automation** 
 
 Automate and schedule the compilation and execution of the pipeline. This is done using release configurations and workflow configurations.
@@ -253,7 +252,7 @@ Release configurations allow you to compile your pipeline code at specific inter
 
   The pipeline will run at the defined frequency using the compiled code from the specified release configuration. For more information, refer to the [workflow configurations documentation](https://cloud.google.com/dataform/docs/workflow-configurations).
 
-*\[TASK\] Challenge : Take up to 10 minutes to Setup a Daily Frequency Execution of the Workflow*
+**\[TASK\] Challenge : Take up to 10 minutes to Setup a Daily Frequency Execution of the Workflow**
 
 
 ***Goal:*** Set up a daily schedule to automate and execute the workflow you created.
@@ -264,8 +263,13 @@ Release configurations allow you to compile your pipeline code at specific inter
 * Set up a 3 minute frequency execution of the workflow you have created.  
      
      
-***Note:*** If you are stuck and cannot figure out how to proceed after a few minutes, ask your team captain.
+Note: If you are stuck and cannot figure out how to proceed after a few minutes, ask your team captain.
 
-You've nailed the Dataform lab -- great job!
+### Success
 
-<walkthrough-conclusion-trophy></walkthrough-conclusion-trophy>
+🎉 Congratulations{% if MY_NAME %}, {{ MY_NAME }}{% endif %}! 🚀
+
+You've just finished the lab, and wow, what a ride!  You dove headfirst into the world of Dataform, BigQuery, and Gemini, building a sentiment analysis pipeline from scratch. Remember all those setup steps?  Repository, workspace, connections...it's a blur now, but you nailed it. 
+
+Those pesky "Access Denied" errors?  Conquered.  The pipeline?  Purring like a data-driven kitten, churning out sentiment scores like nobody's business.  And the best part?  You automated the whole thing! Scheduled executions?  Check.  You're a data pipeline master.  Bring on the next challenge – you've got this! 🚀
+
