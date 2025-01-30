@@ -6,7 +6,7 @@
 
 During this lab, you gather user feedback to assess the impact of model adjustments on real-world use (prediction), ensuring that our fraud detection system effectively balances accuracy with user satisfaction. 
 * Use Dataform , BigQuery and Gemini to Perform sentiment analysis of customer feedback.
-### **Dataform** 
+### Dataform 
 
 Dataform is a fully managed service that helps data teams build, version control, and orchestrate SQL workflows in BigQuery. It provides an end-to-end experience for data transformation, including:
 
@@ -29,7 +29,7 @@ There are many benefits to using Dataform in Google Cloud, including:
 * Reduced costs: Dataform can help you to reduce the costs associated with data processing by optimizing the execution of your SQL workflows.  
 * Increased scalability: Dataform can help you to scale your data pipelines to meet the needs of your growing business.
 
-### **Use Cases for Dataform**
+### Use Cases for Dataform
 
 Dataform can be used for a variety of use cases, including:
 
@@ -58,7 +58,9 @@ Go within BigQuery to [Dataform](https://console.cloud.google.com/bigquery/dataf
 
 3. And click on <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
 
-### **Dataform Service Account** 
+***
+
+### Dataform Service Account 
 
 Take note and save somewhere the newly created service account for Dataform.  
 Example: **service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com**
@@ -67,96 +69,102 @@ Example: **service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com**
 
 Click <walkthrough-spotlight-pointer locator="text('go to repositories')">GO TO REPOSITORIES</walkthrough-spotlight-pointer>, and then choose the <walkthrough-spotlight-pointer locator="text('hackathon-repository')">hackathon-repository</walkthrough-spotlight-pointer> you just created.
 
-### **Create and initialize a Dataform development workspace**
+***
+
+### Create and initialize a Dataform development workspace
 
 You should now be in the <walkthrough-spotlight-pointer locator="text('development workspaces')">DEVELOPMENT WORKSPACES</walkthrough-spotlight-pointer> tab of the hackathon-repository page.
 
 Click <walkthrough-spotlight-pointer locator="text('create development workspace')">+ CREATE DEVELOPMENT WORKSPACE</walkthrough-spotlight-pointer>
 
 In the **Create development workspace** window, do the following:  
-   * In the <walkthrough-spotlight-pointer locator="semantic({textbox 'Workspace ID'})">Workspace ID</walkthrough-spotlight-pointer> field, enter “hackathon-\<YOURLASTNAME\>-workspace” (replace \<YOURLASTNAME\> with your name)
+   1. In the <walkthrough-spotlight-pointer locator="semantic({textbox 'Workspace ID'})">Workspace ID</walkthrough-spotlight-pointer> field, enter “hackathon-\<YOURLASTNAME\>-workspace” (replace \<YOURLASTNAME\> with your name)
 
-   * Click <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
-   * The development workspace page appears.  
-   * Click on the newly created **hackathon-YOURLASTNAME-workspace** 
+   2. Click <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
+   3. The development workspace page appears.  
+   4. Click on the newly created `hackathon-YOURLASTNAME-workspace` 
 
    Click <walkthrough-spotlight-pointer cssSelector="[id$=_4rif_initialize-workspace-button]">INITIALIZE WORKSPACE</walkthrough-spotlight-pointer>
-   
-### **Adjust workflow settings and create SQLX files**
-Edit the `workflow_settings.yaml`file :
 
-  Replace `defaultDataset` value with
+***
 
-  ```
-  ml_datasets
-  ```
+### Adjust workflow settings
+1. Edit the `workflow_settings.yaml`file :
 
-  Make sure `defaultProject` value is **your project id** 
+2. Replace `defaultDataset` value with
 
-  **Note:** Nevermind if you have a different dataform core version, just continue
+    ```
+    ml_datasets
+    ```
 
-Click on <walkthrough-spotlight-pointer locator="text('install packages')">INSTALL PACKAGES</walkthrough-spotlight-pointer> ***Only*** ***Once***. You should see a message at the bottom of the page:
+3.  Make sure `defaultProject` value is **your project id** 
 
-  *Package installation succeeded*
+    Note: Nevermind if you have a different dataform core version, just continue
 
-Delete the following files from the <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> folder:
+4. Click on <walkthrough-spotlight-pointer locator="text('install packages')">INSTALL PACKAGES</walkthrough-spotlight-pointer> ***Only*** ***Once***. You should see a message at the bottom of the page:
 
-`first_view.sqlx`
-`second_view.sqlx`
+    *Package installation succeeded*
 
-Within <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> create a new directory called `models`:
+### Create SQLX files
+
+1. Delete the following files from the <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> folder:
+
+    `first_view.sqlx`
+    `second_view.sqlx`
+
+2. Within <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> create a new directory called `models`:
 
 ![](../img/lab3/newdirectory.png)
 
-Click on `models` directory and create 2 new files
+3. Click on `models` directory and create 2 new files
 
-  ```
-  create_dataset.sqlx
-  ```
-  ```
-  llm_model_connection.sqlx
-  ```
+      ```
+      create_dataset.sqlx
+      ```
+      ```
+      llm_model_connection.sqlx
+      ```
 
-Example:
+    Example:
 
 ![](../img/lab3/createdataset.png)
 
-Copy the contents to each of those files:
+4. Copy the contents to each of those files:
 
-<walkthrough-editor-open-file filePath="src/dataform/definitions/models/create_dataset.sqlx">`create_dataset`</walkthrough-editor-open-file>
+    <walkthrough-editor-open-file filePath="src/dataform/definitions/models/create_dataset.sqlx">`create_dataset`</walkthrough-editor-open-file>
 
-<walkthrough-editor-open-file filePath="src/dataform/definitions/models/llm_model_connection.sqlx">`llm_model_connection`</walkthrough-editor-open-file>
+    <walkthrough-editor-open-file filePath="src/dataform/definitions/models/llm_model_connection.sqlx">`llm_model_connection`</walkthrough-editor-open-file>
 
-Click on <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> and create 3 new files: 
+5. Click on <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> and create 3 new files: 
 
-  ```
-  mview_ulb_fraud_detection.sqlx
-  ```
-  ```
-  sentiment_inference.sqlx
-  ```
-  ```
-  ulb_fraud_detection.sqlx
-  ```
+    ```
+    mview_ulb_fraud_detection.sqlx
+    ```
+    ```
+    sentiment_inference.sqlx
+    ```
+    ```
+    ulb_fraud_detection.sqlx
+    ```
 
-Example:
+  Example:
 
  <img src= "../img/lab3/mview_fraud_detection.png" alt="mview_fraud_detection" style="border: 1px solid grey;">
 
-Copy the contents to each of those files:
+6. Copy the contents to each of those files:
 
-<walkthrough-editor-open-file filePath="src/dataform/definitions/mview_ulb_fraud_detection.sqlx">`mview_ulb_fraud_detection`</walkthrough-editor-open-file>
+  <walkthrough-editor-open-file filePath="src/dataform/definitions/mview_ulb_fraud_detection.sqlx">`mview_ulb_fraud_detection`</walkthrough-editor-open-file>
 
-<walkthrough-editor-open-file filePath="src/dataform/definitions/sentiment_inference.sqlx">`sentiment_inference`</walkthrough-editor-open-file>
+  <walkthrough-editor-open-file filePath="src/dataform/definitions/sentiment_inference.sqlx">`sentiment_inference`</walkthrough-editor-open-file>
 
-<walkthrough-editor-open-file filePath="src/dataform/definitions/ulb_fraud_detection.sqlx">`ulb_fraud_detection`</walkthrough-editor-open-file>
+  <walkthrough-editor-open-file filePath="src/dataform/definitions/ulb_fraud_detection.sqlx">`ulb_fraud_detection`</walkthrough-editor-open-file>
 
 
-Set the `database` value to your **project ID** value in `ulb_fraud_detection.sqlx` file:
+7. Set the `database` value to your **project ID** value in `ulb_fraud_detection.sqlx` file:
 
  <img src= "../img/lab3/ulb_fraud_detection_config.png" alt="ulb_fraud_detection_config" style="border: 1px solid grey;">
 
-In `llm_model_connection.sql`, replace the  **'us.llm-connection'** connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be “**us.fraud-transactions-conn**”
+8. In `llm_model_connection.sql`, replace the  **'us.llm-connection'** connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be “**us.fraud-transactions-conn**”
 
 Notice the usage of $ref in line 11, of **definitions/mview\_ulb\_fraud\_detection.sqlx**. The advantages of using $ref in Dataform are
 
