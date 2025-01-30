@@ -38,21 +38,21 @@ Dataform can be used for a variety of use cases, including:
 * Data Analytics: Dataform can be used to develop and maintain data pipelines that prepare data for analysis.  
 * Machine Learning: Dataform can be used to develop and maintain data pipelines that prepare data for machine learning models.
 
-### **LAB Section : Creating a Dataform Pipeline**
+### LAB Section: Creating a Dataform Pipeline
 
 First step in implementing a pipeline in Dataform is to set up a repository and a development environment. Detailed quickstart and instructions can be found [here](https://cloud.google.com/dataform/docs/quickstart-create-workflow).
 
 Go within BigQuery to [Dataform](https://console.cloud.google.com/bigquery/dataform) and then
 
-### **Create a Repository in Dataform** 
+### Create a Repository in Dataform
 
-Click on <walkthrough-spotlight-pointer locator="text('create repository')">+ CREATE REPOSITORY</walkthrough-spotlight-pointer>
+Click on <walkthrough-spotlight-pointer locator="css(a[id$=create-repository])">+ CREATE REPOSITORY</walkthrough-spotlight-pointer>
 
 Use the following values when creating the repository:
 
-- Repository ID: “hackathon-repository”  
-- Region: "us-central1"  
-- Service Account: "Default Dataform service account"
+- Repository ID: `hackathon-repository`
+- Region: `us-central1`
+- Service Account: `Default Dataform service account`
 
 And click on <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
 
@@ -61,7 +61,7 @@ And click on <walkthrough-spotlight-pointer locator="text('create')">CREATE</wal
 Take note and save somewhere the newly created service account for Dataform.  
 Example: **service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com**
 
-  <img src= "../img/lab3/createreposuccess.png" alt="createreposuccess" style="border: 1px solid grey;">
+  ![](../img/lab3/createreposuccess.png)
 
 Click <walkthrough-spotlight-pointer locator="text('go to repositories')">GO TO REPOSITORIES</walkthrough-spotlight-pointer>, and then choose the <walkthrough-spotlight-pointer locator="text('hackathon-repository')">hackathon-repository</walkthrough-spotlight-pointer> you just created.
 
@@ -104,7 +104,7 @@ Delete the following files from the <walkthrough-spotlight-pointer locator="sema
 
 Within <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> create a new directory called `models`:
 
- <img src= "../img/lab3/newdirectory.png" alt="newdirectory" style="border: 1px solid grey;">
+![](../img/lab3/newdirectory.png)
 
 Click on `models` directory and create 2 new files
 
@@ -117,7 +117,7 @@ Click on `models` directory and create 2 new files
 
 Example:
 
- <img src= "../img/lab3/createdataset.png" alt="createdataset" style="border: 1px solid grey;">
+![](../img/lab3/createdataset.png)
 
 Copy the contents to each of those files:
 
