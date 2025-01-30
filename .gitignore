@@ -3,7 +3,13 @@
 .ipynb_checkpoints
 mdbook-v0.4.43-x86_64-unknown-linux-gnu.tar.gz
 mdbook
-/book
+output
 notebooks/train.py
 notebooks/serve.py
 vars.local.sh
+docs/output
+.scripts/mdbook
+package-lock.json
+.tutorial.memory
+data
+*.jar

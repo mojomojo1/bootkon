@@ -1,10 +1,19 @@
 # Development Workflow
+{% if MDBOOK_VIEW %}
+First, start bootkon as if you were a participant (see [Labs](../labs/main.md)). Next, open this file in Cloud Shell:
 
-If you take the Cloud Shell route, <a href="https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/fhirschmann/bootkon&page=editor&tutorial=docs/book/run_own_bootkon_workflow.md&show=ide&cloudshell_workspace=" target="_blank">open this file in Cloud Shell</a> in tutorial mode and follow the next steps directly in Cloud Shell.
+```
+bk-tutorial docs/book/run_own_bootkon_workflow.md
+```
 
-## Rationale
+Continue the next sections in the Cloud Shell tutorial.
 
-In this section, we will set up Git and introduce the development workflow.
+{% else %}
+## Continue in Cloud Shell
+
+Hi, press `START`.
+
+{% endif %}
 
 ## Authenticate to GitHub
 
@@ -61,48 +70,31 @@ cp vars.sh vars.local.sh
 
 And <walkthrough-editor-open-file filePath="vars.local.sh">edit it</walkthrough-editor-open-file>. It also runs on Argolis (for Google employees).
 
-The last line in `vars.local.sh` is inteded for participants to reload the tutorial in case it disappears from Cloud Shell. We will use a different
-command for development that applies jinja2 processing so that you can load and render individual markdown files instead of `.TUTORIAL.md`.
-It also remembers the last file you opened so that you can just do `r` (without filename) for consecutive runs. Replace the last line with the following:
-
+Next, source it:
 ```bash
-alias r='bash ~/cloudshell_open/bootkon/book/scripts/reload-tutorial'
+. vars.local.sh
 ```
 
-Install dependencies:
-```bash
-pip install jinja2-cli
-```
-
-Next, instead of doing `source vars.sh` as requested in the labs, do
-```bash
-source vars.local.sh
-```
-
-Please note that you might have to **re-execute the last command** in case you reopen Cloud Shell.
+Note that the init script (`bk`) automatically loads `vars.local.sh` the next time and `vars.local.sh` takes presendence over `vars.sh`.
 
 ## Reloading the tutorial
 
-You can reload a lab on-the-fly by typing `r` followed by the lab markdown file into the terminal and pressing return. This is the alias we set up in `vars.local.sh`. Let's start by opening the tutorial:
+You can reload a lab on-the-fly by typing `bk-tutorial` followed by the lab markdown file into the terminal and pressing return. Let's reload
+this tutorial:
 ```bash
-r docs/book/fork.md
+bk-tutorial docs/book/run_own_bootkon_workflow.md
 ```
 
 ## Working with mdbook
 
-You can run mdbook and compile the book in Cloud Shell directly. First, download mdbook:
-```bash
-wget -qO - https://github.com/rust-lang/mdBook/releases/download/v0.4.43/mdbook-v0.4.43-x86_64-unknown-linux-gnu.tar.gz | tar xvzf -
-```
-
-Install dependencies:
+You can run mdbook and compile the book in Cloud Shell directly. First, install dependencies:
 ```bash
 pip install jinja2 nbformat nbconvert
 ```
 
 Next, run mdbook:
 ```bash
-./mdbook serve -p 8080
+bk-mdbook
 ```
 
 You can now read the book using Cloud Shell's web preview by pressing the ![](https://cloud.google.com/static/shell/docs/images/web_preview.svg) button in Cloud Shell. Select **Preview on port 8080**. As soon as you change any of the markdown source files, mdbook will automatically reload it.

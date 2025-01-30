@@ -6,6 +6,9 @@ src = "docs"
 extra-watch-dirs = ["docs"]
 title = "Data & AI Bootkon Handbook"
 
+[build]
+build-dir = "output"
+
 [output.html]
 additional-css = ["docs/css/alerts.css", "docs/css/custom.css"]
 default-theme = "navy"
@@ -13,7 +16,7 @@ smart-punctuation = true
 git-repository-url = "https://github.com/fhirschmann/bootkon"
 
 [preprocessor.cloud_shell]
-command = "python3 docs/scripts/mdbook_preprocessor_cloudshell.py"
+command = "bk-render-neos"
 
 [preprocessor.jinja2]
-command = "python3 docs/scripts/mdbook_preprocessor_jinja2.py"
+command = "bk-render-jinja2"

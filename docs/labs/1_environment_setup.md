@@ -4,33 +4,84 @@
 <walkthrough-tutorial-difficulty difficulty="1"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 
-In this lab you will grant permissions and set up a default VPC network as a preparatory step.
+In this lab we will set up your environment, download the data set for this bootkon, put it to Cloud storage,
+and do a few other things.
 
-### **Choice of GCP Product and Service Location**
+### Enable services
 
-You are free to choose any GCP region location for your labs. Ensure all your resources are created in the chosen location to avoid connectivity issues and minimize latency and cost. If you don’t have a preferred GCP location, use ***us-central1*** for simplicity.
+First, we need to enable some Google Cloud Platform (GCP) services. Enabling GCP services is necessary to access and use the resources and capabilities associated with those services. Each GCP service provides a specific set of features for managing cloud infrastructure, data, AI models, and more. Enabling them takes a few minutes.
 
-### **Setup your environment**
+<walkthrough-enable-apis apis=
+  "storage-component.googleapis.com,
+  notebooks.googleapis.com,
+  serviceusage.googleapis.com,
+  cloudresourcemanager.googleapis.com,
+  pubsub.googleapis.com,
+  compute.googleapis.com,
+  metastore.googleapis.com,
+  datacatalog.googleapis.com,
+  bigquery.googleapis.com,
+  dataplex.googleapis.com,
+  datalineage.googleapis.com,
+  dataform.googleapis.com,
+  dataproc.googleapis.com,
+  bigqueryconnection.googleapis.com,
+  aiplatform.googleapis.com,
+  artifactregistry.googleapis.com">
+</walkthrough-enable-apis>
 
-Open `vars.sh` <walkthrough-editor-open-file filePath="vars.sh"> in the Cloud Shell editor </walkthrough-editor-open-file> and adapt it. Don't forget to save it.
+### Download data
 
-Now, export the variables to your environment:
+Next, we download the data set for bootkon and put it into Cloud Storage. Before we do that, we create
+a bucket where we place the data into. Let's name it ``{{ PROJECT_ID }}-bucket``:
 ```bash
-source vars.sh
+gsutil mb -l $REGION gs://{{ PROJECT_ID }}-bucket
 ```
 
-Verify that they have been set correctly:
+Next, we download the data set and extract it (all in one line):
 ```bash
-echo "PROJECT_ID=$PROJECT_ID REGION=$REGION GCP_USERNAME=$GCP_USERNAME"
+wget -qO - https://github.com/fhirschmann/bootkon-data/releases/download/v1.5/data.tar.gz | tar xvzf -
 ```
 
-Please also select your project in the next widget and ignore the comment about creating a new project.
-
-<walkthrough-project-setup></walkthrough-project-setup>
-
-Have a look at <walkthrough-editor-open-file filePath="bootstrap.sh">`bootstrap.sh`</walkthrough-editor-open-file> and what it does; exeucte it:
+Let's upload the data to the bucket we just created:
 ```bash
-./bootstrap.sh
+gsutil -m cp -R data gs://$PROJECT_ID-bucket/
 ```
 
-Well done, your environment is now ready for the first lab!
+Is the data there? Let's check and open [Cloud Storage](https://console.cloud.google.com/storage/browser/astute-ace-336608-bucket). Once you have checked, you may need to resize the window that just opened
+to make it smaller in case you run out of screen real estate.
+
+### Create default VPC
+
+The Google Cloud environment we created for you does not come with a Virtual Private Cloud (VPC) network
+created by default. Let's create one:
+
+```bash
+gcloud compute networks create default --project=$PROJECT_ID --subnet-mode=auto --bgp-routing-mode="regional"
+gcloud compute networks subnets update default --region=$REGION --enable-private-ip-google-access
+gcloud compute firewall-rules create "default-allow-all-internal" \
+    --network="default" \
+    --project=$PROJECT_ID \
+    --direction=INGRESS \
+    --priority=65534 \
+    --source-ranges="10.128.0.0/9" \
+    --allow=tcp:0-65535,udp:0-65535,icmp
+```
+
+### Assign permissions
+
+Execute the following script:
+```bash
+bk-bootstrap
+```
+
+But what did it do? Let's ask Gemini while it is running.
+
+1. Open  <walkthrough-editor-open-file filePath=".scripts/bk-bootstrap">`bk-bootstrap`</walkthrough-editor-open-file>.
+2. Open Gemini Code Assist <img style="vertical-align:middle" src="https://www.gstatic.com/images/branding/productlogos/gemini/v4/web-24dp/logo_gemini_color_1x_web_24dp.png" width="8px" height="8px"> on the left hand side.
+3. Insert ``What does bk-bootstrap do?`` into the Gemini prompt.
+
+### Success
+
+🎉 Congratulations{% if MY_NAME %}, {{ MY_NAME }}{% endif %}! You've officially leveled up from "cloud-curious" to "GCP aware"! 🌩️🚀
+

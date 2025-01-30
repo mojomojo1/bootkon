@@ -1,0 +1,62 @@
+#!/bin/bash
+# author: Fabian Hirschmann
+
+[[ "$BK_INITIALIZED" != "1" ]] && echo "Bootkon has not been initialized. Please follow the tutorial and run '. bk'" && exit 1
+
+declare -a user_roles=(
+    "roles/bigquery.jobUser" # Can run BigQuery jobs
+    "roles/bigquery.dataEditor" # Can edit BigQuery datasets
+    "roles/bigquery.connectionAdmin" # Can manage BigQuery connections
+    "roles/dataproc.editor" # Can edit Dataproc clusters
+    "roles/aiplatform.admin" # Admin on Vertex AI
+    "roles/dataplex.admin" # Admin on Dataplex
+    "roles/datalineage.admin" # Admin on data lineage operations
+    "roles/compute.admin" # Admin on Compute Engine
+    "roles/storage.admin" # Admin on Cloud Storage
+    "roles/storage.objectAdmin" # Admin on Cloud Storage objects
+    "roles/iam.serviceAccountUser" # Can use service accounts
+    "roles/pubsub.admin" # Admin on Pub/Sub
+    "roles/resourcemanager.projectIamAdmin" # Project IAM admin
+)
+
+# Assign roles to user
+for role in "${user_roles[@]}"; do
+    echo "Assigning role $role to $USER_EMAIL in project $PROJECT_ID..."
+    gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+        --member="user:$GCP_USERNAME" --role="$role" >>/dev/null
+done
+
+# Define service account email using the project number
+COMPUTE_SERVICE_ACCOUNT="$PROJECT_NUMBER-compute@developer.gserviceaccount.com"
+
+# Array of service account roles with descriptions
+declare -a service_account_roles=(
+    "roles/dataproc.worker" # Can perform actions as a Dataproc worker
+    "roles/bigquery.dataEditor" # Can edit BigQuery datasets
+    "roles/bigquery.jobUser" # Can run BigQuery jobs
+    "roles/storage.objectAdmin" # Admin on Cloud Storage objects
+    "roles/storage.admin" # Admin on Cloud Storage
+    "roles/iam.serviceAccountUser" # Can use service accounts
+    "roles/pubsub.admin" # Admin on Pub/Sub
+    "roles/serviceusage.serviceUsageConsumer" # Can use services
+    "roles/resourcemanager.projectIamAdmin" # Project IAM admin
+)
+
+# Assign roles to the compute service account
+for role in "${service_account_roles[@]}"; do
+    echo "Assigning role $role to $COMPUTE_SERVICE_ACCOUNT in project $PROJECT_ID..."
+    gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+        --member="serviceAccount:$COMPUTE_SERVICE_ACCOUNT" --role="$role" >>/dev/null
+done
+
+# Set up the workbench bootstrap script
+REPO_URL=$(git config --get remote.origin.url | sed 's#git@github.com:#https://github.com/#')
+cat <<EOF >/tmp/bootstrap_workbench.sh
+#!/bin/sh
+cd /home/jupyter
+sudo -H -u jupyter git clone $REPO_URL
+sudo -H -u jupyter /opt/conda/bin/pip install -r bootkon/requirements.txt
+sudo -H -u jupyter gcloud auth configure-docker ${REGION}-docker.pkg.dev --quiet
+EOF
+chmod +x /tmp/bootstrap_workbench.sh
+gsutil -m cp /tmp/bootstrap_workbench.sh gs://${PROJECT_ID}-bucket/

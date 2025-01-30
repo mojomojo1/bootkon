@@ -4,26 +4,26 @@
 <walkthrough-tutorial-difficulty difficulty="4"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 
-Original document: [here](https://docs.google.com/document/d/1NAcQb9qUZsyGSe2yPQWKrBz18ZRVCL7X9e-NDs5lQbk/edit?usp=drive_link)
+Welcome back{% if MY_NAME %}, {{ MY_NAME }}{% endif %} 😍!
 
-
-During this lab, you ingest fraudulent and non fraudulent transactions dataset into BigQuery using three methods:
+During this lab, you ingest fraudulent and non fraudulent transactions into BigQuery using three methods:
 * **Method 1**: Using BigLake with data stored in [Google Cloud Storage (GCS)](https://cloud.google.com/storage/docs)
 * **Method 2**: Near real-time ingestion into BigQuery using [Cloud Pub/Sub](https://cloud.google.com/pubsub/docs)
 * **Method 3**: Batch ingestion into BigQuery using [Dataproc Serverless](https://cloud.google.com/dataproc-serverless/docs)
 
 
-For all methods, we are ingesting data from the Google Cloud bucket you have created in the previous lab through `bootstrap.sh`. Feel free to have a look at the contents of this bucket:
+For all methods, we are ingesting data from the bucket you have created in the previous lab.
+
+***
 
 ### Method 1: External table using BigLake
 
 BigLake tables allow querying structured data in external data stores with access delegation. For an overview, refer to the [BigLake documentation](https://cloud.google.com/biglake/docs). Access delegation decouples access to the BigLake table from access to the underlying data store. An external connection associated with a service account is used to connect to the data store.
 
-Because the service account handles retrieving data from the data store, you only have to grant users access to the BigLake table. This lets you enforce fine-grained security at the table level, including row-level and column-level security. For BigLake tables based on Cloud Storage, you can also use dynamic data masking. To learn more about multi-cloud analytic solutions using BigLake tables with Amazon S3 or Blob Storage data, see BigQuery Omni.
+Because the service account handles retrieving data from the data store, you only have to grant users access to the BigLake table. This lets you enforce fine-grained security at the table level, including row-level and column-level security.
 
-Note that this section could also be done in the Google Cloud Console (the GUI). However, in this lab, we will do it on the command line.
 
-First, we create the connection:
+First, we create the connectio resource in BigQuery:
 ```bash
 bq mk --connection --location=$REGION --project_id=$PROJECT_ID \
     --connection_type=CLOUD_RESOURCE fraud-transactions-conn
@@ -41,7 +41,17 @@ CONN_SERVICE_ACCOUNT=$(bq --format=prettyjson show --connection ${PROJECT_ID}.${
 echo $CONN_SERVICE_ACCOUNT
 ```
 
-And grant it access to Cloud Storage:
+Let's double check the service account.
+
+1. Go to the [BigQuery Console](https://console.cloud.google.com/bigquery).
+2. Expand ``{{ PROJECT_ID }}`` in the Explorer on the left.
+3. Expand ``External connections``.
+4. Click ``{{ REGION }}.fraud-transactions-conn``.
+
+Is the service account equivalent to the one you got from the command line?
+
+
+If so, let's grant the service account access to Cloud Storage:
 ```bash
 gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-bucket \
 --role=roles/storage.objectViewer \
@@ -53,29 +63,42 @@ Next, we create a dataset that our external table will live in:
 bq --location=${REGION} mk -d ml_datasets
 ```
 
-Go to the [BigQuery Console](https://console.cloud.google.com/bigquery). check that the dataset has been created successfully (Note: you may need to click "refresh contents" from the 3-dot menu for the project in the Explorer).
-
 Finally, create a table in BigQuery pointing to the data in Cloud Storage:
 
 ```bash
 bq mk --table \
-  --external_table_definition=@PARQUET="gs://${PROJECT_ID}-bucket/bootkon-data/parquet/ulb_fraud_detection/*"@projects/${PROJECT_ID}/locations/${REGION}/connections/fraud-transactions-conn \
+  --external_table_definition=@PARQUET="gs://${PROJECT_ID}-bucket/data/parquet/ulb_fraud_detection/*"@projects/${PROJECT_ID}/locations/${REGION}/connections/fraud-transactions-conn \
   ml_datasets.ulb_fraud_detection_biglake
 ```
 
-Go to the [BigQuery Console](https://console.cloud.google.com/bigquery) console again and open the dataset and table you just created. Click on `Query` and insert the following SQL query.
+Let's have a look at the data set:
+1. Go to the [BigQuery Console](https://console.cloud.google.com/bigquery)
+2. Expand <walkthrough-spotlight-pointer locator="semantic({treeitem '{{ PROJECT_ID }}'} {button 'Toggle node'})">{{ PROJECT_ID }}</walkthrough-spotlight-pointer>
+3. Expand <walkthrough-spotlight-pointer locator="semantic({treeitem 'ml_datasets'} {button 'Toggle node'})">ml_datasets</walkthrough-spotlight-pointer>
+4. Click <walkthrough-spotlight-pointer locator="semantic({treeitem 'ulb_fraud_detection_biglake'})">``ulb_fraud_detection_biglake``</walkthrough-spotlight-pointer>
+5. Click <walkthrough-spotlight-pointer locator="text('DETAILS')">DETAILS</walkthrough-spotlight-pointer> 
+
+Have a look at the external data configuration. You can see the Cloud Storage bucket (`gs://...`) your data
+lives in.
+
+Let's query it:
+
+1. Click <walkthrough-spotlight-pointer locator="text('QUERY')">QUERY</walkthrough-spotlight-pointer>
+2. Insert the following SQL query.
 
 ```sql
-SELECT * FROM `<walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_biglake` LIMIT 1000;
+SELECT * FROM `{{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_biglake` LIMIT 1000;
 ```
 
 Note that you can also execute a query using the `bq` tool:
 
 ```bash
-bq --location=$REGION query --nouse_legacy_sql "SELECT Time, V1, Amount, Class FROM <walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_biglake LIMIT 10;"
+bq --location=$REGION query --nouse_legacy_sql "SELECT Time, V1, Amount, Class FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_biglake LIMIT 10;"
 ```
 
-Note that the data we are querying still resides on Cloud Storage and there are no copies stored in BigQuery. Using BigLake, BigQuery acts as query engine but not as storage layer.
+The data you are querying still resides on Cloud Storage and there are no copies stored in BigQuery. When using BigLake, BigQuery acts as query engine but not as storage layer.
+
+***
 
 ### Method 2: Real time data ingestion into BigQuery using Pub/Sub
 
@@ -83,10 +106,10 @@ Pub/Sub enables real-time streaming into BigQuery. Learn more about [Pub/Sub int
 
 We create an empty table and then stream data into it. For this to work, we need to specify a schema. Have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/fraud_detection_bigquery_schema.json">`fraud_detection_bigquery_schema.json`</walkthrough-editor-open-file>. This is the schema we are going to use.
 
-Create an empty table using this schema:
+Create an empty table using this schema. We will use it to stream data into it:
 ```bash
 bq --location=$REGION mk --table \
-<walkthrough-project-id/>:ml_datasets.ulb_fraud_detection_pubsub src/data_ingestion/fraud_detection_bigquery_schema.json
+{{ PROJECT_ID }}:ml_datasets.ulb_fraud_detection_pubsub src/data_ingestion/fraud_detection_bigquery_schema.json
 ```
 
 We also need to a Pub/Sub schema. We use Apache Avro, as it is better suited for appending row-wise:
@@ -105,13 +128,10 @@ gcloud pubsub topics create fraud-detection-topic \
     --message-encoding=BINARY
 ```
 
+{% set PUBSUB_SA = "service-{}@gcp-sa-pubsub.iam.gserviceaccount.com".format(PROJECT_NUMBER) %}
+
 We also need to give Pub/Sub permissions to write data to BigQuery. The Pub/Sub service account is created automatically and
-is comprised of the project number (not the id) and an identifier. Let's first figure out the number:
-```bash
-export PROJECT_NUM=$(gcloud projects describe ${PROJECT_ID} --format="value(projectNumber)")
-export PUBSUB_SERVICE_ACCOUNT="service-${PROJECT_NUM}@gcp-sa-pubsub.iam.gserviceaccount.com"
-echo $PUBSUB_SERVICE_ACCOUNT
-```
+is comprised of the project number (not the id) and an identifier. In your case, it is ``{{ PUBSUB_SA }}``
 
 And grant the service account access to BigQuery:
 
@@ -125,14 +145,18 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 
 Next, we create the Pub/Sub subscription:
 ```bash
-gcloud pubsub subscriptions create fraud_detection-subscription \
+gcloud pubsub subscriptions create fraud-detection-subscription \
     --project=$PROJECT_ID  \
-    --topic=fraud_detection-topic \
+    --topic=fraud-detection-topic \
     --bigquery-table=$PROJECT_ID.ml_datasets.ulb_fraud_detection_pubsub \
     --use-topic-schema  
 ```
 
-Feel free to [check it out in the Pub/Sub console](https://console.cloud.google.com/cloudpubsub/subscription).
+Examine it in the console:
+1. Go to the [Pub/Sub Console](https://console.cloud.google.com/cloudpubsub/subscriptions)
+2. Click <walkthrough-spotlight-pointer locator="text('fraud-detection-subscription')">fraud-detection-subscription</walkthrough-spotlight-pointer>. Here you can see messages as they arrive.
+3. Click <walkthrough-spotlight-pointer locator="text('projects/{{ PROJECT_ID }}/topics/fraud-detection-topic')">fraud-detection-topic</walkthrough-spotlight-pointer>. This is the topic you will be publishing messages to.
+
 
 Since we'll be using Python, let's install the Python <walkthrough-editor-open-file filePath="requirements.txt">packages</walkthrough-editor-open-file> we want to make use of:
 ```bash
@@ -146,12 +170,19 @@ Let's execute it.
 ./src/data_ingestion/import_csv_to_bigquery_1.py
 ```
 
-Each line you see on the screen corresponds to one transaction being sent to Pub/Sub and written to BigQuery. It would take approximately 40 to 60 minutes for it to finish. So, please cancel the command using 'CTRL + C'.
+Each line you see on the screen corresponds to one transaction being sent to Pub/Sub and written to BigQuery. It would take approximately 40 to 60 minutes for it to finish. So, please cancel the command using ``CTRL + C``.
+
+But why is it so slow?
+
+Let's ask Gemini:
+
+1. Open Gemini Code Assist <img style="vertical-align:middle" src="https://www.gstatic.com/images/branding/productlogos/gemini/v4/web-24dp/logo_gemini_color_1x_web_24dp.png" width="8px" height="8px"> on the left hand side.
+2. Insert ``Why was the last command so slow?`` into the Gemini prompt.
 
 <!-- 
 We can make this faster by using different parameters for Pub/Sub. First, remove all rows you just ingested:
 ```bash
-bq --location=$REGION query --nouse_legacy_sql "DELETE FROM <walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_pubsub WHERE true;"
+bq --location=$REGION query --nouse_legacy_sql "DELETE FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_pubsub WHERE true;"
 ```
 
 Next, have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/import_csv_to_bigquery_2.py">import_csv_to_bigquery_2.py</walkthrough-editor-open-file>. Can you make out the difference to the first script? Let's execute it:
@@ -160,6 +191,8 @@ Next, have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/
 ```
 -->
 
+***
+
 ### Method 3: Ingestion using Cloud Dataproc (Apache Spark)
 
 [Dataproc](https://cloud.google.com/dataproc/docs/concepts/overview) is a fully managed and scalable service for running Apache Hadoop, Apache Spark, Apache Flink, Presto, and 30+ open source tools and frameworks. Dataproc allows data to be loaded and also transformed or pre-processed as it is brought in.
@@ -167,7 +200,13 @@ Next, have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/
 Create an empty BigQuery table:
 ```bash
 bq --location=$REGION mk --table \
-<walkthrough-project-id/>:ml_datasets.ulb_fraud_detection_dataproc src/data_ingestion/fraud_detection_bigquery_schema.json
+{{ PROJECT_ID }}:ml_datasets.ulb_fraud_detection_dataproc src/data_ingestion/fraud_detection_bigquery_schema.json
+```
+
+Download the Spark connector for BigQuery and copy it to our bucket:
+```bash
+wget -qN https://github.com/GoogleCloudDataproc/spark-bigquery-connector/releases/download/0.37.0/spark-3.3-bigquery-0.37.0.jar
+gsutil cp spark-3.3-bigquery-0.37.0.jar gs://${PROJECT_ID}-bucket/jar/spark-3.3-bigquery-0.37.0.jar
 ```
 
 Open <walkthrough-editor-select-line filePath="src/data_ingestion/import_parquet_to_bigquery.py" startLine="4" endLine="4" startCharacterOffset="14" endCharacterOffset="31">import_parquet_to_bigquery.py</walkthrough-editor-select-line> in the Cloud Shell editor and replace the project id with your project id. Don't forget to save.
@@ -184,9 +223,15 @@ While the command is still running, open the [DataProc Console](https://console.
 
 After the Dataproc job completes, confirm that data has been loaded into the BigQuery table. You should see over 200,000 records, but the exact count isn't critical:
 ```bash
-bq --location=$REGION query --nouse_legacy_sql "SELECT count(*) as count FROM <walkthrough-project-id/>.ml_datasets.ulb_fraud_detection_dataproc;"
+bq --location=$REGION query --nouse_legacy_sql "SELECT count(*) as count FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_dataproc;"
 ```
 
-You've nailed the data ingestion lab -- great job!
+***
 
-<walkthrough-conclusion-trophy></walkthrough-conclusion-trophy>
+### Success
+
+🎉 Congratulations{% if MY_NAME %}, {{ MY_NAME }}{% endif %}! 🚀
+
+You’ve officially leveled up in data wizardry! By conquering the BigQuery Code Lab, you've shown your skills in not just one, but three epic methods: BigLake (riding the waves of data), DataProc (processing like a boss), and Pub/Sub (broadcasting brilliance).
+
+Your pipelines are now flawless, your tables well-fed, and your data destiny secured. Welcome to the realm of BigQuery heroes —{% if MY_NAME %}{{ MY_NAME }}, {% endif %} the Master of Ingestion! 🦾💻

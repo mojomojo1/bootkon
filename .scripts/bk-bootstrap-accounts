@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Variables
+LOCAL_CSV_FILE="part_env.csv"
+
+# Step 1: Count the number of users (rows) in the CSV (excluding the header)
+num_users=$(tail -n +2 "$LOCAL_CSV_FILE" | grep -cve '^\s*$')
+
+# Inform the user how many entries will be checked
+echo "Checking IAM roles for $num_users users from the CSV file."
+
+# Step 2: Iterate through each line in the CSV (skip header)
+tail -n +2 "$LOCAL_CSV_FILE" | while IFS=, read -r gcp_username gcp_password gcp_project_id first_name last_name email || [ -n "$gcp_username" ]
+do
+    # Step 3: Check if the IAM user exists in the project's IAM policy
+    iam_policy=$(gcloud projects get-iam-policy "$gcp_project_id" --format=json)
+    
+    # Check if the username exists in the IAM policy
+    if echo "$iam_policy" | grep -q "\"user:$gcp_username\""; then
+        echo "Username $gcp_username exists in project $gcp_project_id."
+       
+       	
+        # Check if the user has the roles/editor role assigned
+        if echo "$iam_policy" | jq -r '.bindings[] | select(.role=="roles/editor") | .members[]' | grep -q "user:$gcp_username"; then
+            echo "Username $gcp_username has the roles/editor role assigned in project $gcp_project_id."
+        else
+            echo "Username $gcp_username does not have the roles/editor role assigned in project $gcp_project_id."
+            gcloud projects add-iam-policy-binding "$gcp_project_id" --member="user:$gcp_username" --role="roles/editor"
+	    fi
+
+        # Check if the user has the roles/resourcemanager.projectIamAdmin role assigned
+        if echo "$iam_policy" | jq -r '.bindings[] | select(.role=="roles/resourcemanager.projectIamAdmin") | .members[]' | grep -q "user:$gcp_username"; then
+            echo "Username $gcp_username has the roles/resourcemanager.projectIamAdmin role assigned in project $gcp_project_id."
+        else
+            echo "Username $gcp_username does not have the roles/resourcemanager.projectIamAdmin role assigned in project $gcp_project_id."
+	        gcloud projects add-iam-policy-binding "$gcp_project_id" --member="user:$gcp_username" --role="roles/resourcemanager.projectIamAdmin"
+        fi
+    else
+        echo "Username $gcp_username does not exist in project $gcp_project_id."
+    fi
+done
+
