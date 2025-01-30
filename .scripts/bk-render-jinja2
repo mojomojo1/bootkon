@@ -83,6 +83,11 @@ def render_tutorial(content):
         rf'![\1](https://github.com/{BK_REPO}/blob/main/docs/img/\2?raw=true)',
         content
     )
+    content = re.sub(
+        r'<img\s+src\s*=\s*["\']\.\./img/(.*?)["\']',
+        rf'<img src="https://github.com/{BK_REPO}/blob/main/docs/img/\1?raw=true"',
+        content
+    )
 
     environment = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath="docs"))
     template = environment.from_string(content)
