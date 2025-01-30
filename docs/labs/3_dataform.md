@@ -38,6 +38,8 @@ Dataform can be used for a variety of use cases, including:
 * Data Analytics: Dataform can be used to develop and maintain data pipelines that prepare data for analysis.  
 * Machine Learning: Dataform can be used to develop and maintain data pipelines that prepare data for machine learning models.
 
+***
+
 ### LAB Section: Creating a Dataform Pipeline
 
 First step in implementing a pipeline in Dataform is to set up a repository and a development environment. Detailed quickstart and instructions can be found [here](https://cloud.google.com/dataform/docs/quickstart-create-workflow).
@@ -46,15 +48,15 @@ Go within BigQuery to [Dataform](https://console.cloud.google.com/bigquery/dataf
 
 ### Create a Repository in Dataform
 
-Click on <walkthrough-spotlight-pointer locator="css(a[id$=create-repository])">+ CREATE REPOSITORY</walkthrough-spotlight-pointer>
+1. Click on <walkthrough-spotlight-pointer locator="css(a[id$=create-repository])">+ CREATE REPOSITORY</walkthrough-spotlight-pointer>
 
-Use the following values when creating the repository:
+2. Use the following values when creating the repository:
 
-- Repository ID: `hackathon-repository`
-- Region: `us-central1`
-- Service Account: `Default Dataform service account`
+    Repository ID: `hackathon-repository` \
+    Region: `us-central1` \
+    Service Account: `Default Dataform service account`
 
-And click on <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
+3. And click on <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
 
 ### **Dataform Service Account** 
 
