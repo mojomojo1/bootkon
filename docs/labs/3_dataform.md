@@ -38,7 +38,7 @@ Dataform can be used for a variety of use cases, including:
 * Data Analytics: Dataform can be used to develop and maintain data pipelines that prepare data for analysis.  
 * Machine Learning: Dataform can be used to develop and maintain data pipelines that prepare data for machine learning models.
 
-### ***LAB Section : Creating a Dataform Pipeline***
+### **LAB Section : Creating a Dataform Pipeline**
 
 First step in implementing a pipeline in Dataform is to set up a repository and a development environment. Detailed quickstart and instructions can be found [here](https://cloud.google.com/dataform/docs/quickstart-create-workflow).
 
@@ -187,7 +187,7 @@ Lastly, go to Compiled graph and explore it.
 
 Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> `hackathon-<lastname>-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
 
-### ***LAB Section: Execute the workspace workflow***
+### **LAB Section: Execute the workspace workflow**
 
 For  the sentiment inference step to succeed, you need to grant the external connection service account the Vertex AI user privilege. More details can be found in this [link](https://cloud.google.com/bigquery/docs/generate-text-tutorial#grant-permissions). 
 
