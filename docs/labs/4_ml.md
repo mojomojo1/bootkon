@@ -50,10 +50,23 @@ Now, please open `notebooks/bootkon_vertex_ai.ipynb` and continue your journey.
   caution
 </p>
 <p>
-Below you can find the content of <code>notebooks/bootkon_lab4_vertex.ipynb</code>. Feel free to skim over it, but please open it from your JupyterLab instance you created above.
+Below you can find the content of <code>notebooks/bootkon_vertex_part1.ipynb</code>. Feel free to skim over it, but please open it from your JupyterLab instance you created above.
 </p>
 </div>
 
-{{ jupyter('notebooks/bootkon_lab4_vertex.ipynb') }}
+{{ jupyter('notebooks/bootkon_vertex_part1.ipynb') }}
+
+
+<div class="mdbook-alerts mdbook-alerts-caution">
+<p class="mdbook-alerts-title">
+  <span class="mdbook-alerts-icon"></span>
+  caution
+</p>
+<p>
+Below you can find the content of <code>notebooks/bootkon_vertex_part2.ipynb</code>. Feel free to skim over it, but please open it from your JupyterLab instance you created above.
+</p>
+</div>
+
+{{ jupyter('notebooks/bootkon_vertex_part2.ipynb') }}
 
 {% endif %}
