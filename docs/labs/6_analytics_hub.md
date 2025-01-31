@@ -63,11 +63,7 @@ SELECT * FROM `your-project-id.ml_datasets_clean_room.data_prediction_shared` LI
 
 Note the error: You must use SELECT WITH AGGREGATION\_THRESHOLD for this query because a privacy policy has been set by a data owner.
 
-4. Got to analytics hub and click on ***create clean room***
-
-   ***![][image3]***
-
-   ![][image4]
+4. Got to [Analytics Hub](https://console.cloud.google.com/bigquery/analytics-hub/exchanges) and click on <walkthrough-spotlight-pointer locator="semantic({toolbar 'Analytics Hub'} {button 'Create clean room'})">+ CREATE CLEAN ROOM</walkthrough-spotlight-pointer>
 
 5. Create a Data Clean room called fraudfix-clean-room-\<yourlastname\> in the same region as the ***ml\_datasets\_clean\_room*** dataset (**typically us-central1)**. For the primary contact, use your GCP email address provided to you. For the description, you can use *‘Fraudfix shareable fraud detection ML results (yourlastname)’.* Click on create clean room.
 
