@@ -6,7 +6,7 @@
 
 Within this lab, you will share the machine learning prediction results to the FraudFix customer while keeping the data securely within the provider's storage environment. Here, you will focus on avoiding sharing PII data. 
 
-# **Goal of the Lab**
+### Goal of the Lab
 * We have previously created the fraud detection model predictions.   
 * After running the dataplex  data discovery job , we noticed a new BigQuery dataset created called ***“bootkon\_raw\_zone”*** , ***data\_prediction*** biglake table were automatically created by Dataplex discovery jobs.  
 * The goal of the ***FraudFix*** data scientist team  is to share the results of the data prediction with the customer.  
@@ -19,55 +19,49 @@ Within this lab, you will share the machine learning prediction results to the F
 * Collect the GCP account addresses of the your group members assigned to you, in order to set up privileges and share the data with them.
 
 
-## LAB Section : Hands-on on Analytics Hub (Data Clean Room) capabilities
+### LAB Section : Hands-on on Analytics Hub (Data Clean Room) capabilities
 
-## Steps as Data Publisher :
+Steps as Data Publisher :
+The Data Publisher in this case is the FraudFix technology. They are providers of data prediction results and model prediction explainability.
 
-***The Data Publisher in this case is the FraudFix technology. They are providers of data prediction results and model prediction explainability.*** 
 
-1. Create a dataset: ***ml\_datasets\_clean\_room***  which is for the Authorized View. Authorized View is always recommended over table for enforcing the [privacy policy](https://cloud.google.com/bigquery/docs/privacy-policies). Note how one of the columns are declared as private and put a limit on the lower limit on the aggregated results.  
-   The dataset should be in the same region as bootkon\_raw\_zone dataset that Dataplex has created before.
-
-   From cloud shell, make sure you set your project ID, then create a BigQuery dataset named ***ml\_datasets\_clean\_room*** in the ***us-central1*** region.
-
+1. Create a dataset: `ml_datasets_clean_room`  which is for the Authorized View. Authorized View is always recommended over table for enforcing the [privacy policy](https://cloud.google.com/bigquery/docs/privacy-policies). Note how one of the columns are declared as private and put a limit on the lower limit on the aggregated results.  
+   The dataset should be in the same region as `bootkon_raw_zone` dataset that Dataplex has created before.
    
+   ```bash
+   dataset_name='ml_datasets_clean_room'
+   bq mk --location=us-central1 \
+      --dataset \
+      --description "Shared ml dataset" \
+      "$dataset_name"
+   ```
 
-   
-
-| *Linux command line :  Create a BigQuery dataset: call it ml\_datasets\_clean\_room  in the US central region* |
-| :---- |
-| DATASET\_NAME='ml\_datasets\_clean\_room' bq \--location=us-central1 mk \-d \\     \--description "Shared ml dataset " \\     $DATASET\_NAME |
-
- 
-
-
-   \>\>\> you can ignore the warning ; warnings.warn("urllib3 ({}) or chardet ({})/charset\_normalizer ({}) doesn't match a supported " 
-
-2. Define an aggregation threshold analysis rule for a view :  
-   An aggregation threshold analysis rule enforces the minimum number of distinct entities that must be present in a dataset, so that statistics on that dataset are included in the results of a query.  
-   When enforced, the aggregation threshold analysis rule groups data across dimensions, while ensuring the aggregation threshold is met. It counts the number of distinct privacy units (represented by the privacy unit column) for each group, and only outputs the groups where the distinct privacy unit count satisfies the aggregation threshold.  
+2. Define an aggregation threshold analysis rule for a view. An aggregation threshold rule for a view requires a minimum number of distinct entities (e.g., users) in a dataset before statistics are included in query results.  It groups data, counts distinct entities within each group, and only returns groups meeting the minimum threshold. 
    A view that includes this analysis rule can also include the [joint restriction analysis rule](https://cloud.google.com/bigquery/docs/analysis-rules#join_restriction_rules).  
    You can define an aggregation threshold analysis rule for a view in a [data clean room](https://cloud.google.com/bigquery/docs/data-clean-rooms) or with the following statement:  
    
-
-| *BigQuery SQL : Create shared View Replace  your-project-id with your project id* |
-| :---- |
-| *CREATE OR REPLACE  VIEW your-project-id.ml\_datasets\_clean\_room.data\_prediction\_shared OPTIONS(  privacy\_policy= '{"aggregation\_threshold\_policy": {"threshold": 1, "privacy\_unit\_column": "service\_account\_email"}}' ) AS ( SELECT \* EXCEPT (transaction\_id) FROM \`your-project-id.bootkon\_raw\_zone.data\_prediction\` );*  |
+   ```bash
+   CREATE OR REPLACE  VIEW your-project-id.ml_datasets_clean_room.data_prediction_shared
+   OPTIONS(
+   privacy_policy= '{"aggregation_threshold_policy": {"threshold": 1, "privacy_unit_column": "service_account_email"}}'
+   )
+   AS ( SELECT * EXCEPT (transaction_id) FROM `your-project-id.bootkon_raw_zone.data_prediction` );
+   ```
 
  
 
 
-* THRESHOLD: The minimum number of distinct privacy units that need to contribute to each row in the query results. If a potential row doesn't satisfy this threshold, that row is omitted from the query results.  
-* PRIVACY\_UNIT\_COLUMN  
-  : Represents the privacy unit column. A privacy unit column is a unique identifier for a privacy unit. A privacy unit is a value from the privacy unit column that represents the entity in a set of data that is being protected.  
-  You can use only one privacy unit column, and the data type for the privacy unit column must be [groupable](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#groupable_data_types).  
-  The values in the privacy unit column cannot be directly projected through a query, and you can use only [analysis rule-supported aggregate functions](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#agg_threshold_policy_functions) to aggregate the data in this column.
+   THRESHOLD: The minimum number of distinct privacy units that need to contribute to each row in the query results. If a potential row doesn't satisfy this threshold, that row is omitted from the query results.
+
+   PRIVACY\_UNIT\_COLUMN: Represents the privacy unit column. A privacy unit column is a unique identifier for a privacy unit. A privacy unit is a value from the privacy unit column that represents the entity in a set of data that is being protected. You can use only one privacy unit column, and the data type for the privacy unit column must be [groupable](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#groupable_data_types). The values in the privacy unit column cannot be directly projected through a query, and you can use only [analysis rule-supported aggregate functions](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#agg_threshold_policy_functions) to aggregate the data in this column.
 
 3. Replace *your-project-id* with your project ID and try the following query in BigQuery without specifying the without an aggregation threshold 
 
-***SELECT \* FROM \`**your-project-id**.ml\_datasets\_clean\_room.data\_prediction\_shared\` LIMIT 1000***  
-Note the error ;   
-You must use SELECT WITH AGGREGATION\_THRESHOLD for this query because a privacy policy has been set by a data owner.
+```
+SELECT * FROM `your-project-id.ml_datasets_clean_room.data_prediction_shared` LIMIT 1000
+````
+
+Note the error: You must use SELECT WITH AGGREGATION\_THRESHOLD for this query because a privacy policy has been set by a data owner.
 
 4. Got to analytics hub and click on ***create clean room***
 
@@ -125,7 +119,7 @@ You must use SELECT WITH AGGREGATION\_THRESHOLD for this query because a privacy
 
     
 
-## **Steps as Data Subscriber :**
+### **Steps as Data Subscriber :**
 
 ***The Data Subscriber in this case is FraudFix’s customer. The customer is the owner of the original PCA dataset provided to FraudFix.***  
  
