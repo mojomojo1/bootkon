@@ -47,8 +47,3 @@ If neither is `None`, press the `START` button below to get started!
 {% include 'labs/3_dataform.md' %}
 
 {% include 'labs/4_ml.md' %}
-
-
-## **\[Hands-on Lab \- 5\] Agent Builder and Gemini**
-
-Original document [here](https://docs.google.com/document/d/1_8-HEEIKCCUkwoorpWq8lOI3M1Rn6HqY4SlCW8AitGg/edit?usp=drive_link)
