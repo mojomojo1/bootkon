@@ -1,0 +1,13 @@
+#!/bin/bash
+
+line='if [ -f ${BK_INIT_SCRIPT} ]; then source ${BK_INIT_SCRIPT}; fi'
+
+# Check if the line exists in the file
+if grep -qF "$line" ~/.bashrc; then
+    sed -i "/$(echo "$line" | sed 's/[]\\/.*^$[]/\\&/g')/d" ~/.bashrc
+    echo "SUCCESS: The following line has been removed from ~/.bashrc:"
+else
+    echo "ERROR: The following line has not been found in ~/.bashrc:"
+fi
+
+echo $line

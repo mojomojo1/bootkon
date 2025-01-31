@@ -1,0 +1,27 @@
+#!/bin/bash
+# This script launches a Cloud Shell tutorial from a provided markdown file.
+# It uses Jinja2 templating to render the markdown file before launching, allowing for dynamic content.
+# The script also stores the path to the last opened tutorial file to enable quick reloading.
+# If no file is specified, it attempts to reload the last opened tutorial.
+#
+# Author: Fabian Hirschmann
+#
+# Usage: bk-tutorial <path/to/tutorial.md>
+
+MEMORY="${BK_DIR}/.tutorial.memory"
+RENDERED=/tmp/bootkon.md
+
+FILE=$1
+
+if [[ -z "${FILE}" ]]; then
+    if [[ -f "${MEMORY}" ]]; then
+        FILE=$(cat $MEMORY)
+        echo "No tutorial specified. Reloading last opened file ${FILE}"
+    fi
+fi
+
+echo "$FILE" > $MEMORY
+
+bk-render-jinja2 $FILE $RENDERED
+cloudshell launch-tutorial $RENDERED
+cloudshell launch-tutorial $RENDERED

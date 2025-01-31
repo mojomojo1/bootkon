@@ -17,7 +17,7 @@ For example, Vertex AI Workbench lets you:
 - Process data quickly by running a notebook on a Dataproc cluster.
 - Run a notebook as a step in a pipeline by using Vertex AI Pipelines.
 
-You can [create](https://cloud.google.com/vertex-ai/docs/workbench/instances/create#gcloud) such an instance either through the UI, or using the following command:
+You can [create](https://cloud.google.com/vertex-ai/docs/workbench/instances/create#gcloud) such an instance either through the UI, Terraform, or using the following command:
 
 ```bash
 gcloud workbench instances create bootkon-notebook \
@@ -29,9 +29,16 @@ gcloud workbench instances create bootkon-notebook \
     --metadata=post-startup-script=gs://${PROJECT_ID}-bucket/bootstrap_workbench.sh
 ```
 
-Open the [Vertex AI Console](https://console.cloud.google.com/vertex-ai/workbench/locations/us-central1-a/instances/bootkon-notebook) and as soon as the instance is ready, click on `OPEN JUPYTERLAB`. The bootkon repository has been automatically cloned using the `post-startup-script` we passed earlier.
+Once the command has finished, please
 
-Now, please open `notebooks/bootkon_lab4_vertex.ipynb` and continue your journey.
+1. Open [Vertex AI Console](https://console.cloud.google.com/vertex-ai/workbench)
+2. Click on <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-notebook'})">bootkon-notebook</walkthrough-spotlight-pointer>
+2. Wait for the instance to become `Active`
+3. and as soon as the instance is ready, click on `OPEN JUPYTERLAB`. 
+
+The bootkon repository has been automatically cloned using the `post-startup-script` we passed earlier. Please note that you are working on a completely different machine and the files you modified on Cloud Shell are not reflected on Vertex AI Workbench.
+
+Now, please open `notebooks/bootkon_vertex_ai.ipynb` and continue your journey.
 
 {% if MDBOOK_VIEW %}
 
