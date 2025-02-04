@@ -6,6 +6,8 @@
 
 In this lab, you will create a Vertex AI Workbench Instance and perform machine learning on the data set you previously ingested.
 
+### Vertex AI Workbench
+
 Vertex AI Workbench is a Jupyter notebook-based development environment for the entire data science workflow. You can interact with Vertex AI and other Google Cloud services from within a Vertex AI Workbench instance's Jupyter notebook.
 
 Vertex AI Workbench integrations and features can make it easier to access your data, process data faster, schedule notebook runs, and more.
@@ -38,7 +40,34 @@ Once the command has finished, please
 
 The bootkon repository has been automatically cloned using the `post-startup-script` we passed earlier. Please note that you are working on a completely different machine and the files you modified on Cloud Shell are not reflected on Vertex AI Workbench.
 
-Now, please open `notebooks/bootkon_vertex_ai.ipynb` and continue your journey.
+Now, please open `notebooks/bootkon_vertex.ipynb` and continue your journey. Once you have gone through the Jupyter notebook, please come back here.
+
+### Results in the Cloud Console
+
+You've gone through the notebook -- great! Let's inspect the resources we created in Vertex AI.
+
+1. Open [Vertex AI Console](https://console.cloud.google.com/vertex-ai/)
+2. Click <walkthrough-spotlight-pointer locator="css(a[id$=cfctest-section-nav-item-ai-platform-training])">Training</walkthrough-spotlight-pointer> in the navigation menu
+
+Here you can see the training jobs you started both through the Python SDK as well as through Vertex AI Pipelines. Next, have a look at the model registry.
+
+1. Open [Vertex AI Console](https://console.cloud.google.com/vertex-ai)
+2. Click <walkthrough-spotlight-pointer locator="css(a[id$=cfctest-section-nav-item-ai-platform-models])">Model Registry</walkthrough-spotlight-pointer> in the nevigation menu
+3. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-custom-model'})">bootkon-custom-model</walkthrough-spotlight-pointer>
+4. Click <walkthrough-spotlight-pointer locator="semantic({tab 'Version details'})">VERSION DETAILS</walkthrough-spotlight-pointer>
+
+Here you can can see that a model in the Vertex AI Model Registry is made up from a ***Container image*** als well as a **Model artifact location**. When you deploy a model, Vertex AI simply starts the container and points it to the artifact location.
+
+The model has already been deployed to an endpoint. Let's have a look at them:
+
+1. Open [Vertex AI Console](https://console.cloud.google.com/vertex-ai)
+2. Click <walkthrough-spotlight-pointer locator="css(a[id$=cfctest-section-nav-item-ai-platform-online-prediction])">Online Prediction</walkthrough-spotlight-pointer> in the navigation menu
+3. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-endpoint-custom'})">bootkon-endpoint-custom</walkthrough-spotlight-pointer>
+
+You can see that the endpoint has one model deployed currently, and all the traffic is routed to it (***traeffic split is 100%***). When scrolling down, you get live graphs as soon as predictions are coming in.
+
+You can also train and deploy models on Vertex in the UI only. Let's have a more detailed look. Click <walkthrough-spotlight-pointer locator="semantic({button 'Edit settings'})">EDIT SETTINGS</walkthrough-spotlight-pointer>. Here you can find many options for model monitoring -- why don't you try to enable prediction drift detection?
+
 
 {% if MDBOOK_VIEW %}
 
@@ -50,23 +79,10 @@ Now, please open `notebooks/bootkon_vertex_ai.ipynb` and continue your journey.
   caution
 </p>
 <p>
-Below you can find the content of <code>notebooks/bootkon_vertex_part1.ipynb</code>. Feel free to skim over it, but please open it from your JupyterLab instance you created above.
+Below you can find the content of <code>notebooks/bootkon_vertex.ipynb</code>. Feel free to skim over it, but please open it from your JupyterLab instance you created above.
 </p>
 </div>
 
-{{ jupyter('notebooks/bootkon_vertex_part1.ipynb') }}
-
-
-<div class="mdbook-alerts mdbook-alerts-caution">
-<p class="mdbook-alerts-title">
-  <span class="mdbook-alerts-icon"></span>
-  caution
-</p>
-<p>
-Below you can find the content of <code>notebooks/bootkon_vertex_part2.ipynb</code>. Feel free to skim over it, but please open it from your JupyterLab instance you created above.
-</p>
-</div>
-
-{{ jupyter('notebooks/bootkon_vertex_part2.ipynb') }}
+{{ jupyter('notebooks/bootkon_vertex.ipynb') }}
 
 {% endif %}
