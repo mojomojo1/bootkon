@@ -23,7 +23,7 @@ BigLake tables allow querying structured data in external data stores with acces
 Because the service account handles retrieving data from the data store, you only have to grant users access to the BigLake table. This lets you enforce fine-grained security at the table level, including row-level and column-level security.
 
 
-First, we create the connectio resource in BigQuery:
+First, we create the connection resource in BigQuery:
 ```bash
 bq mk --connection --location=$REGION --project_id=$PROJECT_ID \
     --connection_type=CLOUD_RESOURCE fraud-transactions-conn
