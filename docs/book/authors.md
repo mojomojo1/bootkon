@@ -1,5 +1,7 @@
 # Authors
 
+This version is based on a [previous version](https://github.com/dace-de/google-data-ai-bootkon-docs) by Wissem Khlifi. 
+
 The authors of Data & AI Bootkon are:
 - [Fabian Hirschmann](https://www.linkedin.com/in/fhirschmann/) (maintainer; main author)
 - [Cary Edwards](https://www.linkedin.com/in/cary-edwards-a3a557a6/) (contributor)
