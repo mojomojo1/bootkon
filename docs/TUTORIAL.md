@@ -14,8 +14,9 @@
 
 ### Working with labs
 
-You can insert commands into the terminal using the following icon on top of each code chunk:
-<walkthrough-cloud-shell-icon></walkthrough-cloud-shell-icon>
+You can insert commands into the terminal using the following button on top of each code line in the tutorial:
+<walkthrough-cloud-shell-icon></walkthrough-cloud-shell-icon>. The button will automatically open the terminal.
+Please make sure you are using the terminal of the editor and not 
 
 Let's try:
 
@@ -23,7 +24,7 @@ Let's try:
 echo "I'm ready to get started."
 ```
 
-And execute by pressing the return key in the terminal that has been opened in the lower part of your screen.
+Execute by pressing the return key in the terminal that has been opened in the lower part of your screen.
 
 ### Setting environment variables
 You can open files directly from this tutorial.
