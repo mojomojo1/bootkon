@@ -137,10 +137,10 @@ And grant the service account access to BigQuery:
 
 ```bash
 gcloud projects add-iam-policy-binding $PROJECT_ID \
-    --member=serviceAccount:$PUBSUB_SERVICE_ACCOUNT --role=roles/bigquery.dataEditor
+    --member=serviceAccount:{{ PUBSUB_SA }} --role=roles/bigquery.dataEditor
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
-    --member=serviceAccount:$PUBSUB_SERVICE_ACCOUNT --role=roles/bigquery.jobUser  
+    --member=serviceAccount:{{ PUBSUB_SA }} --role=roles/bigquery.jobUser
 ```
 
 Next, we create the Pub/Sub subscription:
@@ -160,7 +160,7 @@ Examine it in the console:
 
 Since we'll be using Python, let's install the Python <walkthrough-editor-open-file filePath="requirements.txt">packages</walkthrough-editor-open-file> we want to make use of:
 ```bash
-pip install -r requirements.txt
+pip install avro fastavro google-cloud-pubsub
 ```
 
 Please have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/import_csv_to_bigquery_1.py">`import_csv_to_bigquery_1.py`</walkthrough-editor-open-file>. This script loads CSV files from Cloud Storage, parses it in Python, and sends it to Pub/Sub - row by row.
@@ -177,7 +177,7 @@ But why is it so slow?
 Let's ask Gemini:
 
 1. Open Gemini Code Assist <img style="vertical-align:middle" src="https://www.gstatic.com/images/branding/productlogos/gemini/v4/web-24dp/logo_gemini_color_1x_web_24dp.png" width="8px" height="8px"> on the left hand side.
-2. Insert ``Why was the last command so slow?`` into the Gemini prompt.
+2. Insert ``Why is import_csv_to_bigquery_1.py so slow?`` into the Gemini prompt.
 
 <!-- 
 We can make this faster by using different parameters for Pub/Sub. First, remove all rows you just ingested:
@@ -209,7 +209,7 @@ wget -qN https://github.com/GoogleCloudDataproc/spark-bigquery-connector/release
 gsutil cp spark-3.3-bigquery-0.37.0.jar gs://${PROJECT_ID}-bucket/jar/spark-3.3-bigquery-0.37.0.jar
 ```
 
-Open <walkthrough-editor-select-line filePath="src/data_ingestion/import_parquet_to_bigquery.py" startLine="4" endLine="4" startCharacterOffset="14" endCharacterOffset="31">import_parquet_to_bigquery.py</walkthrough-editor-select-line> in the Cloud Shell editor and replace the project id with your project id. Don't forget to save.
+Open <walkthrough-editor-select-line filePath="src/data_ingestion/import_parquet_to_bigquery.py" startLine="4" endLine="4" startCharacterOffset="14" endCharacterOffset="31">import_parquet_to_bigquery.py</walkthrough-editor-select-line> in the Cloud Shell editor and replace the project id with your project id {{ PROJECT_ID }}. Don't forget to save.
 
 Execute it:
 ```bash
