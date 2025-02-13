@@ -50,13 +50,11 @@ for role in "${service_account_roles[@]}"; do
 done
 
 # Set up the workbench bootstrap script
-REPO_URL=$(git config --get remote.origin.url | sed 's#git@github.com:#https://github.com/#')
+gsutil cp notebooks/* gs://${PROJECT_ID}-bucket/notebooks/
 cat <<EOF >/tmp/bootstrap_workbench.sh
 #!/bin/sh
 cd /home/jupyter
-sudo -H -u jupyter git clone $REPO_URL
-sudo -H -u jupyter /opt/conda/bin/pip install -r bootkon/requirements.txt
-sudo -H -u jupyter gcloud auth configure-docker ${REGION}-docker.pkg.dev --quiet
+sudo -H -u jupyter gsutil cp gs://${PROJECT_ID}-bucket/notebooks/* .
 EOF
 chmod +x /tmp/bootstrap_workbench.sh
 gsutil -m cp /tmp/bootstrap_workbench.sh gs://${PROJECT_ID}-bucket/
