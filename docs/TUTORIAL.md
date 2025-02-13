@@ -16,7 +16,7 @@
 
 You can insert commands into the terminal using the following button on top of each code line in the tutorial:
 <walkthrough-cloud-shell-icon></walkthrough-cloud-shell-icon>. The button will automatically open the terminal.
-Please make sure you are using the terminal of the editor and not 
+Please make sure you are using the terminal of the IDE.
 
 Let's try:
 

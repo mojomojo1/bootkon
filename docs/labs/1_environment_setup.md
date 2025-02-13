@@ -30,6 +30,19 @@ First, we need to enable some Google Cloud Platform (GCP) services. Enabling GCP
   artifactregistry.googleapis.com">
 </walkthrough-enable-apis>
 
+### Assign permissions
+
+Execute the following script:
+```bash
+bk-bootstrap
+```
+
+But what did it do? Let's ask Gemini while it is running.
+
+1. Open  <walkthrough-editor-open-file filePath=".scripts/bk-bootstrap">`bk-bootstrap`</walkthrough-editor-open-file>.
+2. Open Gemini Code Assist <img style="vertical-align:middle" src="https://www.gstatic.com/images/branding/productlogos/gemini/v4/web-24dp/logo_gemini_color_1x_web_24dp.png" width="8px" height="8px"> on the left hand side.
+3. Insert ``What does bk-bootstrap do?`` into the Gemini prompt.
+
 ### Download data
 
 Next, we download the data set for bootkon and put it into Cloud Storage. Before we do that, we create
@@ -48,7 +61,7 @@ Let's upload the data to the bucket we just created:
 gsutil -m cp -R data gs://$PROJECT_ID-bucket/
 ```
 
-Is the data there? Let's check and open [Cloud Storage](https://console.cloud.google.com/storage/browser/astute-ace-336608-bucket). Once you have checked, you may need to resize the window that just opened
+Is the data there? Let's check and open [Cloud Storage](https://console.cloud.google.com/storage/browser/{{ PROJECT_ID }}-bucket). Once you have checked, you may need to resize the window that just opened
 to make it smaller in case you run out of screen real estate.
 
 ### Create default VPC
@@ -66,7 +79,9 @@ If it already exists -- that's ok. Let's also create/update the subnet to allow 
 gcloud compute networks subnets update default --region=$REGION --enable-private-ip-google-access
 ```
 
-And create a firewall rule:
+If the command above returned an error about a *visibility check*, please wait two minutes for the permissions to propagate and try again.
+
+Next, create a firewall rule:
 
 ```bash
 gcloud compute firewall-rules create "default-allow-all-internal" \
@@ -77,19 +92,6 @@ gcloud compute firewall-rules create "default-allow-all-internal" \
     --source-ranges="10.128.0.0/9" \
     --allow=tcp:0-65535,udp:0-65535,icmp
 ```
-
-### Assign permissions
-
-Execute the following script:
-```bash
-bk-bootstrap
-```
-
-But what did it do? Let's ask Gemini while it is running.
-
-1. Open  <walkthrough-editor-open-file filePath=".scripts/bk-bootstrap">`bk-bootstrap`</walkthrough-editor-open-file>.
-2. Open Gemini Code Assist <img style="vertical-align:middle" src="https://www.gstatic.com/images/branding/productlogos/gemini/v4/web-24dp/logo_gemini_color_1x_web_24dp.png" width="8px" height="8px"> on the left hand side.
-3. Insert ``What does bk-bootstrap do?`` into the Gemini prompt.
 
 ### Success
 

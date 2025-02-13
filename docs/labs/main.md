@@ -29,13 +29,3 @@ BK_REPO={{ BK_REPO }}; . <(wget -qO- https://raw.githubusercontent.com/{{ BK_REP
 ```
 
 Continue your journey in the Cloud Shell Editor!
-
-<div class="mdbook-alerts mdbook-alerts-tip">
-<p class="mdbook-alerts-title">
-  <span class="mdbook-alerts-icon"></span>
-  Tip
-</p>
-<p>
-If you accidentally close the Cloud Shell window or the tutorial, just enter the command above again.
-</p>
-</div>
