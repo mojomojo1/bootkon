@@ -6,13 +6,10 @@ These markdown files are passed through the [jinja](https://jinja.palletsproject
 ├── TUTORIAL.md: master document of the Cloud Shell tutorial
 ├── book: markdown files solely used in the book
 ├── css: additional css for the book
-├── img
+├── img: images
 ├── labs: code lab sources
-│   ├── 1_environment_setup.md
-│   ├── 2_data_ingestion.md
-│   ├── 3_dataform.md
-│   ├── 4_ml.md
-└── scripts
-    ├── mdbook_preprocessor_cloudshell.py: parses cloud shell markup to be used in the book
-    └── mdbook_preprocessor_jinja2.py: jinja2 templating for the book
+    ├── 1_environment_setup.md
+    ├── 2_data_ingestion.md
+    ├── 3_dataform.md
+    ├── 4_ml.md
 ```

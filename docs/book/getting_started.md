@@ -14,7 +14,7 @@ Let us set your your Google Cloud Console. Please:
 
 1. Open a new browser window in **Incognito** mode.  
 2. Open this handbook in your newly opened incognito window and keep reading; close this window in your main browser window.
-3. Open [Google Cloud Console](https://console.cloud.google.com) and log in with the provided credentials.
+3. Open <a href="https://console.cloud.google.com" target="_blank">Google Cloud Console</a> and log in with the provided credentials.
 4. Accept the Terms of Services.   
 
     ![](../img/termsofservice.png)
