@@ -28,7 +28,7 @@ gcloud workbench instances create bootkon-notebook \
     --vm-image-project=cloud-notebooks-managed \
     --machine-type=e2-standard-4 \
     --vm-image-name workbench-instances-v20241118 \
-    --metadata=post-startup-script=gs://${PROJECT_ID}-bucket/bootstrap_workbench.sh
+    --metadata=post-startup-script=gs://${PROJECT_ID}-bucket/bootstrap_workbench.sh,idle-timeout-seconds=43200
 ```
 
 Once the command has finished, please
@@ -38,9 +38,9 @@ Once the command has finished, please
 2. Wait for the instance to become `Active`
 3. and as soon as the instance is ready, click on `OPEN JUPYTERLAB`. 
 
-The bootkon repository has been automatically cloned using the `post-startup-script` we passed earlier. Please note that you are working on a completely different machine and the files you modified on Cloud Shell are not reflected on Vertex AI Workbench.
+The notebook has automatically been copied using the `post-startup-script` we passed earlier. Please note that you are working on a completely different machine and the files you modified on Cloud Shell are not reflected on Vertex AI Workbench.
 
-Now, please open `notebooks/bootkon_vertex.ipynb` and continue your journey.
+Now, please open `bootkon_vertex.ipynb` and continue your journey.
 
 ❗ Once you have gone through the Jupyter notebook, please come back here.
 
