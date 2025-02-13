@@ -33,13 +33,13 @@ Dataform can be used for a variety of use cases, including:
 
 ***
 
-### LAB Section: Creating a Dataform Pipeline
+### Create a Dataform Pipeline
 
 First step in implementing a pipeline in Dataform is to set up a repository and a development environment. Detailed quickstart and instructions can be found [here](https://cloud.google.com/dataform/docs/quickstart-create-workflow).
 
-Go within BigQuery to [Dataform](https://console.cloud.google.com/bigquery/dataform) and then
-
 ### Create a Repository in Dataform
+
+Go to [Dataform](https://console.cloud.google.com/bigquery/dataform) (part of the BigQuery console).
 
 1. Click on <walkthrough-spotlight-pointer locator="css(a[id$=create-repository])">+ CREATE REPOSITORY</walkthrough-spotlight-pointer>
 
@@ -51,54 +51,45 @@ Go within BigQuery to [Dataform](https://console.cloud.google.com/bigquery/dataf
 
 3. And click on <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
 
-***
+{% set DATAFORM_SA = "service-{}@gcp-sa-dataform.iam.gserviceaccount.com".format(PROJECT_NUMBER) %}
 
-### Dataform Service Account 
-
-Take note and save somewhere the newly created service account for Dataform.  
-Example: `service-112412469323@gcp-sa-dataform.iam.gserviceaccount.com`
+The dataform service account you see on your screen should be `{{ DATAFORM_SA }}`. We will need it later.
 
 
 Next, click <walkthrough-spotlight-pointer locator="text('go to repositories')">GO TO REPOSITORIES</walkthrough-spotlight-pointer>, and then choose the <walkthrough-spotlight-pointer locator="text('hackathon-repository')">hackathon-repository</walkthrough-spotlight-pointer> you just created.
 
-***
 
-### Create and initialize a Dataform development workspace
+### Create a Dataform Workspace
 
-You should now be in the <walkthrough-spotlight-pointer locator="text('development workspaces')">DEVELOPMENT WORKSPACES</walkthrough-spotlight-pointer> tab of the hackathon-repository page.
+You should now be in the <walkthrough-spotlight-pointer locator="text('development workspaces')">Development workspaces</walkthrough-spotlight-pointer> tab of the hackathon-repository page.
 
-First, click <walkthrough-spotlight-pointer locator="text('create development workspace')">+ CREATE DEVELOPMENT WORKSPACE</walkthrough-spotlight-pointer> to create a copy of your own repository.  You can create, edit, or delete content in your repository without affecting others.
+First, click <walkthrough-spotlight-pointer locator="text('create development workspace')">Create development workspace</walkthrough-spotlight-pointer> to create a copy of your own repository.  You can create, edit, or delete content in your repository without affecting others.
+
 
 In the **Create development workspace** window, do the following:  
-   1. In the <walkthrough-spotlight-pointer locator="semantic({textbox 'Workspace ID'})">Workspace ID</walkthrough-spotlight-pointer> field, enter “hackathon-\<YOURLASTNAME\>-workspace” (replace \<YOURLASTNAME\> with your name)
+   1. In the <walkthrough-spotlight-pointer locator="semantic({textbox 'Workspace ID'})">Workspace ID</walkthrough-spotlight-pointer> field, enter `hackathon-{{ MY_NAME | lower }}-workspace` or any other name you like.
 
    2. Click <walkthrough-spotlight-pointer locator="text('create')">CREATE</walkthrough-spotlight-pointer>
    3. The development workspace page appears.  
-   4. Click on the newly created `hackathon-YOURLASTNAME-workspace` 
-   5. Click <walkthrough-spotlight-pointer locator="css(button[id$=initialize-workspace-button])">INITIALIZE WORKSPACE</walkthrough-spotlight-pointer>
-
-***
+   4. Click on the newly created `hackathon-{{ MY_NAME | lower }}-workspace` 
+   5. Click <walkthrough-spotlight-pointer locator="css(button[id$=initialize-workspace-button])">Initialize workspace</walkthrough-spotlight-pointer>
 
 ### Adjust workflow settings
+
+We will now set up our custom workflow.
+
 1. Edit the `workflow_settings.yaml`file :
 
-2. Replace `defaultDataset` value with
+2. Replace `defaultDataset` value with ``ml_datasets``
 
-    ```
-    ml_datasets
-    ```
+3. Make sure `defaultProject` value is ``{{ PROJECT_ID }}``
 
-3.  Make sure `defaultProject` value is ``{{ PROJECT_ID }}``
-
-    Note: Nevermind if you have a different dataform core version, just continue
-
-4. Click on <walkthrough-spotlight-pointer locator="text('install packages')">INSTALL PACKAGES</walkthrough-spotlight-pointer> ***Only*** ***Once***. You should see a message at the bottom of the page:
+4. Click on <walkthrough-spotlight-pointer locator="text('install packages')">INSTALL PACKAGES</walkthrough-spotlight-pointer> ***only once***. You should see a message at the bottom of the page:
 
     *Package installation succeeded*
 
-***
 
-### Create SQLX files
+Next, let's create several workflow files.
 
 1. Delete the following files from the <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> folder:
 
@@ -159,7 +150,7 @@ In the **Create development workspace** window, do the following:
 
 8. In `llm_model_connection.sql`, replace the `us.llm-connection` connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be `us.fraud-transactions-conn`
 
-Notice the usage of $ref in line 11, of **definitions/mview\_ulb\_fraud\_detection.sqlx**. The advantages of using $ref in Dataform are
+Notice the usage of `$ref` in line 11, of **definitions/mview\_ulb\_fraud\_detection.sqlx**. The advantages of using `$ref` in Dataform are
 
 * Automatic Reference Management: Ensures correct fully-qualified names for tables and views, avoiding hardcoding and simplifying environment configuration.  
 * Dependency Tracking: Builds a dependency graph, ensuring correct creation order and automatic updates when referenced tables change.  
@@ -169,17 +160,17 @@ Notice the usage of $ref in line 11, of **definitions/mview\_ulb\_fraud\_detecti
 
 ### **Execute Dataform workflows**
 
-Run the dataset creation by **TAG**. TAG allows you to just execute parts of the workflows and not the entire workflow. 
+Run the dataset creation by **Tag**. Tag allow you to just execute parts of the workflows and not the entire workflow. 
 
-1. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">START EXECUTION</walkthrough-spotlight-pointer> > <walkthrough-spotlight-pointer locator="text('tags')">Tags</walkthrough-spotlight-pointer> \> <walkthrough-spotlight-pointer locator="text('dataset_ulb_fraud_detection_llm')">dataset_ulb_fraud_detection_llm</walkthrough-spotlight-pointer><walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> START EXECUTION</walkthrough-spotlight-pointer>
+1. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">Start execution</walkthrough-spotlight-pointer> > <walkthrough-spotlight-pointer locator="text('tags')">Tags</walkthrough-spotlight-pointer> \> <walkthrough-spotlight-pointer locator="text('dataset_ulb_fraud_detection_llm')">dataset_ulb_fraud_detection_llm</walkthrough-spotlight-pointer><walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> Start execution</walkthrough-spotlight-pointer>
 
 2. Click on <walkthrough-spotlight-pointer locator="semantic({link 'Details'})">DETAILS</walkthrough-spotlight-pointer>
 
-    Notice the Access Denied error on BigQuery for the dataform service account `XXX@gcp-sa-dataform.iam.gserviceaccount.com`
+    Notice the Access Denied error on BigQuery for the dataform service account `{{ DATAFORM_SA }}`
 
 3. Go to [IAM & Admin](https://console.cloud.google.com/iam-admin)
 
-4. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Grant access'})">GRANT ACCESS</walkthrough-spotlight-pointer> and grant `BigQuery Data Editor , BigQuery Job User and BigQuery Connection User` to the Dataform  service account. \
+4. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Grant access'})">GRANT ACCESS</walkthrough-spotlight-pointer> and grant `BigQuery Data Editor , BigQuery Job User and BigQuery Connection User` to the principal `{{ DATAFORM_SA }}`.
 
 5. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Save'})">SAVE</walkthrough-spotlight-pointer>
 
@@ -191,11 +182,11 @@ Run the dataset creation by **TAG**. TAG allows you to just execute parts of the
 Notice the execution status. It should be a success.  
  
 7. Lastly, go to Compiled graph and explore it.
-Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> `hackathon-<YOURLASTNAME>-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
+Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> `hackathon-{{ MY_NAME | lower }}-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
 
 ***
 
-### **LAB Section: Execute the workspace workflow**
+### Execute the workspace workflow
 
 For  the sentiment inference step to succeed, you need to grant the external connection service account the Vertex AI user privilege. More details can be found in this [link](https://cloud.google.com/bigquery/docs/generate-text-tutorial#grant-permissions). 
 
@@ -229,7 +220,7 @@ For  the sentiment inference step to succeed, you need to grant the external con
  
 ***
 
-### **CHALLENGE Section : Production, Scheduling and Automation** 
+### Challenge section: production, scheduling and automation
 
 Automate and schedule the compilation and execution of the pipeline. This is done using release configurations and workflow configurations.
 
