@@ -25,19 +25,19 @@ Because the service account handles retrieving data from the data store, you onl
 
 First, we create the connection resource in BigQuery:
 ```bash
-bq mk --connection --location=$REGION --project_id=$PROJECT_ID \
+bq mk --connection --location=us --project_id={{ PROJECT_ID }} \
     --connection_type=CLOUD_RESOURCE fraud-transactions-conn
 ```
 
 When you create a connection resource, BigQuery creates a unique system service account and associates it with the connection.
 ```bash
-bq show --connection ${PROJECT_ID}.${REGION}.fraud-transactions-conn
+bq show --connection {{ PROJECT_ID }}.us.fraud-transactions-conn
 ```
 Note the `serviceAccountID`. It should resemble `connection-...@...gserviceaccount.com`.
 
 To connect to Cloud Storage, you must give the new connection read-only access to Cloud Storage so that BigQuery can access files on behalf of users. Let's assign the service account to a variable:
 ```bash
-CONN_SERVICE_ACCOUNT=$(bq --format=prettyjson show --connection ${PROJECT_ID}.${REGION}.fraud-transactions-conn | jq -r ".cloudResource.serviceAccountId")
+CONN_SERVICE_ACCOUNT=$(bq --format=prettyjson show --connection ${PROJECT_ID}.us.fraud-transactions-conn | jq -r ".cloudResource.serviceAccountId")
 echo $CONN_SERVICE_ACCOUNT
 ```
 
@@ -46,28 +46,28 @@ Let's double check the service account.
 1. Go to the [BigQuery Console](https://console.cloud.google.com/bigquery).
 2. Expand ``{{ PROJECT_ID }}`` in the Explorer on the left.
 3. Expand ``External connections``.
-4. Click ``{{ REGION }}.fraud-transactions-conn``.
+4. Click ``us.fraud-transactions-conn``.
 
 Is the service account equivalent to the one you got from the command line?
 
 
 If so, let's grant the service account access to Cloud Storage:
 ```bash
-gcloud storage buckets add-iam-policy-binding gs://${PROJECT_ID}-bucket \
+gcloud storage buckets add-iam-policy-binding gs://{{ PROJECT_ID }}-bucket \
 --role=roles/storage.objectViewer \
 --member=serviceAccount:$CONN_SERVICE_ACCOUNT
 ```
 
 Next, we create a dataset that our external table will live in:
 ```bash
-bq --location=${REGION} mk -d ml_datasets
+bq --location=us mk -d ml_datasets
 ```
 
 Finally, create a table in BigQuery pointing to the data in Cloud Storage:
 
 ```bash
 bq mk --table \
-  --external_table_definition=@PARQUET="gs://${PROJECT_ID}-bucket/data/parquet/ulb_fraud_detection/*"@projects/${PROJECT_ID}/locations/${REGION}/connections/fraud-transactions-conn \
+  --external_table_definition=@PARQUET="gs://${PROJECT_ID}-bucket/data/parquet/ulb_fraud_detection/*"@projects/${PROJECT_ID}/locations/us/connections/fraud-transactions-conn \
   ml_datasets.ulb_fraud_detection_biglake
 ```
 
@@ -93,7 +93,7 @@ SELECT * FROM `{{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_biglake` LIMIT 1
 Note that you can also execute a query using the `bq` tool:
 
 ```bash
-bq --location=$REGION query --nouse_legacy_sql "SELECT Time, V1, Amount, Class FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_biglake LIMIT 10;"
+bq --location=us query --nouse_legacy_sql "SELECT Time, V1, Amount, Class FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_biglake LIMIT 10;"
 ```
 
 The data you are querying still resides on Cloud Storage and there are no copies stored in BigQuery. When using BigLake, BigQuery acts as query engine but not as storage layer.
@@ -108,7 +108,7 @@ We create an empty table and then stream data into it. For this to work, we need
 
 Create an empty table using this schema. We will use it to stream data into it:
 ```bash
-bq --location=$REGION mk --table \
+bq --location=us mk --table \
 {{ PROJECT_ID }}:ml_datasets.ulb_fraud_detection_pubsub src/data_ingestion/fraud_detection_bigquery_schema.json
 ```
 
@@ -199,7 +199,7 @@ Next, have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/
 
 Create an empty BigQuery table:
 ```bash
-bq --location=$REGION mk --table \
+bq --location=us mk --table \
 {{ PROJECT_ID }}:ml_datasets.ulb_fraud_detection_dataproc src/data_ingestion/fraud_detection_bigquery_schema.json
 ```
 
@@ -223,7 +223,7 @@ While the command is still running, open the [DataProc Console](https://console.
 
 After the Dataproc job completes, confirm that data has been loaded into the BigQuery table. You should see over 200,000 records, but the exact count isn't critical:
 ```bash
-bq --location=$REGION query --nouse_legacy_sql "SELECT count(*) as count FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_dataproc;"
+bq --location=us query --nouse_legacy_sql "SELECT count(*) as count FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_dataproc;"
 ```
 
 ***
