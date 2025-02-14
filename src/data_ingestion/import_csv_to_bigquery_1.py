@@ -44,7 +44,8 @@ def process_csv_blob(blob):
     with open(temp_file_path, mode='r', encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file)
         for i, row in enumerate(csv_reader):
-            feedback = row[-1]
+            # account for incorrect quoting of the feedback column
+            feedback = ",".join([row[-2], row[-1]]) if len(row) == 33 else row[-1]
             record = {
                "Time": float(row[0]),
                "V1": float(row[1]),
