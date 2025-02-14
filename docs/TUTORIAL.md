@@ -37,7 +37,12 @@ Please reload bootkon and continue with the next step.
 . bk
 ```
 
-Your project is `{{ PROJECT_ID }}` and your username is `{{ GCP_USERNAME }}`.
+Now, your
+
+* `PROJECT_ID` is `{% if PROJECT_ID == "" %}None{% else %}{{ PROJECT_ID }}{% endif %}`
+
+* `GCP_USERNAME` is `{% if GCP_USERNAME == "" %}None{% else %}{{ GCP_USERNAME }}{% endif %}`.
+
 
 If neither is `None`, press the `START` button below to get started!
 
