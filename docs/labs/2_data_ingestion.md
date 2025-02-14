@@ -209,7 +209,7 @@ wget -qN https://github.com/GoogleCloudDataproc/spark-bigquery-connector/release
 gsutil cp spark-3.3-bigquery-0.37.0.jar gs://${PROJECT_ID}-bucket/jar/spark-3.3-bigquery-0.37.0.jar
 ```
 
-Open <walkthrough-editor-select-line filePath="src/data_ingestion/import_parquet_to_bigquery.py" startLine="4" endLine="4" startCharacterOffset="14" endCharacterOffset="31">import_parquet_to_bigquery.py</walkthrough-editor-select-line> in the Cloud Shell editor and replace the project id with your project id {{ PROJECT_ID }}. Don't forget to save.
+Open <walkthrough-editor-select-line filePath="src/data_ingestion/import_parquet_to_bigquery.py" startLine="4" endLine="4" startCharacterOffset="14" endCharacterOffset="31">import_parquet_to_bigquery.py</walkthrough-editor-select-line> in the Cloud Shell editor and replace the project id with your project id `{{ PROJECT_ID }}`. Don't forget to save.
 
 Execute it:
 ```bash
