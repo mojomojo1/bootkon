@@ -33,6 +33,7 @@ case "$1" in
     gcloud ai endpoints list --format="value(name)" --filter="display_name~bootkon" --region=$REGION \
         | xargs -I {} gcloud ai endpoints delete {} --region=$REGION --quiet
 
+    gcloud artifacts repositories delete bootkon --location=$REGION --quiet
     ;;
     *)
     echo "Usage: $0 <all|vertex|ingestion>"
