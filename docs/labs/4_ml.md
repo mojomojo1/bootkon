@@ -19,7 +19,19 @@ For example, Vertex AI Workbench lets you:
 - Process data quickly by running a notebook on a Dataproc cluster.
 - Run a notebook as a step in a pipeline by using Vertex AI Pipelines.
 
-You can [create](https://cloud.google.com/vertex-ai/docs/workbench/instances/create#gcloud) such an instance either through the UI, Terraform, or using the following command:
+Workbench runs in a virtual machine separate from this Cloud Shell instance. Hence, let's copy the Notebook you'll go through to Cloud Storage first:
+
+```bash
+gsutil cp notebooks/* gs://${PROJECT_ID}-bucket/notebooks/
+```
+
+We can provide a script to Workbench that runs as soon as it starts up. Let's write a script that automatically downloads the Notebook from Cloud Storage. For this, edit <walkthrough-editor-open-file filePath="src/ml/workbench_init.sh">`workbench_init.sh`</walkthrough-editor-open-file> and set `PROJECT_ID` to `{{ PROJECT_ID }}` and copy it to Cloud Storage as well:
+
+```bash
+gsutil -m cp src/ml/workbench_init.sh gs://${PROJECT_ID}-bucket/
+```
+
+You can [create](https://cloud.google.com/vertex-ai/docs/workbench/instances/create#gcloud) a Workbench instance using the following command:
 
 ```bash
 gcloud workbench instances create bootkon-notebook \
@@ -28,7 +40,7 @@ gcloud workbench instances create bootkon-notebook \
     --vm-image-project=cloud-notebooks-managed \
     --machine-type=e2-standard-4 \
     --vm-image-name workbench-instances-v20241118 \
-    --metadata=post-startup-script=gs://${PROJECT_ID}-bucket/bootstrap_workbench.sh,idle-timeout-seconds=43200
+    --metadata=post-startup-script=gs://${PROJECT_ID}-bucket/workbench_init.sh,idle-timeout-seconds=43200
 ```
 
 Once the command has finished, please
@@ -37,8 +49,6 @@ Once the command has finished, please
 2. Click on <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-notebook'})">bootkon-notebook</walkthrough-spotlight-pointer>
 2. Wait for the instance to become `Active`
 3. and as soon as the instance is ready, click on `OPEN JUPYTERLAB`. 
-
-The notebook has automatically been copied using the `post-startup-script` we passed earlier. Please note that you are working on a completely different machine and the files you modified on Cloud Shell are not reflected on Vertex AI Workbench.
 
 Now, please open `bootkon_vertex.ipynb` and continue your journey.
 

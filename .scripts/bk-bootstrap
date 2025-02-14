@@ -48,14 +48,3 @@ for role in "${service_account_roles[@]}"; do
     gcloud projects add-iam-policy-binding "$PROJECT_ID" \
         --member="serviceAccount:$COMPUTE_SERVICE_ACCOUNT" --role="$role" >>/dev/null
 done
-
-# Set up the workbench bootstrap script
-gsutil cp notebooks/* gs://${PROJECT_ID}-bucket/notebooks/
-cat <<EOF >/tmp/bootstrap_workbench.sh
-#!/bin/sh
-cd /home/jupyter
-sudo -H -u jupyter gsutil cp gs://${PROJECT_ID}-bucket/notebooks/* .
-sudo -H -u jupyter rm -f notebook_template.ipynb
-EOF
-chmod +x /tmp/bootstrap_workbench.sh
-gsutil -m cp /tmp/bootstrap_workbench.sh gs://${PROJECT_ID}-bucket/
