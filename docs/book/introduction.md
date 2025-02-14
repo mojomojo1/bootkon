@@ -13,3 +13,5 @@ This event is comprised of the following code labs:
 | 45min | Data Ingestion | Ingest data using three different methods: BigLake, Pub/Sub, and DataProc |
 | 45min | Dataform | Create version-controlled SQL workflows for BigQuery |
 | 60min | Machine Learning | Train a model on fraud detection and create an automated ML pipeline | 
+
+You can navigate this handbook using the `<` and `>` buttons on the right and left hand side, respectively. To get started, please press the `>` button on the right hand side now.

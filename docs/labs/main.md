@@ -2,8 +2,6 @@
 
 During this event, we will guide you through a series of labs using Google Cloud Shell.
 
-## About Cloud Shell
-
 Cloud Shell is a fully interactive, browser-based environment for learning, experimenting, and managing Google Cloud projects. It comes preloaded with the Google Cloud CLI, essential utilities, and a built-in code editor with Cloud Code integration, enabling you to develop, debug, and deploy cloud apps entirely in the cloud.
 
 Below you can find a screenshot of Cloud Shell.
@@ -28,4 +26,12 @@ And copy & paste the following command and press return:
 BK_REPO={{ BK_REPO }}; . <(wget -qO- https://raw.githubusercontent.com/{{ BK_REPO }}/main/.scripts/bk)
 ```
 
-Continue your journey in the Cloud Shell Editor!
+While going through the code labs, you will encounter two different terminals on your screen. Please only use the terminal from the IDE (white background) and do not use the non-IDE terminal (black background). In fact, just close the terminal with black background using the `X` button.
+
+![](../img/code_terminals.png)
+
+You will also find two buttons on your screen that might seem tempting. Please do not click the *Open Terminal* or *Open in new window* buttons as they will destroy the integrated experience of Cloud Shell.
+
+![](../img/code_newwindow.png)
+
+Now, please go back to Cloud Shell and continue with the tutorial that has been opened on the right hand side of your screen!
