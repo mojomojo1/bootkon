@@ -43,6 +43,8 @@ But what did it do? Let's ask Gemini while it is running.
 2. Open Gemini Code Assist <img style="vertical-align:middle" src="https://www.gstatic.com/images/branding/productlogos/gemini/v4/web-24dp/logo_gemini_color_1x_web_24dp.png" width="8px" height="8px"> on the left hand side.
 3. Insert ``What does bk-bootstrap do?`` into the Gemini prompt.
 
+Cloud Shell may ask you to select your project and enable the API. Do not worry about missing licenses.
+
 ### Download data
 
 Next, we download the data set for bootkon and put it into Cloud Storage. Before we do that, we create
