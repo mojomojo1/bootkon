@@ -154,17 +154,6 @@ grep -qxF "$line" ~/.bashrc || echo "$line" >> ~/.bashrc
 
 unset line
 
-# Load the tutorial
-bk-tutorial $BK_TUTORIAL
-
-if [ "$(basename $PWD)" == $BK_GITHUB_REPOSITORY ]; then
-    if [ -z $BK_NO_WORKSPACE_OPEN ]; then
-        cloudshell open-workspace .
-    fi
-fi
-
-echo -e "Automatically loaded bootkon and opened IDE workspace. To disable, execute 'bk-deactivate'."
-
 echo
 
 cat << "EOF"
@@ -179,3 +168,8 @@ cat << "EOF"
      `---''---`
 EOF
 echo
+
+if [ "$(basename ${BASH_SOURCE[0]})" != "bk" ]; then
+    # This script is run the first time from GitHub
+    bk-start
+fi  

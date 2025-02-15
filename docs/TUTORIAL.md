@@ -31,10 +31,17 @@ You can open files directly from this tutorial.
 Open `vars.sh` <walkthrough-editor-open-file filePath="vars.sh">by clicking here</walkthrough-editor-open-file>
 and set `GCP_USERNAME`, `PROJECT_ID` according to the piece of paper you received. Also let us know your (first?) name in `MY_NAME`. Don't forget to save it.
 
-Please reload bootkon and continue with the next step.
+Please reload bootkon:
 
 ```bash
 . bk
+```
+
+
+And restart the tutorial using the next command. You can also use the next command to continue bootkon in case you accidentally close the tutorial or the editor:
+
+```bash
+bk-start
 ```
 
 Now, your

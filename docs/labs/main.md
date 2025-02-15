@@ -34,4 +34,10 @@ You will also find two buttons on your screen that might seem tempting. Please d
 
 ![](../img/code_newwindow.png)
 
+Should you accidentally close the tutorial or the IDE, just type the following command into the terminal:
+
+```bash
+bk-start
+```
+
 Now, please go back to Cloud Shell and continue with the tutorial that has been opened on the right hand side of your screen!
