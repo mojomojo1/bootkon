@@ -48,9 +48,6 @@ The Data Publisher in this case is the FraudFix technology. They are providers o
    AS ( SELECT * EXCEPT (transaction_id) FROM `your-project-id.bootkon_raw_zone.data_prediction` );
    ```
 
- 
-
-
    THRESHOLD: The minimum number of distinct privacy units that need to contribute to each row in the query results. If a potential row doesn't satisfy this threshold, that row is omitted from the query results.
 
    PRIVACY\_UNIT\_COLUMN: Represents the privacy unit column. A privacy unit column is a unique identifier for a privacy unit. A privacy unit is a value from the privacy unit column that represents the entity in a set of data that is being protected. You can use only one privacy unit column, and the data type for the privacy unit column must be [groupable](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#groupable_data_types). The values in the privacy unit column cannot be directly projected through a query, and you can use only [analysis rule-supported aggregate functions](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#agg_threshold_policy_functions) to aggregate the data in this column.
@@ -82,8 +79,6 @@ Note the error: You must use SELECT WITH AGGREGATION\_THRESHOLD for this query b
 
 10. In the clean room, <walkthrough-spotlight-pointer locator="semantic({button 'Add data'})">ADD DATA</walkthrough-spotlight-pointer>. Specify the dataset name `<your project id_ml_datasets_clean_room` and add the Auth View `data_prediction_shared`. Primary contact should be your GCP user. For the description, you can use *‘Fraudfix shareable fraud detection ML results (yourlastname)’.*
 
-    ![](../img/lab6/cleanroomadddata.png)
-
 11. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Next'})">NEXT</walkthrough-spotlight-pointer>.  
 12. Notice the privacy unit column is auto detected by the Analytics Hub.   
 13. Let ‘s  allow the subscribers to join data on all columns except the service account email which is a PII data.
@@ -99,11 +94,11 @@ Note the error: You must use SELECT WITH AGGREGATION\_THRESHOLD for this query b
 
 17. Review the clean room you just created. Especially those who are allowed to subscribe to it. You can always add new principals when needed. 
  
- ![](../img/lab6/editsubscribers.png)
+   ![](../img/lab6/editsubscribers.png)
 
 18. Since the table you want to share is in BigLake table format, grant the `Storage Object Viewer` role to the ***subscriber*** email address. Go to IAM and perform the steps
 
- ![](../img/lab6/storageobjectviewer.png)
+   ![](../img/lab6/storageobjectviewer.png)
 
 
     
