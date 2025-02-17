@@ -73,41 +73,38 @@ Note the error: You must use SELECT WITH AGGREGATION\_THRESHOLD for this query b
    
 7. Notice the failed permissions   
    
-![](../img/lab6/compiledgraph.png)
+   ![](../img/lab6/setpermissions.png)
 
 8. After adding the Analytics Hub Admin role to ***your GCP user***,   
-   ![][image8]  
+   ![](../img/lab6/analyticshubadmin.png)
      
 9. Try setting permissions again in step 6\. Now, the permissions should be set correctly.
 
-![][image9]
+10. In the clean room, <walkthrough-spotlight-pointer locator="semantic({button 'Add data'})">ADD DATA</walkthrough-spotlight-pointer>. Specify the dataset name `<your project id_ml_datasets_clean_room` and add the Auth View `data_prediction_shared`. Primary contact should be your GCP user. For the description, you can use *‘Fraudfix shareable fraud detection ML results (yourlastname)’.*
 
-10. In the clean room, add data. Specify the dataset name ***\<your project id\>.ml\_datasets\_clean\_room*** and add the Auth View ***data\_prediction\_shared***. Primary contact should be your GCP user. For the description, you can use *‘Fraudfix shareable fraud detection ML results (yourlastname)’.*
+    ![](../img/lab6/cleanroomadddata.png)
 
-    ![][image10]
+11. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Next'})">NEXT</walkthrough-spotlight-pointer>.  
+12. Notice the privacy unit column is auto detected by the Analytics Hub.   
+13. Let ‘s  allow the subscribers to join data on all columns except the service account email which is a PII data.
 
-11. Click on next.  
-12. Notice the privacy unit column is auto detected by the analytics hub.   
-13. Let ‘s  allow the subscribers to join data on all columns except the service account email which is a PII data.  ![][image11]![][image12]  
-    ![][image13]![][image14]  
+   ![](../img/lab6/joinallcolumns.png)
+
       
-14. Choose the join condition not required.   
+14. Choose the join condition not required.  
+
 15. ***Data egress controls*** : Notice you can also disable copy and export of query results.  [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) controls are automatically enabled to help prevent subscribers from copying and exporting raw data from a data clean room. Data contributors can configure additional controls to help prevent the copy and export of query results that are obtained by the subscribers.
 
-    ![][image15]
+16. Review and click on <walkthrough-spotlight-pointer locator="semantic({button 'Add data'})">ADD DATA</walkthrough-spotlight-pointer> 
 
-16. Review and click on Add data  
 17. Review the clean room you just created. Especially those who are allowed to subscribe to it. You can always add new principals when needed. 
+ 
+ ![](../img/lab6/editsubscribers.png)
 
-    ![][image16]
+18. Since the table you want to share is in BigLake table format, grant the `Storage Object Viewer` role to the ***subscriber*** email address. Go to IAM and perform the steps
 
-    ![][image17]
+ ![](../img/lab6/storageobjectviewer.png)
 
-    
-
-18. Since the table you want to share is in ***BigLake*** table format, grant the ‘***Storage Object Viewer’*** role to the ***subscriber*** email address. Go to IAM and perform the steps
-
-    ![][image18]
 
     
 
