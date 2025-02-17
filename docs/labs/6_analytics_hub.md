@@ -101,19 +101,15 @@ Note the error: You must use SELECT WITH AGGREGATION\_THRESHOLD for this query b
    ![](../img/lab6/storageobjectviewer.png)
 
 
-    
+### Steps as Data Subscriber:
 
-### **Steps as Data Subscriber :**
-
-***The Data Subscriber in this case is FraudFix’s customer. The customer is the owner of the original PCA dataset provided to FraudFix.***  
+The Data Subscriber in this case is FraudFix’s customer. The customer is the owner of the original PCA dataset provided to FraudFix.  
  
 
-1. Go to the ***Analytics Hub*** section in BigQuery and search for Listings by ‘***Clean rooms***’. The listings shared with you by other group members might take a few minutes to appear.  
-* Click on ***SEARCH LISTINGS***  
+1. Go to [Analytics Hub](https://console.cloud.google.com/bigquery/analytics-hub/exchanges) in BigQuery and search for Listings by ‘***Clean rooms***’. The listings shared with you by other group members might take a few minutes to appear.  
+* Click on <walkthrough-spotlight-pointer locator="semantic({button 'Search listings'})">SEARCH LISTINGS</walkthrough-spotlight-pointer>  
     
-  ![][image19]  
-* Then check ***Private Listings*** box from the Filters menu  
-  ***![][image20]***  
+* Then check <walkthrough-spotlight-pointer locator="semantic({checkbox 'Private'})">Private Listings</walkthrough-spotlight-pointer> box from the Filters menu  
     
 * The results will show the clean rooms shared with you by the other team members. 
 
@@ -141,8 +137,6 @@ For the remaining steps, we will be working with ***only one***  clean room shar
 4.  Try to run a simple aggregation but it will fail to do so as the SQL query must be started with  SELECT WITH AGGREGATION\_THRESHOLD  
 5. Run the following query to analyze the results when the predicted class value is different from the actual class value.
 
-
-   
 
 | *BigQuery SQL : Analyze the results when the predicted class value is different from the actual class value* Replace *your-gcp-project-id* with your GCP project id as a subscriber Replace fraudfix\_clean\_room\_X with the data clean room name shared with you  |
 | :---- |
