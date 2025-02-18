@@ -11,6 +11,7 @@
     - [Lab 2: Data Ingestion](./labs/2_data_ingestion.md)
     - [Lab 3: Dataform](./labs/3_dataform.md)
     - [Lab 4: Machine Learning](./labs/4_ml.md)
+    - [Lab 5: Machine Learning](./labs/5_dataplex.md)
     - [Lab 6: Analytics Hub](./labs/6_analytics_hub.md)
 - [Conclusion](./labs/conclusion.md)
 
