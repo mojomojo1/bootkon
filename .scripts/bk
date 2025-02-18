@@ -163,8 +163,8 @@ cat << "EOF"
    \___|----|  |   __       |                                                      |
        \ }{ /\ )_ / _\      --------------------------------------------------------
        /\__/\ \__O (__
-      (--/\--)    \__/
-      _)(  )(_
+      (--/\--)    \__/      To start Data & AI Bootkon, type "bootkon-start".
+      _)(  )(_              This will open the tutorial and IDE workspace.
      `---''---`
 EOF
 echo
