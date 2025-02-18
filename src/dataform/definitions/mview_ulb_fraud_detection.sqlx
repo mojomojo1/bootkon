@@ -8,6 +8,6 @@ SELECT
 count(*) as count,
 Class,
 Feedback
-from   ${ref("ulb_fraud_detection")}
+from   ${ref("ulb_fraud_detection_dataproc")}
 group by Class,
 Feedback
