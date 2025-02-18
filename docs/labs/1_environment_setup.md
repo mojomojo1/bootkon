@@ -27,6 +27,7 @@ First, we need to enable some Google Cloud Platform (GCP) services. Enabling GCP
   dataproc.googleapis.com,
   bigqueryconnection.googleapis.com,
   aiplatform.googleapis.com,
+  cloudbuild.googleapis.com,
   artifactregistry.googleapis.com">
 </walkthrough-enable-apis>
 
