@@ -12,4 +12,5 @@ These markdown files are passed through the [jinja](https://jinja.palletsproject
     ├── 2_data_ingestion.md
     ├── 3_dataform.md
     ├── 4_ml.md
+    ├── 5_dataplex.md
 ```
