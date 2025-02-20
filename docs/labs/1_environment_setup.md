@@ -56,7 +56,7 @@ gsutil mb -l $REGION gs://{{ PROJECT_ID }}-bucket
 
 Next, we download the data set and extract it (all in one line):
 ```bash
-wget -qO - https://github.com/fhirschmann/bootkon-data/releases/download/v1.7/data.tar.gz | tar xvzf -
+wget -qO - https://github.com/fhirschmann/bootkon-data/releases/download/v1.7.1/data.tar.gz | tar xvzf -
 ```
 
 Let's upload the data to the bucket we just created:

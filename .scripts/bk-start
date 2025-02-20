@@ -1,5 +1,5 @@
 #!/bin/sh
 
-bk-tutorial $BK_TUTORIAL
 cd $BK_DIR
+bk-tutorial $BK_TUTORIAL
 cloudshell open-workspace .
