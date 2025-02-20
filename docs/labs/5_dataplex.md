@@ -1,7 +1,7 @@
 ## Lab 5: Data governance with Dataplex
 
 <walkthrough-tutorial-duration duration="60"></walkthrough-tutorial-duration>
-<walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
+<walkthrough-tutorial-difficulty difficulty="2"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 
 In this lab you will 
@@ -9,12 +9,12 @@ In this lab you will
 - Leverage Dataplex features to better understand, govern your data and metadata.
 - Build data quality checks on top of the fraud detection prediction results.
 
-About Dataplex
+### About Dataplex
 
 With Dataplex you can organize different data assets, from different projects under new organizational concepts of Lakes and Zones. Organization is logical only and does not require any data movement.  Dataplex supports managing datasets in BigQuery and GCS buckets.  You can use lakes to define your organizational boundary or regional boundary  (e.g. marketing lake/sales lake Or  US lake/ UK lake etc), while zones can be used to group the data logically or by use cases (e.g. raw_zone/curated_zone or analytics_zone/data_science_zone).
 Dataplex can also be used to build a data mesh architecture with decentralized data ownership among domain data owners.
 
-Security - GCS / BQ
+### Security - GCS / BQ
 
 With Dataplex you can apply data access permissions using IAM groups across multiple buckets and BQ datasets by granting permissions at a lake or zone-level. Dataplex will do the heavy lifting of propagating desired policies and updating access policies of the buckets/datasets  that are part of that lake or data zone. Dataplex will also apply those permissions to any new buckets/datasets that get created under that data zone. This takes away the need to manually manage individual bucket permissions and also provides a way to automatically apply permissions to any new data added to your lakes.
 
@@ -24,55 +24,46 @@ Discovery [semi structured and structured data].
 You can configure discovery jobs in Dataplex that can sample data on GCS, infer its schema, and automatically register it with Data Catalog so you can easily search and discover the data you have in your lakes.
 In addition to registering metadata with Data Catalog, for data in CSV, JSON, AVRO, ORC, and Parquet formats, the discovery jobs also register technical metadata, including hive-style partitions, with a managed Hive metastore (Dataproc Metastore) & as external tables in BigQuery(BQ).  Discovery jobs can be configured to run on a schedule to discover any new tables or partitions. For new partitions, discovery jobs incrementally scan new data, check for data and schema compatibility, and register only compatible schema to the Hive metastore/ BQ so that your table definitions never go out of sync with your data.
 
-Actions - Profiling, Quality, Lineage, Discovery
+### Actions - Profiling, Quality, Lineage, Discovery
 
 Dataplex has the capability to profile data assets (BigQuery tables), auto detect data lineage for BigQuery transformations. You can also use Dataplex for data discovery across GCS, BigQuery, Spanner, PubSub, Dataproc metastore, Bigtable and Vertex AI models. Dataplex automatic data quality, which lets you define and measure the quality of your data. You can automate the scanning of data, validate data against defined rules, and log alerts if your data doesn't meet quality requirements. You can manage data quality rules and deployments as code, improving the integrity of data production pipelines.
 
 --- 
 
-### LAB Section: Create a Dataplex Lake
+### Create a Dataplex Lake
 
-1. Enable the Dataplex, Dataproc, Dataproc Metastore, Data Catalog, BigQuery, and Cloud Storage. APIs.  (you can skip this step if you completed LAB 1)
-2. Make sure you have the predefined roles roles/dataplex.admin or roles/dataplex.editor granted to you so that you can create and manage your lake. (you can skip this step if you completed LAB 1)
-3. Go to Dataplex in the Google Cloud console or search for it from the search section of the GCP console.
-**IMAGE**
-4. Navigate to the Manage view.
-5. Click Create Lake.
-6. Enter a Display name. For example: bootkon-lake
-The lake ID is automatically generated for you. If you prefer, you can provide your own ID.
-7. Optional: Enter a Description. For Example: Dataplex Lake for bootkon data assets
-8. Specify the Region where the GCS buckets and BigQuery datasets were created during previous Labs. If you have followed the previous Labs, it should be us-central1. Ensure that the region is consistent with the locations used in prior steps.
-
-9. Optional: Add labels to your lake. For example, use location for the key and berlin for the value.
-10. Lets skip the metastore creation for now and click on create. 
-    The creation should take 2-3 minutes to finish.
-**IMAGE** 
+1. [remove?] Enable the Dataplex, Dataproc, Dataproc Metastore, Data Catalog, BigQuery, and Cloud Storage. APIs.  (you can skip this step if you completed LAB 1)
+2. [remove?] Make sure you have the predefined roles roles/dataplex.admin or roles/dataplex.editor granted to you so that you can create and manage your lake. (you can skip this step if you completed LAB 1)
+3. Go to [Dataplex](https://console.cloud.google.com/dataplex).
+4. Navigate to <walkthrough-spotlight-pointer locator="text('Manage')">Manage</walkthrough-spotlight-pointer>.
+5. Click <walkthrough-spotlight-pointer locator="semantic({link 'Create'})">Create</walkthrough-spotlight-pointer>.
+6. Enter the following details:
+    - Display name: `bootkon-lake`
+    - Description: anything you like
+    - Region: `us-central1`
+    - Labels: Add labels to your lake. For example, use location for the key and berlin for the value.
+    - Metastore: lets skip the metastore creation for now
+7. Finally, click on <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">Create</walkthrough-spotlight-pointer>. This should take around 2-3 minutes.
 
 ***
 
-#### LAB Section: Add Dataplex Zones
+#### Add Dataplex Zones
 
 We will add 2 zones; one for raw zone and another one for curated zone.
 
-1. Click on the bootkon-lake lake you just created.
-2. In the Zones tab, click + Add zone.
-3. Enter a Display name for your zone. For example ; bootkon-raw-zone
-4. Click the Type drop-down. Choose Raw Zone. Learn more about supported zone types.
-5. Optional: Enter a description. For example, Dataplex zone for bootkon raw data assets
-6. Under Data locations, select either Regional or Multi-regional. The region has to match where the GCS buckets and BigQuery datasets were created during previous Labs. If you have followed the previous Labs, it should be Regional us-central1.
-7. Add labels to your zone. For example, use zone for the key and raw for the value.
-8. Enable metadata discovery, which allows Dataplex to automatically scan and extract metadata from the data in your zone. Let's leave the default settings. 
-9. Expand the Discovery settings submenu.
-10. Make sure Enable metadata discovery is selected.
-11. Optional: Under Include patterns, list the files to include in the discovery scans.
-Important: Under Exclude patterns, list the files to exclude from the discovery scans. If you enter both include and exclude patterns, exclude patterns are applied first. Exclude the source code files by specifying **/src/*.
-12. Click the Repeats drop-down and select a frequency.
-13. Click the Timezone drop-down and select a timezone (for example: Germany).
-14. If under Repeats you selected Custom, under Schedule, enter a job schedule. Otherwise, the Schedule value is automatically filled for you.
-15. Click Create.
-16. When the zone creation succeeds, the zone automatically enters an active state. If it fails, then the lake is rolled back to its previous state.
+1. Click on the <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-lake'})">bootkon-lake</walkthrough-spotlight-pointer> lake you just created.
+2. In the Zones tab, click <walkthrough-spotlight-pointer locator="semantic({link 'Add zone'})">+ Add Zone</walkthrough-spotlight-pointer> and enter the following details:
+    - Display name: `bootkon-raw-zone`
+    - Type: Raw Zone
+    - Description: anything you like
+    - Data Locations: `us-central1`
+    - Discovery settings: Enable metadata discovery, which allows Dataplex to automatically scan and extract metadata from the data in your zone. Let's leave the default settings. Set time zone to Germany.
+
+Finally, click <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">create</walkthrough-spotlight-pointer>.
+When the zone creation succeeds, the zone automatically enters an active state. If it fails, then the lake is rolled back to its previous state.
 After you create your zone, you can map data stored in Cloud Storage buckets and BigQuery datasets as assets in your zone.
-Repeat the same steps from 1 to 11 but this time, change the display name to bootkon-curated-zone and choose Choose Curated Zone for the Type. You might also change the label and description values. 
+
+Repeat the same steps but this time, change the display name to bootkon-curated-zone and choose Choose Curated Zone for the Type. You might also change the label and description values. 
 The creation should take 2-3 minutes to finish.
 
 ---
