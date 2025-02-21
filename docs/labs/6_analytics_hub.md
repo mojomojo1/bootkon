@@ -54,26 +54,19 @@ The Data Publisher in this case is the FraudFix technology. They are providers o
 
    PRIVACY\_UNIT\_COLUMN: Represents the privacy unit column. A privacy unit column is a unique identifier for a privacy unit. A privacy unit is a value from the privacy unit column that represents the entity in a set of data that is being protected. You can use only one privacy unit column, and the data type for the privacy unit column must be [groupable](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#groupable_data_types). The values in the privacy unit column cannot be directly projected through a query, and you can use only [analysis rule-supported aggregate functions](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#agg_threshold_policy_functions) to aggregate the data in this column.
 
-<<<<<<< HEAD
-3. Replace `your-project-id` with your project ID and try the following query in BigQuery without specifying the without an aggregation threshold 
-
-   ```
-   SELECT * 
-   FROM `your-project-id.ml_datasets_clean_room.data_prediction_shared` 
-   LIMIT 1000
-=======
 3. Try the following query in BigQuery without specifying the without an aggregation threshold 
 
    ```
-   SELECT * FROM `{{ PROJECT_ID }}.ml_datasets_clean_room.data_prediction_shared` LIMIT 1000
->>>>>>> 54c2bd6 (add PROJECT_ID variable)
+   SELECT * 
+   FROM `{{ PROJECT_ID }}.ml_datasets_clean_room.data_prediction_shared` 
+   LIMIT 1000
    ````
 
-Note the error: You must use SELECT WITH AGGREGATION\_THRESHOLD for this query because a privacy policy has been set by a data owner.
+   Note the error: You must use SELECT WITH AGGREGATION\_THRESHOLD for this query because a privacy policy has been set by a data owner.
 
 4. Got to [Analytics Hub](https://console.cloud.google.com/bigquery/analytics-hub/exchanges) and click on <walkthrough-spotlight-pointer locator="semantic({toolbar 'Analytics Hub'} {button 'Create clean room'})">+ CREATE CLEAN ROOM</walkthrough-spotlight-pointer>
 
-5. Create a Data Clean room called fraudfix-clean-room-\<yourlastname\> in the same region as the ***ml\_datasets\_clean\_room*** dataset (**typically us-central1)**. For the primary contact, use your GCP email address provided to you. For the description, you can use *‘Fraudfix shareable fraud detection ML results (yourlastname)’.* Click on create clean room.
+5. Create a Data Clean room called `fraudfix-clean-room-{{ GCP_USERNAME_SHORT }}` in the same region as the ***ml\_datasets\_clean\_room*** dataset (**typically us-central1)**. For the primary contact, use your GCP email address provided to you. For the description, you can use *‘Fraudfix shareable fraud detection ML results (yourlastname)’.* Click on create clean room.
 
    ![][image5]
 
