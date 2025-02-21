@@ -8,7 +8,6 @@
 
 Within this lab, you will share the machine learning prediction results to the FraudFix customer while keeping the data securely within the provider's storage environment. Here, you will focus on avoiding sharing PII data. 
 
-### Goal of the Lab
 * We have previously created the fraud detection model predictions.   
 * After running the dataplex  data discovery job , we noticed a new BigQuery dataset created called ***“bootkon\_raw\_zone”*** , ***data\_prediction*** biglake table were automatically created by Dataplex discovery jobs.  
 * The goal of the ***FraudFix*** data scientist team  is to share the results of the data prediction with the customer.  
@@ -20,6 +19,7 @@ Within this lab, you will share the machine learning prediction results to the F
 * You are a data publisher and data subscriber. You are publishing the results of your data prediction and you are subscribing to other team member data prediction.  
 * Collect the GCP account addresses of the your group members assigned to you, in order to set up privileges and share the data with them.
 
+***
 
 ### LAB Section : Hands-on on Analytics Hub (Data Clean Room) capabilities
 
@@ -103,6 +103,7 @@ The Data Publisher in this case is the FraudFix technology. They are providers o
 
       ![](../img/lab6/storageobjectviewer.png)
 
+***
 
 ### Steps as Data Subscriber:
 
