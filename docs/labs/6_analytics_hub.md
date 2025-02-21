@@ -9,11 +9,11 @@
 Within this lab, you will share the machine learning prediction results to the FraudFix customer while keeping the data securely within the provider's storage environment. Here, you will focus on avoiding sharing PII data. 
 
 * We have previously created the fraud detection model predictions.   
-* After running the dataplex  data discovery job , we noticed a new BigQuery dataset created called ***“bootkon\_raw\_zone”*** , ***data\_prediction*** biglake table were automatically created by Dataplex discovery jobs.  
-* The goal of the ***FraudFix*** data scientist team  is to share the results of the data prediction with the customer.  
+* After running the dataplex  data discovery job , we noticed a new BigQuery dataset created called `bootkon_raw_zone` , `data_prediction` biglake table were automatically created by Dataplex discovery jobs.  
+* The goal of the **FraudFix** data scientist team  is to share the results of the data prediction with the customer.  
 * The customer will use the PCA data and perform reversed PCA in order to get the result of the predictions.  
-* The customer will also use the explainability results from the ***data\_prediction*** data to understand why the decisions have been made to flag a given transaction as fraudulent or not.  
-* There is a small caveat, the  ***data\_prediction*** biglake table has the email address of the service account or user who has performed the machine learning tasks. This information is considered PII data (Personal Identifiable Information). In addition you should not share the auto generated transaction id that you have added during the machine learning labs.  
+* The customer will also use the explainability results from the `data_prediction` data to understand why the decisions have been made to flag a given transaction as fraudulent or not.  
+* There is a small caveat, the  `data_prediction` biglake table has the email address of the service account or user who has performed the machine learning tasks. This information is considered PII data (Personal Identifiable Information). In addition you should not share the auto generated transaction id that you have added during the machine learning labs.  
 * Data clean room within the Data Analytics Hub will allow you to share the data securely and without leaking any PII information.   
 * You have been assigned a group of work. Each group member will play the role of a data provider and a data subscriber of the other group members.    
 * You are a data publisher and data subscriber. You are publishing the results of your data prediction and you are subscribing to other team member data prediction.  
@@ -91,7 +91,7 @@ The Data Publisher in this case is the FraudFix technology. They are providers o
       
 14. Choose the join condition not required.  
 
-15. ***Data egress controls*** : Notice you can also disable copy and export of query results.  [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) controls are automatically enabled to help prevent subscribers from copying and exporting raw data from a data clean room. Data contributors can configure additional controls to help prevent the copy and export of query results that are obtained by the subscribers.
+15. **Data egress controls** : Notice you can also disable copy and export of query results.  [Data egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress) controls are automatically enabled to help prevent subscribers from copying and exporting raw data from a data clean room. Data contributors can configure additional controls to help prevent the copy and export of query results that are obtained by the subscribers.
 
 16. Review and click on <walkthrough-spotlight-pointer locator="semantic({button 'Add data'})">ADD DATA</walkthrough-spotlight-pointer> 
 
@@ -99,7 +99,7 @@ The Data Publisher in this case is the FraudFix technology. They are providers o
  
       ![](../img/lab6/editsubscribers.png)
 
-18. Since the table you want to share is in BigLake table format, grant the `Storage Object Viewer` role to the ***subscriber*** email address. Go to IAM and perform the steps
+18. Since the table you want to share is in BigLake table format, grant the `Storage Object Viewer` role to the **subscriber** email address. Go to IAM and perform the steps
 
       ![](../img/lab6/storageobjectviewer.png)
 
@@ -113,7 +113,7 @@ The Data Subscriber in this case is FraudFix’s customer. The customer is the o
     
 2. Check <walkthrough-spotlight-pointer locator="semantic({checkbox 'Private'})">Private Listings</walkthrough-spotlight-pointer> box from the Filters menu. The results will show the clean rooms shared with you by the other team members. 
 
-   For the remaining steps, we will be working with ***only one***  clean room shared in your listings, so choose ***any*** of the shared clean rooms available to you.  
+   For the remaining steps, we will be working with **only one**  clean room shared in your listings, so choose **any** of the shared clean rooms available to you.  
 
    ![](../img/lab6/clean_room.png)
 
@@ -182,7 +182,7 @@ The Data Subscriber in this case is FraudFix’s customer. The customer is the o
 
    Note the error : *You cannot GROUP BY privacy unit column when using SELECT WITH AGGREGATION\_THRESHOLD* 
 
-9. Run the following SQL query to know which ***attributes*** ***(or features)*** are influencing the model’s decision on flagging transactions as fraudulent (those having highest attribution values)   
+9. Run the following SQL query to know which `attributes` or `features` are influencing the model’s decision on flagging transactions as fraudulent (those having highest attribution values)   
 
 
 ```
@@ -260,13 +260,13 @@ The Data Subscriber in this case is FraudFix’s customer. The customer is the o
    ```
 
 
-10. Let's map the results of the previous query with our secret metadata PCA mapping table to understand which attributes are heavily influencing the model's fraudulent decisions. Notice we already have a Biglake table created by Dataplex under the ***bootkon\_raw\_zone*** dataset called ***metadata\_mapping***.   
+10. Let's map the results of the previous query with our secret metadata PCA mapping table to understand which attributes are heavily influencing the model's fraudulent decisions. Notice we already have a Biglake table created by Dataplex under the `bootkon_raw_zone` dataset called `metadata_mapping`.   
    Using the previous SQL statement, you find out the most influential attributes ; for example V14.  
    This table should be accessible only by the customers of FraudFix and not by FraudFix employees because it can be used to reverse PCA and access customer private information. 
 
    ![](../img/lab6/bootkon_raw_zone.png) 
 
-11. Query the metadata table ***“metadata\_mapping”*** and take note of the meanings and descriptions of the most influential V\* attributes (both higher value and lower value attributes). For example, ***V14*** is the most influential attribute for ML decisions. ***V14*** corresponds to the dimensional PCA space attribute for ***“Dispute and Chargeback Frequency”.*** It measures the frequency of disputes and chargebacks, which can be a direct indicator of customer dissatisfaction or fraudulent transactions. Remember that when FraudFix received the dataset from their customers, they did not know the meanings of the V\* columns and their values. FraudFix does not have access to the PCA metadata table. However, as a subscriber (FraudFix customer), you have access to the PCA metadata.
+11. Query the metadata table `metadata_mapping` and take note of the meanings and descriptions of the most influential V\* attributes (both higher value and lower value attributes). For example, `V14` is the most influential attribute for ML decisions. `V14` corresponds to the dimensional PCA space attribute for **“Dispute and Chargeback Frequency”.** It measures the frequency of disputes and chargebacks, which can be a direct indicator of customer dissatisfaction or fraudulent transactions. Remember that when FraudFix received the dataset from their customers, they did not know the meanings of the V\* columns and their values. FraudFix does not have access to the PCA metadata table. However, as a subscriber (FraudFix customer), you have access to the PCA metadata.
 
 ### Success
 
