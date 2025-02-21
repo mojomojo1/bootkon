@@ -108,70 +108,169 @@ The Data Publisher in this case is the FraudFix technology. They are providers o
 
 The Data Subscriber in this case is FraudFix’s customer. The customer is the owner of the original PCA dataset provided to FraudFix.  
  
-
-1. Go to [Analytics Hub](https://console.cloud.google.com/bigquery/analytics-hub/exchanges) in BigQuery and search for Listings by ‘***Clean rooms***’. The listings shared with you by other group members might take a few minutes to appear.  
-* Click on <walkthrough-spotlight-pointer locator="semantic({button 'Search listings'})">SEARCH LISTINGS</walkthrough-spotlight-pointer>  
+1. Go to [Analytics Hub](https://console.cloud.google.com/bigquery/analytics-hub/exchanges) in BigQuery and search for <walkthrough-spotlight-pointer locator="semantic({button 'Search listings'})">Listings</walkthrough-spotlight-pointer>  by ‘***Clean rooms***’. The listings shared with you by other group members might take a few minutes to appear.  
     
-* Then check <walkthrough-spotlight-pointer locator="semantic({checkbox 'Private'})">Private Listings</walkthrough-spotlight-pointer> box from the Filters menu  
-    
-* The results will show the clean rooms shared with you by the other team members. 
+2. Check <walkthrough-spotlight-pointer locator="semantic({checkbox 'Private'})">Private Listings</walkthrough-spotlight-pointer> box from the Filters menu. The results will show the clean rooms shared with you by the other team members. 
 
-For the remaining steps, we will be working with ***only one***  clean room shared in your listings, so choose ***any*** of the shared clean rooms available to you.  
-![][image21]
+   For the remaining steps, we will be working with ***only one***  clean room shared in your listings, so choose ***any*** of the shared clean rooms available to you.  
 
-* Now click on the clean room and click on ***SUBSCRIBE***
+   ![](../img/lab6/clean_room.png)
 
-
-  **![][image22]**
+3. Now click on the clean room and click on <walkthrough-spotlight-pointer locator="semantic({link 'Subscribe'})">SUBSCRIBE</walkthrough-spotlight-pointer>
 
 
-* Add the shared dataset to your BigQuery project id environment by clicking again on ***SUBSCRIBE.*** The destination project should be your project id.
+4. Add the shared dataset to your BigQuery project id `{{ PROJECT_ID }}` destination by clicking again on <walkthrough-spotlight-pointer locator="semantic({link 'Subscribe'})">SUBSCRIBE</walkthrough-spotlight-pointer>
 
-  ![][image23]
 
-* Notice the message   
-  ![][image24]  
-2. Go to BigQuery Studio, Notice the data clean room that the other team members have just shared with you.   
+5. Go to the [BigQuery](https://console.cloud.google.com/bigquery) console, Notice the data clean room that the other team members have just shared with you.   
      
-   ![][image25]  
+   ![](../img/lab6/clean_room_bq.png) 
      
-3. Try to select \* from the shared table. Note the error;   
-   *You must use SELECT WITH AGGREGATION\_THRESHOLD for this query because a privacy policy has been set by a data owner.*  
-4.  Try to run a simple aggregation but it will fail to do so as the SQL query must be started with  SELECT WITH AGGREGATION\_THRESHOLD  
-5. Run the following query to analyze the results when the predicted class value is different from the actual class value.
+6. Try from the shared table.
+   ```
+   select * 
+   ```
+
+    Note the error: *You must use SELECT WITH AGGREGATION\_THRESHOLD for this query because a privacy policy has been set by a data owner.*  
+
+7. Run the following query to analyze the results when the predicted class value is different from the actual class value. As a subscriber, replace `fraudfix_clean_room_X` with the data clean room name shared with you. 
 
 
-| *BigQuery SQL : Analyze the results when the predicted class value is different from the actual class value* Replace *your-gcp-project-id* with your GCP project id as a subscriber Replace fraudfix\_clean\_room\_X with the data clean room name shared with you  |
-| :---- |
-| SELECT class, classes, scores from ( SELECT WITH AGGREGATION\_THRESHOLD   class,   ARRAY(     SELECT  AS STRUCT classes, scores     FROM UNNEST(predicted\_class.classes) classes WITH OFFSET AS pos     JOIN UNNEST(predicted\_class.scores) scores WITH OFFSET AS pos2     ON pos \= pos2     ORDER BY scores DESC     LIMIT 1   )\[OFFSET(0)\].\*, FROM   \`***your-gcp-project-id***.**fraudfix\_clean\_room\_X**.data\_prediction\_shared\` GROUP BY class, classes, scores ) where class \<\> classes order by scores desc |
+   ```
+   SELECT class, classes, scores from (
+   SELECT WITH AGGREGATION_THRESHOLD
+    class,
+   ARRAY(
+     SELECT  AS STRUCT classes, scores
+       FROM UNNEST(predicted_class.classes) classes WITH OFFSET AS pos
+      JOIN UNNEST(predicted_class.scores) scores WITH OFFSET AS pos2
+      ON pos = pos2
+      ORDER BY scores DESC
+      LIMIT 1
+   )[OFFSET(0)].*,
+   FROM
+   `{{ PROJECT_ID }}.fraudfix_clean_room_X.data_prediction_shared`
+   GROUP BY class, classes, scores
+   )
+   where class <> classes
+   order by scores desc
+   ```
 
+8. Try to include the privacy column in your query. As a subscriber, replace `fraudfix_clean_room_X` with the data clean room name shared with you.
    
+   ```
+   SELECT service_account_email, class, classes, scores from (
+   SELECT WITH AGGREGATION_THRESHOLD
+   class,
+   service_account_email,
+   ARRAY(
+      SELECT  AS STRUCT classes, scores
+      FROM UNNEST(predicted_class.classes) classes WITH OFFSET AS pos
+      JOIN UNNEST(predicted_class.scores) scores WITH OFFSET AS pos2
+      ON pos = pos2
+      ORDER BY scores DESC
+      LIMIT 1
+   )[OFFSET(0)].*,
+   FROM
+   `your-gcp-project-id.fraudfix_clean_room_X.data_prediction_shared`
+   GROUP BY  service_account_email, class, classes, scores
+   )
+   where class <> classes
+   order by scores desc
+   ```
 
-6. *Try to include the privacy column in your query.*    
-   
+   Note the error : *You cannot GROUP BY privacy unit column when using SELECT WITH AGGREGATION\_THRESHOLD* 
 
-| *BigQuery SQL : As a data consumer , try to query PII field* Replace *your-gcp-project-id* with your GCP project id as a subscriber Replace fraudfix\_clean\_room\_X with the data clean room name shared with you  |
-| :---- |
-| *SELECT service\_account\_email, class, classes, scores from ( SELECT WITH AGGREGATION\_THRESHOLD   class,   service\_account\_email,   ARRAY(     SELECT  AS STRUCT classes, scores     FROM UNNEST(predicted\_class.classes) classes WITH OFFSET AS pos     JOIN UNNEST(predicted\_class.scores) scores WITH OFFSET AS pos2     ON pos \= pos2     ORDER BY scores DESC     LIMIT 1   )\[OFFSET(0)\].\*, FROM   \`**your-gcp-project-id***.**fraudfix\_clean\_room\_X***.data\_prediction\_shared\` GROUP BY  service\_account\_email, class, classes, scores ) where class \<\> classes order by scores desc* |
+9. Run the following SQL query to know which ***attributes*** ***(or features)*** are influencing the model’s decision on flagging transactions as fraudulent (those having highest attribution values)   
 
-   
 
-7. *Note the error : You cannot GROUP BY privacy unit column when using SELECT WITH AGGREGATION\_THRESHOLD*   
-8. Run the following SQL query to know which ***attributes*** ***(or features)*** are influencing the model’s decision on flagging transactions as fraudulent (those having highest attribution values)   
-   
+```
+   WITH RankedPredictions AS (
+   SELECT WITH AGGREGATION_THRESHOLD
+      class,
+      Time,
+      ARRAY(
+      SELECT AS STRUCT classes, scores
+      FROM UNNEST(predicted_Class.classes) classes WITH OFFSET AS pos
+      JOIN UNNEST(predicted_Class.scores) scores WITH OFFSET AS pos2
+      ON pos = pos2
+      ORDER BY scores DESC
+      LIMIT 1
+      )[OFFSET(0)].*
+   FROM
+      `your-gcp-project-id.fraudfix_clean_room_X.data_prediction_shared`
+      GROUP BY Time, class, classes, scores
+   ),
+   FilteredRankedPredictions AS (
+   SELECT
+      Time,
+      class,
+      classes AS predicted_class,
+      scores AS predicted_score
+   FROM
+      RankedPredictions
+   WHERE
+      classes = '1'
+   ),
+   AttributionAverages AS (
+   SELECT WITH AGGREGATION_THRESHOLD
+      AVG(ABS(attribution.featureAttributions.Time)) AS Avg_Time_Attribution,
+      AVG(ABS(attribution.featureAttributions.V1)) AS Avg_V1_Attribution,
+      AVG(ABS(attribution.featureAttributions.V2)) AS Avg_V2_Attribution,
+   AVG(ABS(attribution.featureAttributions.V3)) AS Avg_V3_Attribution,
+   AVG(ABS(attribution.featureAttributions.V4)) AS Avg_V4_Attribution,
+   AVG(ABS(attribution.featureAttributions.V5)) AS Avg_V5_Attribution,
+   AVG(ABS(attribution.featureAttributions.V6)) AS Avg_V6_Attribution,
+   AVG(ABS(attribution.featureAttributions.V7)) AS Avg_V7_Attribution,
+   AVG(ABS(attribution.featureAttributions.V8)) AS Avg_V8_Attribution,
+   AVG(ABS(attribution.featureAttributions.V9)) AS Avg_V9_Attribution,
+   AVG(ABS(attribution.featureAttributions.V10)) AS Avg_V10_Attribution,
+   AVG(ABS(attribution.featureAttributions.V11)) AS Avg_V11_Attribution,
+   AVG(ABS(attribution.featureAttributions.V12)) AS Avg_V12_Attribution,
+   AVG(ABS(attribution.featureAttributions.V13)) AS Avg_V13_Attribution,
+   AVG(ABS(attribution.featureAttributions.V14)) AS Avg_V14_Attribution,
+   AVG(ABS(attribution.featureAttributions.V15)) AS Avg_V15_Attribution,
+   AVG(ABS(attribution.featureAttributions.V16)) AS Avg_V16_Attribution,
+   AVG(ABS(attribution.featureAttributions.V17)) AS Avg_V17_Attribution,
+   AVG(ABS(attribution.featureAttributions.V18)) AS Avg_V18_Attribution,
+   AVG(ABS(attribution.featureAttributions.V19)) AS Avg_V19_Attribution,
+   AVG(ABS(attribution.featureAttributions.V20)) AS Avg_V20_Attribution,
+   AVG(ABS(attribution.featureAttributions.V21)) AS Avg_V21_Attribution,
+   AVG(ABS(attribution.featureAttributions.V22)) AS Avg_V22_Attribution,
+   AVG(ABS(attribution.featureAttributions.V23)) AS Avg_V23_Attribution,
+   AVG(ABS(attribution.featureAttributions.V24)) AS Avg_V24_Attribution,
+   AVG(ABS(attribution.featureAttributions.V25)) AS Avg_V25_Attribution,
+   AVG(ABS(attribution.featureAttributions.V26)) AS Avg_V26_Attribution,
+   AVG(ABS(attribution.featureAttributions.V27)) AS Avg_V27_Attribution,
+      AVG(ABS(attribution.featureAttributions.V28)) AS Avg_V28_Attribution,
+      AVG(ABS(attribution.featureAttributions.Amount)) AS Avg_Amount_Attribution
+   FROM
+      `your-gcp-project-id.fraudfix_clean_room_X.data_prediction_shared` DP
+   JOIN
+      FilteredRankedPredictions FRP
+   ON
+      DP.Time = FRP.Time
+   CROSS JOIN
+      UNNEST(DP.explanation.attributions) as attribution
+   WHERE
+      FRP.class = '1'
+   )
+   SELECT * FROM AttributionAverages
+   ```
 
-| *BigQuery SQL : Find the most influential attributes to the  model decision*  Replace *your-gcp-project-id* with your GCP project id as a subscriber Replace fraudfix\_clean\_room\_X with the data clean room name shared with you  |
-| :---- |
-| *WITH RankedPredictions AS (  SELECT WITH AGGREGATION\_THRESHOLD    class,    Time,    ARRAY(      SELECT AS STRUCT classes, scores      FROM UNNEST(predicted\_Class.classes) classes WITH OFFSET AS pos      JOIN UNNEST(predicted\_Class.scores) scores WITH OFFSET AS pos2      ON pos \= pos2      ORDER BY scores DESC      LIMIT 1    )\[OFFSET(0)\].\*  FROM    \`**your-gcp-project-id***.**fraudfix\_clean\_room\_X***.data\_prediction\_shared\`    GROUP BY Time, class, classes, scores ), FilteredRankedPredictions AS (  SELECT    Time,    class,    classes AS predicted\_class,    scores AS predicted\_score  FROM    RankedPredictions  WHERE    classes \= '1' ), AttributionAverages AS (  SELECT WITH AGGREGATION\_THRESHOLD    AVG(ABS(attribution.featureAttributions.Time)) AS Avg\_Time\_Attribution,    AVG(ABS(attribution.featureAttributions.V1)) AS Avg\_V1\_Attribution,    AVG(ABS(attribution.featureAttributions.V2)) AS Avg\_V2\_Attribution,   AVG(ABS(attribution.featureAttributions.V3)) AS Avg\_V3\_Attribution,   AVG(ABS(attribution.featureAttributions.V4)) AS Avg\_V4\_Attribution,   AVG(ABS(attribution.featureAttributions.V5)) AS Avg\_V5\_Attribution,   AVG(ABS(attribution.featureAttributions.V6)) AS Avg\_V6\_Attribution,   AVG(ABS(attribution.featureAttributions.V7)) AS Avg\_V7\_Attribution,   AVG(ABS(attribution.featureAttributions.V8)) AS Avg\_V8\_Attribution,   AVG(ABS(attribution.featureAttributions.V9)) AS Avg\_V9\_Attribution,   AVG(ABS(attribution.featureAttributions.V10)) AS Avg\_V10\_Attribution,   AVG(ABS(attribution.featureAttributions.V11)) AS Avg\_V11\_Attribution,   AVG(ABS(attribution.featureAttributions.V12)) AS Avg\_V12\_Attribution,   AVG(ABS(attribution.featureAttributions.V13)) AS Avg\_V13\_Attribution,   AVG(ABS(attribution.featureAttributions.V14)) AS Avg\_V14\_Attribution,   AVG(ABS(attribution.featureAttributions.V15)) AS Avg\_V15\_Attribution,   AVG(ABS(attribution.featureAttributions.V16)) AS Avg\_V16\_Attribution,   AVG(ABS(attribution.featureAttributions.V17)) AS Avg\_V17\_Attribution,   AVG(ABS(attribution.featureAttributions.V18)) AS Avg\_V18\_Attribution,   AVG(ABS(attribution.featureAttributions.V19)) AS Avg\_V19\_Attribution,   AVG(ABS(attribution.featureAttributions.V20)) AS Avg\_V20\_Attribution,   AVG(ABS(attribution.featureAttributions.V21)) AS Avg\_V21\_Attribution,   AVG(ABS(attribution.featureAttributions.V22)) AS Avg\_V22\_Attribution,   AVG(ABS(attribution.featureAttributions.V23)) AS Avg\_V23\_Attribution,   AVG(ABS(attribution.featureAttributions.V24)) AS Avg\_V24\_Attribution,   AVG(ABS(attribution.featureAttributions.V25)) AS Avg\_V25\_Attribution,   AVG(ABS(attribution.featureAttributions.V26)) AS Avg\_V26\_Attribution,   AVG(ABS(attribution.featureAttributions.V27)) AS Avg\_V27\_Attribution,    AVG(ABS(attribution.featureAttributions.V28)) AS Avg\_V28\_Attribution,    AVG(ABS(attribution.featureAttributions.Amount)) AS Avg\_Amount\_Attribution  FROM    \`**your-gcp-project-id***.**fraudfix\_clean\_room\_X***.data\_prediction\_shared\` DP  JOIN    FilteredRankedPredictions FRP  ON    DP.Time \= FRP.Time  CROSS JOIN    UNNEST(DP.explanation.attributions) as attribution  WHERE    FRP.class \= '1' ) SELECT \* FROM AttributionAverages *  |
 
-9. Let's map the results of the previous query with our secret metadata PCA mapping table to understand which attributes are heavily influencing the model's fraudulent decisions. Notice we already have a Biglake table created by Dataplex under the ***bootkon\_raw\_zone*** dataset called ***metadata\_mapping***.   
+10. Let's map the results of the previous query with our secret metadata PCA mapping table to understand which attributes are heavily influencing the model's fraudulent decisions. Notice we already have a Biglake table created by Dataplex under the ***bootkon\_raw\_zone*** dataset called ***metadata\_mapping***.   
    Using the previous SQL statement, you find out the most influential attributes ; for example V14.  
    This table should be accessible only by the customers of FraudFix and not by FraudFix employees because it can be used to reverse PCA and access customer private information. 
 
-   ![][image26]
+   ![](../img/lab6/bootkon_raw_zone.png) 
 
-10. Query the metadata table ***“metadata\_mapping”*** and take note of the meanings and descriptions of the most influential V\* attributes (both higher value and lower value attributes). For example, ***V14*** is the most influential attribute for ML decisions. ***V14*** corresponds to the dimensional PCA space attribute for ***“Dispute and Chargeback Frequency”.*** It measures the frequency of disputes and chargebacks, which can be a direct indicator of customer dissatisfaction or fraudulent transactions. Remember that when FraudFix received the dataset from their customers, they did not know the meanings of the V\* columns and their values. FraudFix does not have access to the PCA metadata table. However, as a subscriber (FraudFix customer), you have access to the PCA metadata.
+11. Query the metadata table ***“metadata\_mapping”*** and take note of the meanings and descriptions of the most influential V\* attributes (both higher value and lower value attributes). For example, ***V14*** is the most influential attribute for ML decisions. ***V14*** corresponds to the dimensional PCA space attribute for ***“Dispute and Chargeback Frequency”.*** It measures the frequency of disputes and chargebacks, which can be a direct indicator of customer dissatisfaction or fraudulent transactions. Remember that when FraudFix received the dataset from their customers, they did not know the meanings of the V\* columns and their values. FraudFix does not have access to the PCA metadata table. However, as a subscriber (FraudFix customer), you have access to the PCA metadata.
 
-**🥳🥳Congratulations on completing Lab 6\!**   
-**You can now move on to Lab 7 for further practice. 🥳🥳**
+### Success
+
+ 🎉 Congratulations{% if MY_NAME %}, {{ MY_NAME }}{% endif %}! 🚀
+
+Boom! Lab 6 conquered! 💥 You've mastered Analytics Hub, sharing ML predictions like a pro while keeping PII locked down tighter than Fort Knox.  Forget those "Access Denied" headaches - you're a data sharing superhero now! 🦸‍♀️
+
 
