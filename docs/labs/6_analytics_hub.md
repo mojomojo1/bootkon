@@ -73,7 +73,9 @@ Note the error: You must use SELECT WITH AGGREGATION\_THRESHOLD for this query b
 
 4. Got to [Analytics Hub](https://console.cloud.google.com/bigquery/analytics-hub/exchanges) and click on <walkthrough-spotlight-pointer locator="semantic({toolbar 'Analytics Hub'} {button 'Create clean room'})">+ CREATE CLEAN ROOM</walkthrough-spotlight-pointer>
 
-5. Create a Data Clean room called `fraudfix-clean-room-<yourlastname>` in the same region as the `ml_datasets_clean_room` dataset (**typically us-central1)**. For the primary contact, use your GCP email address provided to you. For the description, you can use *‘Fraudfix shareable fraud detection ML results (yourlastname)’.* Click on <walkthrough-spotlight-pointer locator="semantic({button 'Create clean room'})">CREATE CLEAN ROOM</walkthrough-spotlight-pointer>
+5. Create a Data Clean room called fraudfix-clean-room-\<yourlastname\> in the same region as the ***ml\_datasets\_clean\_room*** dataset (**typically us-central1)**. For the primary contact, use your GCP email address provided to you. For the description, you can use *‘Fraudfix shareable fraud detection ML results (yourlastname)’.* Click on create clean room.
+
+   ![][image5]
 
 6. Add your GCP email address in the clean room owner field. Add the ***subscriber*** GCP group member email address in both data contributors and subscribers fields, then click on <walkthrough-spotlight-pointer locator="semantic({button 'Create clean room'})">SET PERMISSIONS</walkthrough-spotlight-pointer> 
    
