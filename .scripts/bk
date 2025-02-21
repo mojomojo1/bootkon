@@ -131,6 +131,7 @@ if grep -q '^export BK_REPO=' ~/.bashrc; then
         sed -i "s|^export BK_REPO=.*|$line|" ~/.bashrc
         echo "Updated the existing BK_REPO line in ~/.bashrc."
     fi
+    echo -e "Bootkon is automatically loaded in Cloud Shell. To deactivate, type ${RED}bk-deactivate${NC}."
 else
     echo "Adding BK_REPO to .bashrc"
     echo "$line" >> ~/.bashrc
