@@ -1,6 +1,6 @@
 ## Lab 6: Analytics Hub
 
-{{ GCP_USERNAME }}
+{% set GCP_USERNAME_SHORT = GCP_USERNAME.split('@')[0] %}
 
 <walkthrough-tutorial-duration duration="45"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
@@ -66,28 +66,27 @@ The Data Publisher in this case is the FraudFix technology. They are providers o
 
 4. Got to [Analytics Hub](https://console.cloud.google.com/bigquery/analytics-hub/exchanges) and click on <walkthrough-spotlight-pointer locator="semantic({toolbar 'Analytics Hub'} {button 'Create clean room'})">+ CREATE CLEAN ROOM</walkthrough-spotlight-pointer>
 
-5. Create a Data Clean room called `fraudfix-clean-room-{{ GCP_USERNAME_SHORT }}` in the same region as the ***ml\_datasets\_clean\_room*** dataset (**typically us-central1)**. For the primary contact, use your GCP email address provided to you. For the description, you can use *‘Fraudfix shareable fraud detection ML results (yourlastname)’.* Click on create clean room.
 
-   ![][image5]
+5. Create a <walkthrough-spotlight-pointer locator="semantic({textbox 'Clean room name'})">Data Clean room</walkthrough-spotlight-pointer>  called `fraudfix-clean-room-{{ GCP_USERNAME_SHORT }}` in the same region as the ***ml\_datasets\_clean\_room*** dataset (**typically us-central1)**. For the <walkthrough-spotlight-pointer locator="semantic({textbox 'Primary contact'})">primary contact</walkthrough-spotlight-pointer>, use your GCP email address: `{{ GCP_USERNAME }}`. For the <walkthrough-spotlight-pointer locator="semantic({textbox 'Description'})">description</walkthrough-spotlight-pointer>, you can use *‘Fraudfix shareable fraud detection ML results ({{ GCP_USERNAME_SHORT }})’.* Click on <walkthrough-spotlight-pointer locator="semantic({toolbar 'Analytics Hub'} {button 'Create clean room'})">+ CREATE CLEAN ROOM</walkthrough-spotlight-pointer>.
 
-6. Add your GCP email address in the clean room owner field. Add the ***subscriber*** GCP group member email address in both data contributors and subscribers fields, then click on <walkthrough-spotlight-pointer locator="semantic({button 'Create clean room'})">SET PERMISSIONS</walkthrough-spotlight-pointer> 
+6. Add your GCP email address `{{ GCP_USERNAME }}` in the <walkthrough-spotlight-pointer locator="semantic({combobox 'Clean room owners, Add a principal'})">clean room owner</walkthrough-spotlight-pointer>  field. Add for the ***subscriber*** one of your Data & AI Bootkon group members GCP user email address in both <walkthrough-spotlight-pointer locator="semantic({combobox 'Data contributors, Add a principal'})">data contributors</walkthrough-spotlight-pointer>  and <walkthrough-spotlight-pointer locator="semantic({combobox 'Subscribers, Add a principal'})">subscribers</walkthrough-spotlight-pointer> fields, then click on <walkthrough-spotlight-pointer locator="semantic({button 'Set permissions'})">SET PERMISSIONS</walkthrough-spotlight-pointer>
    
 7. Notice the failed permissions   
    
    ![](../img/lab6/setpermissions.png)
 
-8. After adding the Analytics Hub Admin role to ***your GCP user***,   
+8. After adding the Analytics Hub Admin role to `{{ GCP_USERNAME }}`,   
    ![](../img/lab6/analyticshubadmin.png)
      
 9. Try setting permissions again in step 6\. Now, the permissions should be set correctly.
 
-10. In the clean room, <walkthrough-spotlight-pointer locator="semantic({button 'Add data'})">ADD DATA</walkthrough-spotlight-pointer>. Specify the dataset name `<your project id_ml_datasets_clean_room` and add the Auth View `data_prediction_shared`. Primary contact should be your GCP user. For the description, you can use *‘Fraudfix shareable fraud detection ML results (yourlastname)’.*
+10. In the clean room, <walkthrough-spotlight-pointer locator="semantic({button 'Add data'})">ADD DATA</walkthrough-spotlight-pointer>. Specify the <walkthrough-spotlight-pointer locator="semantic({combobox 'Dataset'})">Dataset</walkthrough-spotlight-pointer> name `{{ PROJECT_ID }}_ml_datasets_clean_room` and add the <walkthrough-spotlight-pointer locator="semantic({combobox 'Table / view name'})">Auth View</walkthrough-spotlight-pointer> `data_prediction_shared`. Select <walkthrough-spotlight-pointer locator="semantic({radio 'Use all columns'})">use all columns</walkthrough-spotlight-pointer>. Specify a <walkthrough-spotlight-pointer locator="semantic({textbox 'View name'})">new view</walkthrough-spotlight-pointer> name called `data_prediction_shared_clean_room`. <walkthrough-spotlight-pointer locator="semantic({textbox 'Primary contact'})">Primary contact</walkthrough-spotlight-pointer> should be your GCP user: `{{ GCP_USERNAME}}`. For the <walkthrough-spotlight-pointer locator="semantic({textbox 'Description'})">description</walkthrough-spotlight-pointer>, you can use *‘Fraudfix shareable fraud detection ML results ({{ GCP_USERNAME_SHORT }})’.*
 
 11. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Next'})">NEXT</walkthrough-spotlight-pointer>.  
 12. Notice the privacy unit column is auto detected by the Analytics Hub.   
 13. Let ‘s  allow the subscribers to join data on all columns except the service account email which is a PII data.
 
-   ![](../img/lab6/joinallcolumns.png)
+      ![](../img/lab6/joinallcolumns.png)
 
       
 14. Choose the join condition not required.  
@@ -98,11 +97,11 @@ The Data Publisher in this case is the FraudFix technology. They are providers o
 
 17. Review the clean room you just created. Especially those who are allowed to subscribe to it. You can always add new principals when needed. 
  
-   ![](../img/lab6/editsubscribers.png)
+      ![](../img/lab6/editsubscribers.png)
 
 18. Since the table you want to share is in BigLake table format, grant the `Storage Object Viewer` role to the ***subscriber*** email address. Go to IAM and perform the steps
 
-   ![](../img/lab6/storageobjectviewer.png)
+      ![](../img/lab6/storageobjectviewer.png)
 
 
 ### Steps as Data Subscriber:
