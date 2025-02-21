@@ -1,5 +1,7 @@
 ## Lab 6: Analytics Hub
 
+{{ GCP_USERNAME }}
+
 <walkthrough-tutorial-duration duration="45"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
@@ -40,24 +42,31 @@ The Data Publisher in this case is the FraudFix technology. They are providers o
    A view that includes this analysis rule can also include the [joint restriction analysis rule](https://cloud.google.com/bigquery/docs/analysis-rules#join_restriction_rules).  
    You can define an aggregation threshold analysis rule for a view in a [data clean room](https://cloud.google.com/bigquery/docs/data-clean-rooms) or with the following statement:  
    
-   ```bash
-   CREATE OR REPLACE  VIEW your-project-id.ml_datasets_clean_room.data_prediction_shared
+   ```
+   CREATE OR REPLACE VIEW {{ PROJECT_ID }}.ml_datasets_clean_room.data_prediction_shared
    OPTIONS(
    privacy_policy= '{"aggregation_threshold_policy": {"threshold": 1, "privacy_unit_column": "service_account_email"}}'
    )
-   AS ( SELECT * EXCEPT (transaction_id) FROM `your-project-id.bootkon_raw_zone.data_prediction` );
+   AS ( SELECT * EXCEPT (transaction_id) FROM `{{ PROJECT_ID }}.bootkon_raw_zone.data_prediction` );
    ```
 
    THRESHOLD: The minimum number of distinct privacy units that need to contribute to each row in the query results. If a potential row doesn't satisfy this threshold, that row is omitted from the query results.
 
    PRIVACY\_UNIT\_COLUMN: Represents the privacy unit column. A privacy unit column is a unique identifier for a privacy unit. A privacy unit is a value from the privacy unit column that represents the entity in a set of data that is being protected. You can use only one privacy unit column, and the data type for the privacy unit column must be [groupable](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#groupable_data_types). The values in the privacy unit column cannot be directly projected through a query, and you can use only [analysis rule-supported aggregate functions](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#agg_threshold_policy_functions) to aggregate the data in this column.
 
+<<<<<<< HEAD
 3. Replace `your-project-id` with your project ID and try the following query in BigQuery without specifying the without an aggregation threshold 
 
    ```
    SELECT * 
    FROM `your-project-id.ml_datasets_clean_room.data_prediction_shared` 
    LIMIT 1000
+=======
+3. Try the following query in BigQuery without specifying the without an aggregation threshold 
+
+   ```
+   SELECT * FROM `{{ PROJECT_ID }}.ml_datasets_clean_room.data_prediction_shared` LIMIT 1000
+>>>>>>> 54c2bd6 (add PROJECT_ID variable)
    ````
 
 Note the error: You must use SELECT WITH AGGREGATION\_THRESHOLD for this query because a privacy policy has been set by a data owner.
