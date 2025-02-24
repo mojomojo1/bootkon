@@ -85,7 +85,7 @@ Lets map data stored in Cloud Storage buckets and BigQuery datasets as assets in
 Lets add another data assets but for the bootkon-curated-zone
 14. Click on bootkon-curated-zone
 15. Click on <walkthrough-spotlight-pointer locator="semantic:({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
-16. Click on  <walkthrough-spotlight-pointer locator="semantic:({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
+16. Click <walkthrough-spotlight-pointer locator="semantic:({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
 17. Choose BigQuery Dataset
 18. Display name : `bootkon-bq-curated-asset`
 19. Optionally add a description 
@@ -93,10 +93,8 @@ Lets add another data assets but for the bootkon-curated-zone
 21. Select the BigQuery Dataset
 22. Optionally add a label
 23. Click on continue
-24. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click on continue.
-25. Click on submit. 
-
-*IMAGE*
+24. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click continue.
+25. Click submit. 
 
 ---
 
@@ -166,9 +164,7 @@ Lab Instructions
 
 It will take a couple of minutes for the profiling to show up on the console.
 
-*IMAGE*
-
-13. Click on the `bootkon-profile-fraud-prediction` profile and click on RUN NOW. 
+13. Click on the `bootkon-profile-fraud-prediction` profile and then click RUN NOW. 
 14. Click on Job ID and monitor the job execution. 
 15. Notice what the job is doing. The job should succeed in less than 10 minutes.
 16. Explore the data profiling results of the CLASS column name. We have less than 0.1% of fraudulent transactions. Also notice that predicted_class of type RECORD were not fully profiled, only the percentage of null and unique values were correctly profiled. Refer to the supported data types here.
@@ -199,7 +195,6 @@ WITH RankedPredictions AS (
    `your-project-id.bootkon_raw_zone.data_prediction`
 )
 
-
 SELECT
  SUM(CASE WHEN class = CAST(highest_score_class AS STRING) THEN 1 ELSE 0 END) * 100.0 / COUNT(*)  AS PercentageMatch
 FROM (
@@ -210,7 +205,6 @@ FROM (
 )
 
 ```
-
 
 BigQuery SQL : Check the percentage of matched values between CLASS and predicted classes
 Replace  your-project-id with your project id
@@ -232,20 +226,20 @@ Creating and using a data quality scan consists of the following steps:
 
 
 *Lab Instructions* 
-1. Go to <walkthrough-spotlight-pointer locator="semantic:({link 'Data quality, 2 of 2'})">DATA QUALITY</walkthrough-spotlight-pointer> section in the left hand menu of Dataplex
+1. Go to the [Data Quality](https://console.cloud.google.com/dataplex/govern/quality) section in the left hand menu of Dataplex
 2. Click on <walkthrough-spotlight-pointer locator="semantic:({link 'Create data quality scan'})">CREATE DATA QUALITY SCAN</walkthrough-spotlight-pointer>
 3. Display Name: `bootkon-dquality-fraud-prediction` for example 
 4. Optionally add a description. For example, "data quality scans for fraud detection predictions"
 5. Leave the “browse with dataplex lakes” option turned off 
 6. Click browse to filter on the data_prediction BigQuery table.(Dataset: bootkon_raw_zone). 
-*IMAGE*
 7. Select data_prediction bigquery table
-8. Choose “entire data” as scope of the data profiling job
-9. Choose All data on sampling size
+8. Choose “Entire data” as scope of the data profiling job
+9. Choose "All data" on sampling size
 10. Turn on publishing option
-11. Choose on demand schedule
-12. Click on continue,
-13. Now lets define quality rules, click on ADD RULES > SQL Assertion Rule
+11. Choose on-demand schedule
+12. Click on continue
+
+Now lets define quality rules, click on ADD RULES > SQL Assertion Rule
 
 *IMAGE*
 
@@ -271,7 +265,6 @@ WITH RankedPredictions AS (
    `your-project-id.bootkon_raw_zone.data_prediction`
 )
 
-
 SELECT
  SUM(CASE WHEN class = CAST(highest_score_class AS STRING) THEN 1 ELSE 0 END) * 100.0 / COUNT(*)  AS PercentageMatch
 FROM (
@@ -280,8 +273,6 @@ FROM (
    classes AS highest_score_class
  FROM
    RankedPredictions
-
-
 )
    HAVING PercentageMatch <= 99.99
 ```
@@ -313,4 +304,4 @@ Below you can find the content of <code>notebooks/bootkon_vertex.ipynb</code>. F
 
 {{ jupyter('notebooks/bootkon_vertex.ipynb') }}
 
-{% endif %}
+{% endif %}e
