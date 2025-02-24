@@ -188,9 +188,8 @@ After setting up the data profiling scan we have seen that we still have no clea
 You can use the following SQL query in BigQuery to check the percentage of matched values between CLASS and predicted classes. 
 
 ```SQL
---Check the percentage of matched values between CLASS and predicted classes
---Replace your-project-id with your project id
-
+-- Check the percentage of matched values between CLASS and predicted classes
+-- Replace your-project-id with your project id
 WITH RankedPredictions AS (
  SELECT
    class,
@@ -231,9 +230,7 @@ Creating and using a data quality scan consists of the following steps:
 4. Troubleshooting
 
 *Lab Instructions* 
-1. Go to the [Data Quality](https://console.cloud.google.com/dataplex/govern/quality) section in the left hand menu of Dataplex
-
-semantic({toolbar 'Data Quality'} {button 'Create data quality scan'})
+1. Go to the [Data Quality](https://console.cloud.google.com/dataplex/govern/quality) section in the left hand menu of Dataplex.
 
 2. Click on <walkthrough-spotlight-pointer locator="semantic({toolbar 'Data Quality'} {button 'Create data quality scan'})">CREATE DATA QUALITY SCAN</walkthrough-spotlight-pointer>
 3. Display Name: `bootkon-dquality-fraud-prediction` for example 
@@ -256,7 +253,7 @@ Now let's define quality rules. Click on ADD RULES > SQL Assertion Rule
 18. Provide the following SQL statement. Dataplex will utilize this SQL statement to create a SQL clause of the form SELECT COUNT(*) FROM (sql statement) to return success/failure. The assertion rule is passed if the returned assertion row count is 0.
 
 ```SQL
----Assertion SQL (replace your-project-id with your project-id value in 1 place)
+-- Assertion SQL (replace your-project-id with your project-id value in 1 place)
 WITH RankedPredictions AS (
  SELECT
    class,
