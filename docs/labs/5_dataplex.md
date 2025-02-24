@@ -61,7 +61,7 @@ Finally, click <walkthrough-spotlight-pointer locator="semantic({button 'Create'
 When the zone creation succeeds, the zone automatically enters an active state. If it fails, then the lake is rolled back to its previous state.
 After you create your zone, you can map data stored in Cloud Storage buckets and BigQuery datasets as assets in your zone.
 
-Repeat the same steps but this time, change the display name to bootkon-curated-zone and choose Choose Curated Zone for the Type. You might also change the label and description values. 
+Repeat the same steps but this time, change the display name to `bootkon-curated-zone` and choose Choose Curated Zone for the Type. You might also change the label and description values. 
 The creation should take 2-3 minutes to finish.
 
 ---
@@ -69,8 +69,8 @@ The creation should take 2-3 minutes to finish.
 ### LAB Section: Add Zone Data Assets
 Lets map data stored in Cloud Storage buckets and BigQuery datasets as assets in your zone.
 1. Click on bootkon-raw-zone
-2. Click on <walkthrough-spotlight-pointer locator="semantic:({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
-3. Click on  <walkthrough-spotlight-pointer locator="semantic:({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
+2. Click <walkthrough-spotlight-pointer locator="semantic:({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
+3. Click <walkthrough-spotlight-pointer locator="semantic:({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
 4. Choose storage bucket
 5. Display name : `bootkon-gcs-raw-asset`
 6. Optionally add a description 
@@ -78,7 +78,7 @@ Lets map data stored in Cloud Storage buckets and BigQuery datasets as assets in
 8. Select the bucket
 9. Let's skip upgrading to the managed option. When you upgrade a Cloud Storage bucket asset, Dataplex removes the attached external tables and creates BigLake tables. We have already created in LAB 2 biglake table so this option is not necessary. 
 10. Optionally add a label
-11. Click on  <walkthrough-spotlight-pointer locator="semantic:({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
+11. Click <walkthrough-spotlight-pointer locator="semantic:({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
 12. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click on continue.
 13. Click on submit. 
 *IMAGE*
@@ -151,29 +151,27 @@ Dataplex lets you specify a percentage of records from your data to sample for r
 
 Lab Instructions
 
-1. Go to Profile section in Dataplex
-2. Click on +CREATE DATA PROFILE SCAN
-3. Display Name: bootkon-dprofile-fraud-prediction for example 
-4. Optionally add a description. For example, data profile scans for fraud detection predictions
+1. Go to the <walkthrough-spotlight-pointer locator="semantic:({link 'Profile, 1 of 2'})">Profile</walkthrough-spotlight-pointer> section in Dataplex
+2. Click <walkthrough-spotlight-pointer locator="semantic:({button 'Create data profile scan'})">+CREATE DATA PROFILE SCAN</walkthrough-spotlight-pointer>
+3. Display Name: `bootkon-profile-fraud-prediction` for example 
+4. Optionally add a description. For example, "data profile scans for fraud detection predictions"
 5. Leave the “browse within dataplex lakes” option turned off
-6. Click on browse to filter on data_prediction  bigquery table (Dataset: bootkon_raw_zone). 
-*IMAGE*
-
-7. Select data_prediction bigquery table
-8. Choose “entire data” as scope of the data profiling job
-9. Choose All data on sampling size
-10. Turn on publishing option
-11. Choose on demand schedule
-12. Click on continue, leave the rest as default and click on create.
+6. Click on browse to select the `data_prediction` bigquery table (Dataset: bootkon_raw_zone). 
+7. Select `data_prediction` bigquery table
+8. Choose “Entire data” in the dropdown as the scope for the data profiling job
+9. Choose "All data" in the sampling size dropdown
+10. Select the checkbox for "Publish results to BigQuery and Dataplex Catalog UI"
+11. Choose On-demand schedule
+12. Click <walkthrough-spotlight-pointer locator="semantic:({button 'Continue'})">Continue</walkthrough-spotlight-pointer>, leave the rest as default and click <walkthrough-spotlight-pointer locator="semantic:({button 'Create'})">Create</walkthrough-spotlight-pointer>
 
 It will take a couple of minutes for the profiling to show up on the console.
 
 *IMAGE*
 
-13. Click on the bootkon-dprofile-fraud-prediction profile and click on RUN NOW. 
+13. Click on the `bootkon-profile-fraud-prediction` profile and click on RUN NOW. 
 14. Click on Job ID and monitor the job execution. 
-15. Notice what the job is doing. The Job should succeed in less than 10 minutes.
-16. Explore the data profiling results of the CLASS column name. We have less than 0.1% of fraudulent transactions. Also notice that predicted_class of type RECORD were not fully  profiled, only the percentage of null and unique values were correctly profiled. Refer to the supported data types here.
+15. Notice what the job is doing. The job should succeed in less than 10 minutes.
+16. Explore the data profiling results of the CLASS column name. We have less than 0.1% of fraudulent transactions. Also notice that predicted_class of type RECORD were not fully profiled, only the percentage of null and unique values were correctly profiled. Refer to the supported data types here.
 *IMAGE*
 17. As they train further and continuously the fraud detection ML models, data professionals would like to set up an automatic check on data quality and be notified when there are huge discrepancies between predicted_class  and CLASS values. This is where Dataplex data quality could help the team. 
 
@@ -211,7 +209,7 @@ Creating and using a data quality scan consists of the following steps:
 3. Display Name: `bootkon-dquality-fraud-prediction` for example 
 4. Optionally add a description. For example, "data quality scans for fraud detection predictions"
 5. Leave the “browse with dataplex lakes” option turned off 
-6. Click on browse to filter on the data_prediction BigQuery table.(Dataset: bootkon_raw_zone). 
+6. Click browse to filter on the data_prediction BigQuery table.(Dataset: bootkon_raw_zone). 
 *IMAGE*
 7. Select data_prediction bigquery table
 8. Choose “entire data” as scope of the data profiling job
@@ -238,7 +236,6 @@ Creating and using a data quality scan consists of the following steps:
 22. The display name may take a moment to appear on the screen.
 23. Monitor the job execution. Notice the job succeeded but the rule failed because our model accuracy percentage on the whole data predicted does not exceed the 99.99% threshold that we set
 *IMAGE*
-
 
 Congratulations {% if MY_NAME %} {{ MY_NAME }}{% endif %} on completing Lab 5! 🚀 You've successfuly set up data quality checks for your data 🤖✨
 You can now move on to Lab 6 and explore Analytics Hub. 🥳🥳
