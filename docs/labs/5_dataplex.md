@@ -49,7 +49,7 @@ Dataplex has the capability to profile data assets (BigQuery tables), auto detec
 
 #### Add Dataplex Zones
 
-We will add 2 zones; one for raw zone and another one for curated zone.
+We will add two zones: one for raw data and another for curated data.
 
 1. Click on the <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-lake'})">bootkon-lake</walkthrough-spotlight-pointer> lake you just created.
 2. In the Zones tab, click <walkthrough-spotlight-pointer locator="semantic({link 'Add zone'})">+ Add Zone</walkthrough-spotlight-pointer> and enter the following details:
@@ -71,28 +71,28 @@ The creation should take 2-3 minutes to finish.
 ### LAB Section: Add Zone Data Assets
 Lets map data stored in Cloud Storage buckets and BigQuery datasets as assets in your zone.
 1. Click on bootkon-raw-zone
-2. Click on + ADD ASSETS
-3. Click on ADD AN ASSET
+2. Click on <walkthrough-spotlight-pointer locator="semantic:({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
+3. Click on  <walkthrough-spotlight-pointer locator="semantic:({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
 4. Choose storage bucket
-5. Display name : bootkon-gcs-raw-asset
+5. Display name : `bootkon-gcs-raw-asset`
 6. Optionally add a description 
 7. Browse the bucket name and choose the bucket created in LAB 1. If you followed the instructions, it should be named <your project id>-bucket.
 8. Select the bucket
 9. Let's skip upgrading to the managed option. When you upgrade a Cloud Storage bucket asset, Dataplex removes the attached external tables and creates BigLake tables. We have already created in LAB 2 biglake table so this option is not necessary. 
 10. Optionally add a label
-11. Click on continue
+11. Click on  <walkthrough-spotlight-pointer locator="semantic:({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
 12. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click on continue.
 13. Click on submit. 
 *IMAGE*
 Lets add another data assets but for the bootkon-curated-zone
 14. Click on bootkon-curated-zone
-15. Click on + ADD ASSETS
-16. Click on ADD AN ASSET
+15. Click on <walkthrough-spotlight-pointer locator="semantic:({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
+16. Click on  <walkthrough-spotlight-pointer locator="semantic:({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
 17. Choose BigQuery Dataset
-18. Display name : bootkon-bq-curated-asset
+18. Display name : `bootkon-bq-curated-asset`
 19. Optionally add a description 
 20. Browse the BigQuery Dataset and choose the dataset created in LAB 1. If you followed the instructions, it should be named ml_datasets.
-21. Select the  BigQuery Dataset
+21. Select the BigQuery Dataset
 22. Optionally add a label
 23. Click on continue
 24. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click on continue.
