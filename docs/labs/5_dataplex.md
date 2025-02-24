@@ -80,21 +80,23 @@ Let's map data stored in Cloud Storage buckets and BigQuery datasets as assets i
 1. Navigate to Zones and click on bootkon-raw-zone
 2. Click <walkthrough-spotlight-pointer locator="semantic({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
 3. Click <walkthrough-spotlight-pointer locator="semantic({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
-4. Choose a storage bucket
+4. Choose "Storage bucket" from the type dropdown
 5. Display name : `bootkon-gcs-raw-asset`
 6. Optionally add a description 
 7. Browse the bucket name and choose the bucket created in LAB 1. If you followed the instructions, it should be named <your project id>-bucket.
 8. Select the bucket
 9. Let's skip upgrading to the managed option. When you upgrade a Cloud Storage bucket asset, Dataplex removes the attached external tables and creates BigLake tables. We have already created a biglake table in Lab 2 so this option is not necessary. 
 10. Optionally add a label
-11. Click <walkthrough-spotlight-pointer locator="semantic:({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
+11. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
 12. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click on continue.
-13. Click on submit. 
-Lets add another data assets but for the bootkon-curated-zone
+13. Click submit.
+
+Now let's add another data assets but for the bootkon-curated-zone:
+
 14. Click on bootkon-curated-zone
 15. Click on <walkthrough-spotlight-pointer locator="semantic({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
 16. Click <walkthrough-spotlight-pointer locator="semantic({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
-17. Choose BigQuery Dataset
+17. Choose "BigQuery data set" from the Type dropdown
 18. Display name : `bootkon-bq-curated-asset`
 19. Optionally add a description 
 20. Browse the BigQuery Dataset and choose the dataset created in LAB 1. If you followed the instructions, it should be named ml_datasets.
@@ -156,8 +158,8 @@ Dataplex lets you specify a percentage of records from your data to sample for r
 
 Lab Instructions
 
-1. Go to the <walkthrough-spotlight-pointer locator="semantic:({link 'Profile, 1 of 2'})">Profile</walkthrough-spotlight-pointer> section in Dataplex
-2. Click <walkthrough-spotlight-pointer locator="semantic:({button 'Create data profile scan'})">+CREATE DATA PROFILE SCAN</walkthrough-spotlight-pointer>
+1. Go to the <walkthrough-spotlight-pointer locator="semantic({link 'Profile, 1 of 2'})">Profile</walkthrough-spotlight-pointer> section in Dataplex
+2. Click <walkthrough-spotlight-pointer locator="semantic({button 'Create data profile scan'})">+CREATE DATA PROFILE SCAN</walkthrough-spotlight-pointer>
 3. Set Display Name to `bootkon-profile-fraud-prediction` for example 
 4. Optionally add a description. For example, "data profile scans for fraud detection predictions"
 5. Leave the “browse within dataplex lakes” option turned off
@@ -167,7 +169,7 @@ Lab Instructions
 9. Choose "All data" in the sampling size dropdown
 10. Select the checkbox for "Publish results to BigQuery and Dataplex Catalog UI"
 11. Choose On-demand schedule
-12. Click <walkthrough-spotlight-pointer locator="semantic:({button 'Continue'})">Continue</walkthrough-spotlight-pointer>, leave the rest as default and click <walkthrough-spotlight-pointer locator="semantic:({button 'Create'})">Create</walkthrough-spotlight-pointer>
+12. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>, leave the rest as default and click <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">Create</walkthrough-spotlight-pointer>
 
 It will take a couple of minutes for the profiling to show up on the console.
 
