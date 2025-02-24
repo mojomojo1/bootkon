@@ -63,7 +63,7 @@ We will add two zones: one for raw data and another for curated data.
     - Display name: `bootkon-raw-zone`
     - Type: Raw Zone
     - Description: anything you like
-    - Data Locations: `us-central1`
+    - Data Locations: `Regional (us-central1)`
     - Discovery settings: Enable metadata discovery, which allows Dataplex to automatically scan and extract metadata from the data in your zone. Let's leave the default settings. Set time zone to Germany.
 
 Finally, click <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">create</walkthrough-spotlight-pointer>.
@@ -78,8 +78,8 @@ The creation should take 2-3 minutes to finish.
 ### LAB Section: Add Zone Data Assets
 Let's map data stored in Cloud Storage buckets and BigQuery datasets as assets in your zone.
 1. Navigate to Zones and click on bootkon-raw-zone
-2. Click <walkthrough-spotlight-pointer locator="semantic:({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
-3. Click <walkthrough-spotlight-pointer locator="semantic:({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
+2. Click <walkthrough-spotlight-pointer locator="semantic({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
+3. Click <walkthrough-spotlight-pointer locator="semantic({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
 4. Choose a storage bucket
 5. Display name : `bootkon-gcs-raw-asset`
 6. Optionally add a description 
@@ -92,8 +92,8 @@ Let's map data stored in Cloud Storage buckets and BigQuery datasets as assets i
 13. Click on submit. 
 Lets add another data assets but for the bootkon-curated-zone
 14. Click on bootkon-curated-zone
-15. Click on <walkthrough-spotlight-pointer locator="semantic:({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
-16. Click <walkthrough-spotlight-pointer locator="semantic:({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
+15. Click on <walkthrough-spotlight-pointer locator="semantic({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
+16. Click <walkthrough-spotlight-pointer locator="semantic({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
 17. Choose BigQuery Dataset
 18. Display name : `bootkon-bq-curated-asset`
 19. Optionally add a description 
@@ -123,10 +123,9 @@ During previous machine learning with Vertex AI lab, we discussed that batch pre
 ### LAB Section: Data Profiling
 
 Dataplex data profiling lets you identify common statistical characteristics of the columns in your BigQuery tables. This information helps you to understand and analyze your data more effectively.
+
 Information like typical data values, data distribution, and null counts can accelerate analysis. When combined with data classification, data profiling can detect data classes or sensitive information that, in turn, can enable access control policies.
-Dataplex also uses this information to recommend rules for data quality checks.
-Dataplex lets you better understand the profile of your data by creating a data profiling scan.
-The following diagram shows how Dataplex scans data to report on statistical characteristics.
+Dataplex also uses this information to recommend rules for data quality check and lets you better understand the profile of your data by creating a data profiling scan.
 
 ---
 
@@ -145,7 +144,7 @@ As part of the specification of a data profiling scan, you can specify the scope
 
 Filter data
 
-You can filter data to be scanned for profiling by using row filters and column filters. Using filters helps you reduce the execution time and cost, and exclude sensitive and unuseful data.
+You can filter the data to be scanned for profiling by using row filters and column filters. Using filters helps you reduce the execution time and cost, and exclude sensitive and unuseful data.
 * Row filters: Row filters let you focus on data within a specific time period or from a specific segment, such as region. For example, you can filter out data with a timestamp before a certain date.
 * Column filters: Column filters lets you include and exclude specific columns from your table to run the data profiling scan.
 
@@ -159,7 +158,7 @@ Lab Instructions
 
 1. Go to the <walkthrough-spotlight-pointer locator="semantic:({link 'Profile, 1 of 2'})">Profile</walkthrough-spotlight-pointer> section in Dataplex
 2. Click <walkthrough-spotlight-pointer locator="semantic:({button 'Create data profile scan'})">+CREATE DATA PROFILE SCAN</walkthrough-spotlight-pointer>
-3. Display Name: `bootkon-profile-fraud-prediction` for example 
+3. Set Display Name to `bootkon-profile-fraud-prediction` for example 
 4. Optionally add a description. For example, "data profile scans for fraud detection predictions"
 5. Leave the “browse within dataplex lakes” option turned off
 6. Click on browse to select the `data_prediction` bigquery table (Dataset: bootkon_raw_zone). 
@@ -176,7 +175,7 @@ It will take a couple of minutes for the profiling to show up on the console.
 14. Click on Job ID and monitor the job execution. 
 15. Notice what the job is doing. The job should succeed in less than 10 minutes.
 16. Explore the data profiling results of the CLASS column name. We have less than 0.1% of fraudulent transactions. Also notice that predicted_class of type RECORD were not fully profiled, only the percentage of null and unique values were correctly profiled. Refer to the supported data types here.
-*IMAGE*
+
 17. As they train further and continuously the fraud detection ML models, data professionals would like to set up an automatic check on data quality and be notified when there are huge discrepancies between predicted_class  and CLASS values. This is where Dataplex data quality could help the team. 
 
 ---
