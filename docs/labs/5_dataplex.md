@@ -169,7 +169,7 @@ Lab Instructions
 9. Choose "All data" in the sampling size dropdown
 10. Select the checkbox for "Publish results to BigQuery and Dataplex Catalog UI"
 11. Choose On-demand schedule
-12. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>, leave the rest as default and click <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">Create</walkthrough-spotlight-pointer>
+12. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>, leave the rest as default and click <walkthrough-spotlight-pointer locator="semantic:({button 'Create'})">Create</walkthrough-spotlight-pointer>
 
 It will take a couple of minutes for the profiling to show up on the console.
 
@@ -221,8 +221,6 @@ During the previous lab, We got started by using Dataplex data profiling rule re
 
 **Conceptual Model**
 
-*IMAGE*
-
 A data scan is a Dataplex job which samples data from BigQuery and Cloud Storage and infers various types of metadata. To measure the quality of a table using auto data quality, you create a DataScan object of type data quality. The scan runs on only one BigQuery table. The scan uses resources in a Google tenant project, so you don't need to set up your own infrastructure.
 Creating and using a data quality scan consists of the following steps:
 1. Rule definition
@@ -236,14 +234,14 @@ Creating and using a data quality scan consists of the following steps:
 2. Click on <walkthrough-spotlight-pointer locator="semantic({toolbar 'Data Quality'} {button 'Create data quality scan'})">CREATE DATA QUALITY SCAN</walkthrough-spotlight-pointer>
 3. Display Name: `bootkon-dquality-fraud-prediction` for example 
 4. Optionally add a description. For example, "data quality scans for fraud detection predictions"
-5. Leave the “browse with dataplex lakes” option turned off 
+5. Leave the “Browse within Dataplex Lakes” option turned off 
 6. Click browse to filter on the data_prediction BigQuery table.(Dataset: bootkon_raw_zone). 
 7. Select data_prediction bigquery table
-8. Choose “Entire data” as scope of the data profiling job
-9. Choose "All data" on sampling size
-10. Turn on publishing option
-11. Choose on-demand schedule
-12. Click on continue
+8. Choose “Entire data” as the scope of the data profiling job
+9. Choose "All data" for sampling size
+10. Leave on the option "Publish results to BigQuery and Dataplex Catalog UI"
+11. Choose On-demand as the scan schedule
+12. Click continue
 
 Now let's define quality rules. Click on ADD RULES > SQL Assertion Rule
 
@@ -251,7 +249,7 @@ Now let's define quality rules. Click on ADD RULES > SQL Assertion Rule
 15. Rule name: `bootkon-dquality-ml-fraud-prediction`
 16. Description : `Regularly check the ML fraud detection prediction quality results`
 17. Leave the column name empty
-18. Provide the following SQL statement. Dataplex will utilize this SQL statement to create a SQL clause of the form SELECT COUNT(*) FROM (sql statement) to return success/failure. The assertion rule is passed if the returned assertion row count is 0.
+18. Provide the following SQL statement. Dataplex will utilize this to create a SQL clause of the form SELECT COUNT(*) FROM (sql statement) to return success/failure. The assertion rule is passed if the returned assertion row count is 0.
 
 ```SQL
 -- Assertion SQL (replace your-project-id with your project-id value in 1 place)
@@ -284,10 +282,8 @@ FROM (
 
 19. Click ADD
 20. Click Continue
-21. Run SCAN 
-22. The display name may take a moment to appear on the screen.
+21. Run SCAN (The display name may take a moment to appear on the screen)
 23. Monitor the job execution. Notice the job succeeded but the rule failed because our model accuracy percentage on the whole data predicted does not exceed the 99.99% threshold that we set
-*IMAGE*
 
 Congratulations {% if MY_NAME %} {{ MY_NAME }}{% endif %} on completing Lab 5! 🚀 You've successfuly set up data quality checks for your data 🤖✨
 You can now move on to Lab 6 and explore Analytics Hub. 🥳🥳
@@ -300,9 +296,6 @@ You can now move on to Lab 6 and explore Analytics Hub. 🥳🥳
 <p class="mdbook-alerts-title">
   <span class="mdbook-alerts-icon"></span>
   caution
-</p>
-<p>
-Below you can find the content of <code>notebooks/bootkon_vertex.ipynb</code>. Feel free to skim over it, but please open it from your JupyterLab instance you created above.
 </p>
 </div>
 
