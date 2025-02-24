@@ -183,7 +183,35 @@ After setting up the data profiling scan we have seen that we still have no clea
 
 You can use the following SQL query in BigQuery to check the percentage of matched values between CLASS and predicted classes. 
 
-*TABLE*
+```SQL
+WITH RankedPredictions AS (
+ SELECT
+   class,
+   ARRAY(
+     SELECT AS STRUCT classes, scores
+     FROM UNNEST(predicted_class.classes) classes WITH OFFSET AS pos
+     JOIN UNNEST(predicted_class.scores) scores WITH OFFSET AS pos2
+     ON pos = pos2
+     ORDER BY scores DESC
+     LIMIT 1
+   )[OFFSET(0)].*,
+ FROM
+   `your-project-id.bootkon_raw_zone.data_prediction`
+)
+
+
+SELECT
+ SUM(CASE WHEN class = CAST(highest_score_class AS STRING) THEN 1 ELSE 0 END) * 100.0 / COUNT(*)  AS PercentageMatch
+FROM (
+ SELECT
+  class,classes AS highest_score_class
+ FROM
+   RankedPredictions
+)
+
+```
+
+
 BigQuery SQL : Check the percentage of matched values between CLASS and predicted classes
 Replace  your-project-id with your project id
 CODECODECODE in a table
@@ -227,7 +255,36 @@ Creating and using a data quality scan consists of the following steps:
 17. Leave the column name empty
 18. Provide the following SQL statement. Dataplex will utilize this SQL statement to create a SQL clause of the form SELECT COUNT(*) FROM (sql statement) to return success/failure. The assertion rule is passed if the returned assertion row count is 0.
 
-*TABLE*
+```SQL
+WITH RankedPredictions AS (
+ SELECT
+   class,
+   ARRAY(
+     SELECT AS STRUCT classes, scores
+     FROM UNNEST(predicted_class.classes) classes WITH OFFSET AS pos
+     JOIN UNNEST(predicted_class.scores) scores WITH OFFSET AS pos2
+     ON pos = pos2
+     ORDER BY scores DESC
+     LIMIT 1
+   )[OFFSET(0)].*,
+ FROM
+   `your-project-id.bootkon_raw_zone.data_prediction`
+)
+
+
+SELECT
+ SUM(CASE WHEN class = CAST(highest_score_class AS STRING) THEN 1 ELSE 0 END) * 100.0 / COUNT(*)  AS PercentageMatch
+FROM (
+ SELECT
+   class,
+   classes AS highest_score_class
+ FROM
+   RankedPredictions
+
+
+)
+   HAVING PercentageMatch <= 99.99
+```
 
 19. Click ADD
 20. Click Continue
