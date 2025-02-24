@@ -32,18 +32,16 @@ Dataplex has the capability to profile data assets (BigQuery tables), auto detec
 
 ### Create a Dataplex Lake
 
-1. [remove?] Enable the Dataplex, Dataproc, Dataproc Metastore, Data Catalog, BigQuery, and Cloud Storage. APIs.  (you can skip this step if you completed LAB 1)
-2. [remove?] Make sure you have the predefined roles roles/dataplex.admin or roles/dataplex.editor granted to you so that you can create and manage your lake. (you can skip this step if you completed LAB 1)
-3. Go to [Dataplex](https://console.cloud.google.com/dataplex).
-4. Navigate to <walkthrough-spotlight-pointer locator="text('Manage')">Manage</walkthrough-spotlight-pointer>.
-5. Click <walkthrough-spotlight-pointer locator="semantic({link 'Create'})">Create</walkthrough-spotlight-pointer>.
-6. Enter the following details:
+1. Go to [Dataplex](https://console.cloud.google.com/dataplex).
+2. Navigate to <walkthrough-spotlight-pointer locator="text('Manage')">Manage</walkthrough-spotlight-pointer>.
+3. Click <walkthrough-spotlight-pointer locator="semantic({link 'Create'})">Create</walkthrough-spotlight-pointer>.
+4. Enter the following details:
     - Display name: `bootkon-lake`
     - Description: anything you like
     - Region: `us-central1`
     - Labels: Add labels to your lake. For example, use location for the key and berlin for the value.
     - Metastore: lets skip the metastore creation for now
-7. Finally, click on <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">Create</walkthrough-spotlight-pointer>. This should take around 2-3 minutes.
+5. Finally, click on <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">Create</walkthrough-spotlight-pointer>. This should take around 2-3 minutes.
 
 ***
 
@@ -182,6 +180,7 @@ It will take a couple of minutes for the profiling to show up on the console.
 ---
 
 ### LAB Section: Setup Data Quality Jobs
+
 After setting up the data profiling scan we have seen that we still have no clear visibility on fluctuation between predicted classes vs actual CLASS ratio. Our goal is to have a percentage of matched values between CLASS and predicted classes more than 99.99 %. Any lower percentage would indicate that we would have to further train the ML model or add more features or use another model architecture.
 
 You can use the following SQL query in BigQuery to check the percentage of matched values between CLASS and predicted classes. 
@@ -207,10 +206,10 @@ Creating and using a data quality scan consists of the following steps:
 
 
 *Lab Instructions* 
-1. Go to Data Quality section in Dataplex
-2. Click on +CREATE DATA QUALITY SCAN
-3. Display Name: bootkon-dquality-fraud-prediction for example 
-4. Optionally add a description. For example, data quality scans for fraud detection predictions
+1. Go to <walkthrough-spotlight-pointer locator="semantic:({link 'Data quality, 2 of 2'})">DATA QUALITY</walkthrough-spotlight-pointer> section in the left hand menu of Dataplex
+2. Click on <walkthrough-spotlight-pointer locator="semantic:({link 'Create data quality scan'})">CREATE DATA QUALITY SCAN</walkthrough-spotlight-pointer>
+3. Display Name: `bootkon-dquality-fraud-prediction` for example 
+4. Optionally add a description. For example, "data quality scans for fraud detection predictions"
 5. Leave the “browse with dataplex lakes” option turned off 
 6. Click on browse to filter on the data_prediction BigQuery table.(Dataset: bootkon_raw_zone). 
 *IMAGE*
@@ -225,15 +224,15 @@ Creating and using a data quality scan consists of the following steps:
 *IMAGE*
 
 14. Choose Accuracy as dimension 
-15. Rule name: bootkon-dquality-ml-fraud-prediction
-16. Description : regularly check the ML fraud detection prediction quality results 
+15. Rule name: `bootkon-dquality-ml-fraud-prediction`
+16. Description : `Regularly check the ML fraud detection prediction quality results`
 17. Leave the column name empty
 18. Provide the following SQL statement. Dataplex will utilize this SQL statement to create a SQL clause of the form SELECT COUNT(*) FROM (sql statement) to return success/failure. The assertion rule is passed if the returned assertion row count is 0.
 
 *TABLE*
 
-19. Click on ADD
-20. Click on Continue
+19. Click ADD
+20. Click Continue
 *IMAGE*
 21. Run SCAN 
 22. The display name may take a moment to appear on the screen.
@@ -241,8 +240,8 @@ Creating and using a data quality scan consists of the following steps:
 *IMAGE*
 
 
-Congratulations {% if MY_NAME %} {{ MY_NAME }}{% endif %} on completing Lab5 ! 🚀 You've successfuly set up data quality checks 🤖✨
-You can now move on to Lab 6 for further practice. 🥳🥳
+Congratulations {% if MY_NAME %} {{ MY_NAME }}{% endif %} on completing Lab 5! 🚀 You've successfuly set up data quality checks for your data 🤖✨
+You can now move on to Lab 6 and explore Analytics Hub. 🥳🥳
 
 {% if MDBOOK_VIEW %}
 
