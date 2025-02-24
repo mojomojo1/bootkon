@@ -6,29 +6,36 @@
 
 In this lab you will 
 - Understand Dataplex product capabilities
-- Leverage Dataplex features to better understand, govern your data and metadata.
+- Leverage Dataplex to understand and govern your data and metadata.
 - Build data quality checks on top of the fraud detection prediction results.
 
 ### About Dataplex
 
-With Dataplex you can organize different data assets, from different projects under new organizational concepts of Lakes and Zones. Organization is logical only and does not require any data movement.  Dataplex supports managing datasets in BigQuery and GCS buckets.  You can use lakes to define your organizational boundary or regional boundary  (e.g. marketing lake/sales lake Or  US lake/ UK lake etc), while zones can be used to group the data logically or by use cases (e.g. raw_zone/curated_zone or analytics_zone/data_science_zone).
+Dataplex is a data governance tool which helps you organize your data assets by overlaying the organizational concept of "Lakes" and "Zones". This organization is logical only and does not require any data movement. You can use lakes to define, for example, organizational boundaries (e.g. marketing lake/sales lake) or regional boundaries (ie. US lake/ UK lake), while zones are used to group data within lakes by data readiness or by use cases (e.g. raw_zone/curated_zone or analytics_zone/data_science_zone).
+
 Dataplex can also be used to build a data mesh architecture with decentralized data ownership among domain data owners.
 
 ### Security - GCS / BQ
 
-With Dataplex you can apply data access permissions using IAM groups across multiple buckets and BQ datasets by granting permissions at
-*IMAGE*
- a lake or zone-level. Dataplex will do the heavy lifting of propagating desired policies and updating access policies of the buckets/datasets  that are part of that lake or data zone. Dataplex will also apply those permissions to any new buckets/datasets that get created under that data zone. This takes away the need to manually manage individual bucket permissions and also provides a way to automatically apply permissions to any new data added to your lakes.
+With Dataplex you can apply data access permissions using IAM groups across multiple buckets and BQ datasets by granting permissions at a lake or zone-level.It will do the heavy lifting of propagating desired policies and updating access policies of the buckets/datasets that are part of that lake or data zone. 
 
-Note that the permissions are applied in “Additive” fashion. I.e. Dataplex does not replace the existing permissions when pushing down permissions. Dataplex also provides “exclusive” permission push down as an opt-in feature.
+Dataplex will also apply those permissions to any new buckets/datasets that get created under that data zone. This takes away the need to manually manage individual bucket permissions and also provides a way to automatically apply permissions to any new data added to your lakes.
+
+Note that the permissions are applied in “Additive” fashion - Dataplex does not replace the existing permissions when pushing down permissions. Dataplex also provides “exclusive” permission push down as an opt-in feature.
+
 Discovery [semi structured and structured data].
 
-You can configure discovery jobs in Dataplex that can sample data on GCS, infer its schema, and automatically register it with Data Catalog so you can easily search and discover the data you have in your lakes.
-In addition to registering metadata with Data Catalog, for data in CSV, JSON, AVRO, ORC, and Parquet formats, the discovery jobs also register technical metadata, including hive-style partitions, with a managed Hive metastore (Dataproc Metastore) & as external tables in BigQuery(BQ).  Discovery jobs can be configured to run on a schedule to discover any new tables or partitions. For new partitions, discovery jobs incrementally scan new data, check for data and schema compatibility, and register only compatible schema to the Hive metastore/ BQ so that your table definitions never go out of sync with your data.
+You can configure discovery jobs in Dataplex that can sample data on GCS, infer its schema, and automatically register it with the Dataplex Catalog so you can easily search and discover the data you have in your lakes.
+
+In addition to registering metadata with Dataplex Catalog, for data in CSV, JSON, AVRO, ORC, and Parquet formats, the discovery jobs also register technical metadata, including hive-style partitions, with a managed Hive metastore (Dataproc Metastore) & as external tables in BigQuery(BQ).  
+
+Discovery jobs can be configured to run on a schedule to discover any new tables or partitions. For new partitions, discovery jobs incrementally scan new data, check for data and schema compatibility, and register only compatible schema to the Hive metastore/ BQ so that your table definitions never go out of sync with your data.
 
 ### Actions - Profiling, Quality, Lineage, Discovery
 
-Dataplex has the capability to profile data assets (BigQuery tables), auto detect data lineage for BigQuery transformations. You can also use Dataplex for data discovery across GCS, BigQuery, Spanner, PubSub, Dataproc metastore, Bigtable and Vertex AI models. Dataplex automatic data quality, which lets you define and measure the quality of your data. You can automate the scanning of data, validate data against defined rules, and log alerts if your data doesn't meet quality requirements. You can manage data quality rules and deployments as code, improving the integrity of data production pipelines.
+Dataplex has the capability to profile data assets (BigQuery tables), auto detect data lineage for BigQuery transformations. You can also use it for data discovery across GCS, BigQuery, Spanner, PubSub, Dataproc metastore, Bigtable and Vertex AI models. 
+
+You can automate the scanning of data, validate data against defined rules, and log alerts if your data doesn't meet quality requirements. In additio you can manage data quality rules and deployments as code, improving the integrity of data production pipelines.
 
 --- 
 
@@ -41,7 +48,7 @@ Dataplex has the capability to profile data assets (BigQuery tables), auto detec
     - Display name: `bootkon-lake`
     - Description: anything you like
     - Region: `us-central1`
-    - Labels: Add labels to your lake. For example, use location for the key and berlin for the value.
+    - Labels: Add labels to your lake. For example, use location for the key and berlin for the value.over your data
     - Metastore: lets skip the metastore creation for now
 5. Finally, click on <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">Create</walkthrough-spotlight-pointer>. This should take around 2-3 minutes.
 
@@ -216,13 +223,12 @@ During the previous lab, We got started by using Dataplex data profiling rule re
 
 *IMAGE*
 
-A data scan is a Dataplex job that samples data from BigQuery and Cloud Storage and infers various types of metadata. To measure the quality of a table using auto data quality, you create a DataScan object of type data quality. The scan runs on only one BigQuery table. The scan uses resources in a Google tenant project, so you don't need to set up your own infrastructure.
+A data scan is a Dataplex job which samples data from BigQuery and Cloud Storage and infers various types of metadata. To measure the quality of a table using auto data quality, you create a DataScan object of type data quality. The scan runs on only one BigQuery table. The scan uses resources in a Google tenant project, so you don't need to set up your own infrastructure.
 Creating and using a data quality scan consists of the following steps:
 1. Rule definition
 2. Rule execution
 3. Monitoring and alerting
 4. Troubleshooting
-
 
 *Lab Instructions* 
 1. Go to the [Data Quality](https://console.cloud.google.com/dataplex/govern/quality) section in the left hand menu of Dataplex
@@ -238,7 +244,7 @@ Creating and using a data quality scan consists of the following steps:
 11. Choose on-demand schedule
 12. Click on continue
 
-Now lets define quality rules, click on ADD RULES > SQL Assertion Rule
+Now let's define quality rules. Click on ADD RULES > SQL Assertion Rule
 
 14. Choose Accuracy as dimension 
 15. Rule name: `bootkon-dquality-ml-fraud-prediction`
@@ -301,4 +307,4 @@ Below you can find the content of <code>notebooks/bootkon_vertex.ipynb</code>. F
 
 {{ jupyter('notebooks/bootkon_vertex.ipynb') }}
 
-{% endif %}e
+{% endif %}e*IMAGE*
