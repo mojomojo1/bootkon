@@ -16,7 +16,9 @@ Dataplex can also be used to build a data mesh architecture with decentralized d
 
 ### Security - GCS / BQ
 
-With Dataplex you can apply data access permissions using IAM groups across multiple buckets and BQ datasets by granting permissions at a lake or zone-level. Dataplex will do the heavy lifting of propagating desired policies and updating access policies of the buckets/datasets  that are part of that lake or data zone. Dataplex will also apply those permissions to any new buckets/datasets that get created under that data zone. This takes away the need to manually manage individual bucket permissions and also provides a way to automatically apply permissions to any new data added to your lakes.
+With Dataplex you can apply data access permissions using IAM groups across multiple buckets and BQ datasets by granting permissions at
+*IMAGE*
+ a lake or zone-level. Dataplex will do the heavy lifting of propagating desired policies and updating access policies of the buckets/datasets  that are part of that lake or data zone. Dataplex will also apply those permissions to any new buckets/datasets that get created under that data zone. This takes away the need to manually manage individual bucket permissions and also provides a way to automatically apply permissions to any new data added to your lakes.
 
 Note that the permissions are applied in “Additive” fashion. I.e. Dataplex does not replace the existing permissions when pushing down permissions. Dataplex also provides “exclusive” permission push down as an opt-in feature.
 Discovery [semi structured and structured data].
@@ -67,21 +69,20 @@ The creation should take 2-3 minutes to finish.
 ---
 
 ### LAB Section: Add Zone Data Assets
-Lets map data stored in Cloud Storage buckets and BigQuery datasets as assets in your zone.
-1. Click on bootkon-raw-zone
+Let's map data stored in Cloud Storage buckets and BigQuery datasets as assets in your zone.
+1. Navigate to Zones and click on bootkon-raw-zone
 2. Click <walkthrough-spotlight-pointer locator="semantic:({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
 3. Click <walkthrough-spotlight-pointer locator="semantic:({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
-4. Choose storage bucket
+4. Choose a storage bucket
 5. Display name : `bootkon-gcs-raw-asset`
 6. Optionally add a description 
 7. Browse the bucket name and choose the bucket created in LAB 1. If you followed the instructions, it should be named <your project id>-bucket.
 8. Select the bucket
-9. Let's skip upgrading to the managed option. When you upgrade a Cloud Storage bucket asset, Dataplex removes the attached external tables and creates BigLake tables. We have already created in LAB 2 biglake table so this option is not necessary. 
+9. Let's skip upgrading to the managed option. When you upgrade a Cloud Storage bucket asset, Dataplex removes the attached external tables and creates BigLake tables. We have already created a biglake table in Lab 2 so this option is not necessary. 
 10. Optionally add a label
 11. Click <walkthrough-spotlight-pointer locator="semantic:({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
 12. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click on continue.
 13. Click on submit. 
-*IMAGE*
 Lets add another data assets but for the bootkon-curated-zone
 14. Click on bootkon-curated-zone
 15. Click on <walkthrough-spotlight-pointer locator="semantic:({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
@@ -180,6 +181,9 @@ After setting up the data profiling scan we have seen that we still have no clea
 You can use the following SQL query in BigQuery to check the percentage of matched values between CLASS and predicted classes. 
 
 ```SQL
+--Check the percentage of matched values between CLASS and predicted classes
+--Replace your-project-id with your project id
+
 WITH RankedPredictions AS (
  SELECT
    class,
@@ -203,12 +207,7 @@ FROM (
  FROM
    RankedPredictions
 )
-
 ```
-
-BigQuery SQL : Check the percentage of matched values between CLASS and predicted classes
-Replace  your-project-id with your project id
-CODECODECODE in a table
 
 We will set up the Dataplex automatic data quality, which lets you define and measure the quality of your data. You can automate the scanning of data, validate data against defined rules, and log alerts if your data doesn't meet quality requirements. You can manage data quality rules and deployments as code, improving the integrity of data production pipelines.
 During the previous lab, We got started by using Dataplex data profiling rule recommendations to drive initial conclusions on areas of attention. Dataplex provides monitoring, troubleshooting, and Cloud Logging alerting that's integrated with Dataplex auto data quality.
@@ -241,8 +240,6 @@ Creating and using a data quality scan consists of the following steps:
 
 Now lets define quality rules, click on ADD RULES > SQL Assertion Rule
 
-*IMAGE*
-
 14. Choose Accuracy as dimension 
 15. Rule name: `bootkon-dquality-ml-fraud-prediction`
 16. Description : `Regularly check the ML fraud detection prediction quality results`
@@ -250,6 +247,7 @@ Now lets define quality rules, click on ADD RULES > SQL Assertion Rule
 18. Provide the following SQL statement. Dataplex will utilize this SQL statement to create a SQL clause of the form SELECT COUNT(*) FROM (sql statement) to return success/failure. The assertion rule is passed if the returned assertion row count is 0.
 
 ```SQL
+---Assertion SQL (replace your-project-id with your project-id value in 1 place)
 WITH RankedPredictions AS (
  SELECT
    class,
@@ -279,7 +277,6 @@ FROM (
 
 19. Click ADD
 20. Click Continue
-*IMAGE*
 21. Run SCAN 
 22. The display name may take a moment to appear on the screen.
 23. Monitor the job execution. Notice the job succeeded but the rule failed because our model accuracy percentage on the whole data predicted does not exceed the 99.99% threshold that we set
