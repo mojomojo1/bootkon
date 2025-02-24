@@ -201,7 +201,7 @@ WITH RankedPredictions AS (
      ON pos = pos2
      ORDER BY scores DESC
      LIMIT 1
-   )[OFFSET(0)].*,
+   )[OFFSET(0)].*,hat 
  FROM
    `your-project-id.bootkon_raw_zone.data_prediction`
 )
@@ -232,7 +232,10 @@ Creating and using a data quality scan consists of the following steps:
 
 *Lab Instructions* 
 1. Go to the [Data Quality](https://console.cloud.google.com/dataplex/govern/quality) section in the left hand menu of Dataplex
-2. Click on <walkthrough-spotlight-pointer locator="semantic:({link 'Create data quality scan'})">CREATE DATA QUALITY SCAN</walkthrough-spotlight-pointer>
+
+semantic({toolbar 'Data Quality'} {button 'Create data quality scan'})
+
+2. Click on <walkthrough-spotlight-pointer locator="semantic({toolbar 'Data Quality'} {button 'Create data quality scan'})">CREATE DATA QUALITY SCAN</walkthrough-spotlight-pointer>
 3. Display Name: `bootkon-dquality-fraud-prediction` for example 
 4. Optionally add a description. For example, "data quality scans for fraud detection predictions"
 5. Leave the “browse with dataplex lakes” option turned off 
