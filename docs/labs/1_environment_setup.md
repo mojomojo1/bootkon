@@ -70,13 +70,13 @@ to make it smaller in case you run out of screen real estate.
 ### Create default VPC
 
 The Google Cloud environment we created for you does not come with a Virtual Private Cloud (VPC) network
-created by default. Let's create one:
+created by default. Let's create one. If it already exists -- that's ok. 
 
 ```bash
 gcloud compute networks create default --project=$PROJECT_ID --subnet-mode=auto --bgp-routing-mode="regional"
 ```
 
-If it already exists -- that's ok. Let's also create/update the subnet to allow internal traffic:
+Let's also create/update the subnet to allow internal traffic:
 
 ```bash
 gcloud compute networks subnets update default --region=$REGION --enable-private-ip-google-access

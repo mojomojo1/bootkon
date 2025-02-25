@@ -33,7 +33,7 @@ When you create a connection resource, BigQuery creates a unique system service 
 ```bash
 bq show --connection {{ PROJECT_ID }}.us.fraud-transactions-conn
 ```
-Note the `serviceAccountID`. It should resemble `connection-...@...gserviceaccount.com`.
+Note the `serviceAccountID`.
 
 To connect to Cloud Storage, you must give the new connection read-only access to Cloud Storage so that BigQuery can access files on behalf of users. Let's assign the service account to a variable:
 ```bash
