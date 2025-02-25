@@ -112,7 +112,7 @@ bq --location=us mk --table \
 {{ PROJECT_ID }}:ml_datasets.ulb_fraud_detection_pubsub src/data_ingestion/fraud_detection_bigquery_schema.json
 ```
 
-We also need to a Pub/Sub schema. We use Apache Avro, as it is better suited for appending row-wise:
+We also need to create a Pub/Sub schema. We use Apache Avro, as it is better suited for appending row-wise:
 ```bash
 gcloud pubsub schemas create fraud-detection-schema \
     --project=$PROJECT_ID  \
