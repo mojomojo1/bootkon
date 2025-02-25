@@ -169,7 +169,7 @@ Lab Instructions
 9. Choose "All data" in the sampling size dropdown
 10. Select the checkbox for "Publish results to BigQuery and Dataplex Catalog UI"
 11. Choose On-demand schedule
-12. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>, leave the rest as default and click <walkthrough-spotlight-pointer locator="semantic:({button 'Create'})">Create</walkthrough-spotlight-pointer>
+12. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>, leave the rest as default and click <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">Create</walkthrough-spotlight-pointer>
 
 It will take a couple of minutes for the profiling to show up on the console.
 
@@ -243,7 +243,7 @@ Creating and using a data quality scan consists of the following steps:
 11. Choose On-demand as the scan schedule
 12. Click continue
 
-Now let's define quality rules. Click on ADD RULES > SQL Assertion Rule
+Now let's define quality rules. Click on <walkthrough-spotlight-pointer locator="semantic({button 'ADD RULES'})">ADD RULES</walkthrough-spotlight-pointer> > SQL Assertion Rule
 
 14. Choose Accuracy as dimension 
 15. Rule name: `bootkon-dquality-ml-fraud-prediction`
@@ -280,9 +280,9 @@ FROM (
    HAVING PercentageMatch <= 99.99
 ```
 
-19. Click ADD
+19. Click <walkthrough-spotlight-pointer locator="semantic({button 'Add'})">ADD</walkthrough-spotlight-pointer>
 20. Click Continue
-21. Run SCAN (The display name may take a moment to appear on the screen)
+21. Run <walkthrough-spotlight-pointer locator="semantic({button 'SCAN'})">SCAN</walkthrough-spotlight-pointer> (The display name may take a moment to appear on the screen)
 23. Monitor the job execution. Notice the job succeeded but the rule failed because our model accuracy percentage on the whole data predicted does not exceed the 99.99% threshold that we set
 
 Congratulations {% if MY_NAME %} {{ MY_NAME }}{% endif %} on completing Lab 5! 🚀 You've successfuly set up data quality checks for your data 🤖✨
