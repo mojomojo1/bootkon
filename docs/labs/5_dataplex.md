@@ -243,7 +243,7 @@ Creating and using a data quality scan consists of the following steps:
 11. Choose On-demand as the scan schedule
 12. Click continue
 
-Now let's define quality rules. Click on <walkthrough-spotlight-pointer locator="semantic({button 'ADD RULES'})">ADD RULES</walkthrough-spotlight-pointer> > SQL Assertion Rule
+Now let's define quality rules. Click on the ADD RULES dropdown and choose "SQL Assertion Rule"
 
 14. Choose Accuracy as dimension 
 15. Rule name: `bootkon-dquality-ml-fraud-prediction`
