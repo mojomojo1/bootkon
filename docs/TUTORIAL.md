@@ -62,5 +62,3 @@ If neither is `None`, press the `START` button below to get started!
 {% include 'labs/4_ml.md' %}
 
 {% include 'labs/5_dataplex.md' %}
-
-{% include 'labs/6_analytics_hub.md' %}
