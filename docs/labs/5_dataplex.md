@@ -231,7 +231,7 @@ Creating and using a data quality scan consists of the following steps:
 *Lab Instructions* 
 1. Go to the [Data Quality](https://console.cloud.google.com/dataplex/govern/quality) section in the left hand menu of Dataplex.
 
-2. Click on <walkthrough-spotlight-pointer locator="semantic({toolbar 'Data Quality'} {button 'Create data quality scan'})">CREATE DATA QUALITY SCAN</walkthrough-spotlight-pointer>
+2. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Create data quality scan'})">CREATE DATA QUALITY SCAN</walkthrough-spotlight-pointer>
 3. Display Name: `bootkon-dquality-fraud-prediction` for example 
 4. Optionally add a description. For example, "data quality scans for fraud detection predictions"
 5. Leave the “Browse within Dataplex Lakes” option turned off 
