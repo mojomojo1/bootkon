@@ -15,15 +15,15 @@ Dataplex is a data governance tool which helps you organize your data assets by 
 
 Dataplex can also be used to build a data mesh architecture with decentralized data ownership among domain data owners.
 
-### Security - GCS / BQ
+### Security - Cloud Storage/BigQuery
 
-With Dataplex you can apply data access permissions using IAM groups across multiple buckets and BQ datasets by granting permissions at a lake or zone-level.It will do the heavy lifting of propagating desired policies and updating access policies of the buckets/datasets that are part of that lake or data zone. 
+With Dataplex you can apply data access permissions using IAM groups across multiple buckets and BigQuery datasets by granting permissions at a lake or zone-level. It will do the heavy lifting of propagating desired policies and updating access policies of the buckets/datasets that are part of that lake or data zone. 
 
 Dataplex will also apply those permissions to any new buckets/datasets that get created under that data zone. This takes away the need to manually manage individual bucket permissions and also provides a way to automatically apply permissions to any new data added to your lakes.
 
 Note that the permissions are applied in “Additive” fashion - Dataplex does not replace the existing permissions when pushing down permissions. Dataplex also provides “exclusive” permission push down as an opt-in feature.
 
-Discovery [semi structured and structured data].
+### Discovery [semi structured and structured data]
 
 You can configure discovery jobs in Dataplex that can sample data on GCS, infer its schema, and automatically register it with the Dataplex Catalog so you can easily search and discover the data you have in your lakes.
 
@@ -70,20 +70,20 @@ Finally, click <walkthrough-spotlight-pointer locator="semantic({button 'Create'
 When the zone creation succeeds, the zone automatically enters an active state. If it fails, then the lake is rolled back to its previous state.
 After you create your zone, you can map data stored in Cloud Storage buckets and BigQuery datasets as assets in your zone.
 
-Repeat the same steps but this time, change the display name to `bootkon-curated-zone` and choose Choose Curated Zone for the Type. You might also change the label and description values. 
+Repeat the same steps but this time, change the display name to `bootkon-curated-zone` and choose  *Curated Zone* for the Type. You might also change the label and description values. 
 The creation should take 2-3 minutes to finish.
 
 ---
 
-### LAB Section: Add Zone Data Assets
+### Add Zone Data Assets
 Let's map data stored in Cloud Storage buckets and BigQuery datasets as assets in your zone.
-1. Navigate to Zones and click on bootkon-raw-zone
+1. Navigate to Zones and click on `bootkon-raw-zone`
 2. Click <walkthrough-spotlight-pointer locator="semantic({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
 3. Click <walkthrough-spotlight-pointer locator="semantic({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
-4. Choose "Storage bucket" from the type dropdown
+4. Choose *Storage bucket* from the type dropdown
 5. Display name : `bootkon-gcs-raw-asset`
 6. Optionally add a description 
-7. Browse the bucket name and choose the bucket created in LAB 1. If you followed the instructions, it should be named <your project id>-bucket.
+7. Browse the bucket name and choose `{{ PROJECT_ID }}-bucket`.
 8. Select the bucket
 9. Let's skip upgrading to the managed option. When you upgrade a Cloud Storage bucket asset, Dataplex removes the attached external tables and creates BigLake tables. We have already created a biglake table in Lab 2 so this option is not necessary. 
 10. Optionally add a label
@@ -96,10 +96,10 @@ Now let's add another data assets but for the bootkon-curated-zone:
 14. Click on bootkon-curated-zone
 15. Click on <walkthrough-spotlight-pointer locator="semantic({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
 16. Click <walkthrough-spotlight-pointer locator="semantic({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
-17. Choose "BigQuery data set" from the Type dropdown
+17. Choose *BigQuery data set* from the Type dropdown
 18. Display name : `bootkon-bq-curated-asset`
 19. Optionally add a description 
-20. Browse the BigQuery Dataset and choose the dataset created in LAB 1. If you followed the instructions, it should be named ml_datasets.
+20. Browse the BigQuery Dataset and choose the dataset created in LAB 1. If you followed the instructions, it should be named `{{ PROJECT_ID }}.ml_datasets`.
 21. Select the BigQuery Dataset
 22. Optionally add a label
 23. Click on continue
@@ -108,64 +108,54 @@ Now let's add another data assets but for the bootkon-curated-zone:
 
 ---
 
-### LAB Section: Explore data assets with Dataplex Search 
+### Explore data assets with Dataplex Search 
 
-During this lab go to the Search section of the Dataplex and search for the lakes, zones and assets you just created. Spend 5 minutes exploring before moving to the next LAB.
-
----
-
-### LAB Section: Explore Biglake object tables created automatically by Dataplex in BigQuey
-
-As a result of the data discovery (takes up to approximately 5 minutes), notice a new BigQuery dataset created called “bootkon_raw_zone” under the BigQuery console section. New Biglake tables were automatically created by Dataplex discovery jobs. During the next sections of the labs, we will be using the data_prediction biglake table. 
-
-During previous machine learning with Vertex AI lab, we discussed that batch prediction jobs may take more than 2 hours to complete. Therefore, we made available the results of the job prediction in parquet files here. Ensure these files were already copied into your GCS bucket <gcp project id>-bucket during Lab1.
+During this lab go to the Search section of the Dataplex and search for the lakes, zones and assets you just created. Spend 5 minutes exploring before moving to the next section.
 
 ---
 
-### LAB Section: Data Profiling
+### Explore Biglake object tables created automatically by Dataplex in BigQuey
+
+As a result of the data discovery (takes up to approximately 5 minutes), notice a new BigQuery dataset created called `bootkon_raw_zone` under the BigQuery console section. New Biglake tables were automatically created by Dataplex discovery jobs. During the next sections of the labs, we will be using the `data_predictions` biglake table. 
+
+---
+
+### Data Profiling
 
 Dataplex data profiling lets you identify common statistical characteristics of the columns in your BigQuery tables. This information helps you to understand and analyze your data more effectively.
 
 Information like typical data values, data distribution, and null counts can accelerate analysis. When combined with data classification, data profiling can detect data classes or sensitive information that, in turn, can enable access control policies.
 Dataplex also uses this information to recommend rules for data quality check and lets you better understand the profile of your data by creating a data profiling scan.
 
----
+These are some of the options we will be dealing with when setting up data profiling:
 
-Configuration options
-This section describes the configuration options available for running data profiling scans.
+**Configuration options**: This section describes the configuration options available for running data profiling scans.
 
-Scheduling options
+**Scheduling options**: You can schedule a data profiling scan with a defined frequency or on demand through the API or the Google Cloud console.
 
-You can schedule a data profiling scan with a defined frequency or on demand through the API or the Google Cloud console.
-
-Scope
-
+**Scope**:
 As part of the specification of a data profiling scan, you can specify the scope of a job as one of the following options:
 * Full table: The entire table is scanned in the data profiling scan. Sampling, row filters, and column filters are applied on the entire table before calculating the profiling statistics.
 * Incremental: Incremental data that you specify is scanned in the data profile scan. Specify a Date or Timestamp column in the table to be used as an increment. Typically, this is the column on which the table is partitioned. Sampling, row filters, and column filters are applied on the incremental data before calculating the profiling statistics.
 
-Filter data
-
+**Filter data**:
 You can filter the data to be scanned for profiling by using row filters and column filters. Using filters helps you reduce the execution time and cost, and exclude sensitive and unuseful data.
 * Row filters: Row filters let you focus on data within a specific time period or from a specific segment, such as region. For example, you can filter out data with a timestamp before a certain date.
 * Column filters: Column filters lets you include and exclude specific columns from your table to run the data profiling scan.
 
-Sample data
-
+**Sample data**:
 Dataplex lets you specify a percentage of records from your data to sample for running a data profiling scan. Creating data profiling scans on a smaller sample of data can reduce the execution time and cost of querying the entire dataset.
 
----
+Let's get started:
 
-Lab Instructions
-
-1. Go to the <walkthrough-spotlight-pointer locator="semantic({link 'Profile, 1 of 2'})">Profile</walkthrough-spotlight-pointer> section in Dataplex
+1. Go to the <walkthrough-spotlight-pointer locator="semantic({link 'Profile, 1 of 2'})">Profile</walkthrough-spotlight-pointer> section in Dataplex.
 2. Click <walkthrough-spotlight-pointer locator="semantic({button 'Create data profile scan'})">+CREATE DATA PROFILE SCAN</walkthrough-spotlight-pointer>
 3. Set Display Name to `bootkon-profile-fraud-prediction` for example 
 4. Optionally add a description. For example, "data profile scans for fraud detection predictions"
 5. Leave the “browse within dataplex lakes” option turned off
-6. Click on browse to select the `data_prediction` bigquery table (Dataset: bootkon_raw_zone). 
-7. Select `data_prediction` bigquery table
-8. Choose “Entire data” in the dropdown as the scope for the data profiling job
+6. Click on browse to select the `data_predictions` bigquery table (Dataset: `bootkon_raw_zone`). 
+7. Select `data_predictions` bigquery table
+8. Choose "Entire data" in the dropdown as the scope for the data profiling job
 9. Choose "All data" in the sampling size dropdown
 10. Select the checkbox for "Publish results to BigQuery and Dataplex Catalog UI"
 11. Choose On-demand schedule
@@ -174,23 +164,21 @@ Lab Instructions
 It will take a couple of minutes for the profiling to show up on the console.
 
 13. Click on the `bootkon-profile-fraud-prediction` profile and then click RUN NOW. 
-14. Click on Job ID and monitor the job execution. 
+14. Click on the job's Id and monitor the job execution. 
 15. Notice what the job is doing. The job should succeed in less than 10 minutes.
-16. Explore the data profiling results of the CLASS column name. We have less than 0.1% of fraudulent transactions. Also notice that predicted_class of type RECORD were not fully profiled, only the percentage of null and unique values were correctly profiled. Refer to the supported data types here.
+16. Explore the data profiling results of the CLASS column name. We have less than 0.1% of fraudulent transactions. Also notice that `predicted_class` of type RECORD were not fully profiled, only the percentage of null and unique values were correctly profiled. Refer to the supported data types here.
 
-17. As they train further and continuously the fraud detection ML models, data professionals would like to set up an automatic check on data quality and be notified when there are huge discrepancies between predicted_class  and CLASS values. This is where Dataplex data quality could help the team. 
+17. As they train further and continuously the fraud detection ML models, data professionals would like to set up an automatic check on data quality and be notified when there are huge discrepancies between predicted_class and CLASS values. This is where Dataplex data quality could help the team. 
 
 ---
 
-### LAB Section: Setup Data Quality Jobs
+### Setup Data Quality Jobs
 
 After setting up the data profiling scan we have seen that we still have no clear visibility on fluctuation between predicted classes vs actual CLASS ratio. Our goal is to have a percentage of matched values between CLASS and predicted classes more than 99.99 %. Any lower percentage would indicate that we would have to further train the ML model or add more features or use another model architecture.
 
 You can use the following SQL query in BigQuery to check the percentage of matched values between CLASS and predicted classes. 
 
-```SQL
--- Check the percentage of matched values between CLASS and predicted classes
--- Replace your-project-id with your project id
+```sql
 WITH RankedPredictions AS (
  SELECT
    class,
@@ -201,9 +189,9 @@ WITH RankedPredictions AS (
      ON pos = pos2
      ORDER BY scores DESC
      LIMIT 1
-   )[OFFSET(0)].*,hat 
+   )[OFFSET(0)].* 
  FROM
-   `your-project-id.bootkon_raw_zone.data_prediction`
+   `{{ PROJECT_ID }}.bootkon_raw_zone.data_predictions`
 )
 
 SELECT
@@ -228,18 +216,19 @@ Creating and using a data quality scan consists of the following steps:
 3. Monitoring and alerting
 4. Troubleshooting
 
-*Lab Instructions* 
+**Lab Instructions**
+
 1. Go to the [Data Quality](https://console.cloud.google.com/dataplex/govern/quality) section in the left hand menu of Dataplex.
 
 2. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Create data quality scan'})">CREATE DATA QUALITY SCAN</walkthrough-spotlight-pointer>
 3. Display Name: `bootkon-dquality-fraud-prediction` for example 
-4. Optionally add a description. For example, "data quality scans for fraud detection predictions"
-5. Leave the “Browse within Dataplex Lakes” option turned off 
-6. Click browse to filter on the data_prediction BigQuery table.(Dataset: bootkon_raw_zone). 
-7. Select data_prediction bigquery table
-8. Choose “Entire data” as the scope of the data profiling job
-9. Choose "All data" for sampling size
-10. Leave on the option "Publish results to BigQuery and Dataplex Catalog UI"
+4. Optionally add a description. For example, *data quality scans for fraud detection predictions*
+5. Leave the *Browse within Dataplex Lakes* option turned off 
+6. Click browse to filter on the `data_predictions` BigQuery table (Dataset: `bootkon_raw_zone`). 
+7. Select `data_predictions` bigquery table
+8. Choose *Entire data* as the scope of the data profiling job
+9. Choose *All data* for sampling size
+10. Leave on the option *Publish results to BigQuery and Dataplex Catalog UI*
 11. Choose On-demand as the scan schedule
 12. Click continue
 
@@ -251,8 +240,7 @@ Now let's define quality rules. Click on the ADD RULES dropdown and choose "SQL 
 17. Leave the column name empty
 18. Provide the following SQL statement. Dataplex will utilize this to create a SQL clause of the form SELECT COUNT(*) FROM (sql statement) to return success/failure. The assertion rule is passed if the returned assertion row count is 0.
 
-```SQL
--- Assertion SQL (replace your-project-id with your project-id value in 1 place)
+```sql
 WITH RankedPredictions AS (
  SELECT
    class,
@@ -265,7 +253,7 @@ WITH RankedPredictions AS (
      LIMIT 1
    )[OFFSET(0)].*,
  FROM
-   `your-project-id.bootkon_raw_zone.data_prediction`
+   `{{ PROJECT_ID }}.bootkon_raw_zone.data_predictions`
 )
 
 SELECT
@@ -286,19 +274,3 @@ FROM (
 23. Monitor the job execution. Notice the job succeeded but the rule failed because our model accuracy percentage on the whole data predicted does not exceed the 99.99% threshold that we set
 
 Congratulations {% if MY_NAME %} {{ MY_NAME }}{% endif %} on completing Lab 5! 🚀 You've successfuly set up data quality checks for your data 🤖✨
-You can now move on to Lab 6 and explore Analytics Hub. 🥳🥳
-
-{% if MDBOOK_VIEW %}
-
----
-
-<div class="mdbook-alerts mdbook-alerts-caution">
-<p class="mdbook-alerts-title">
-  <span class="mdbook-alerts-icon"></span>
-  caution
-</p>
-</div>
-
-{{ jupyter('notebooks/bootkon_vertex.ipynb') }}
-
-{% endif %}e*IMAGE*
