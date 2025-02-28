@@ -150,7 +150,7 @@ Next, let's create several workflow files.
 
 8. In `llm_model_connection.sql`, replace the `us.llm-connection` connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be `us.fraud-transactions-conn`
 
-Notice the usage of `$ref` in line 11, of **definitions/mview\_ulb\_fraud\_detection.sqlx**. The advantages of using `$ref` in Dataform are
+Notice the usage of `$ref` in line 11, of `definitions/mview\_ulb\_fraud\_detection.sqlx`. The advantages of using `$ref` in Dataform are
 
 * Automatic Reference Management: Ensures correct fully-qualified names for tables and views, avoiding hardcoding and simplifying environment configuration.  
 * Dependency Tracking: Builds a dependency graph, ensuring correct creation order and automatic updates when referenced tables change.  
@@ -182,7 +182,7 @@ Run the dataset creation by **Tag**. Tag allow you to just execute parts of the 
 Notice the execution status. It should be a success.  
  
 7. Lastly, go to Compiled graph and explore it.
-Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> `hackathon-{{ MY_NAME | lower }}-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
+Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> <walkthrough-spotlight-pointer locator="text('hackathon-repository')">hackathon-repository</walkthrough-spotlight-pointer>>`hackathon-{{ MY_NAME | lower }}-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
 
 ***
 
