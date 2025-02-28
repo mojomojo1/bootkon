@@ -6,10 +6,9 @@ Your role: As a senior data analytics/AI engineer at an imaginary company called
 
 **Data Sources**.  
 You’ll start by working with raw data that comes in different formats (csv , parquets). 
-Those data files are stored in a github repository
-Your first task is to store the raw data into your Google Cloud Storage (GCS) bucket.
+Those data files are stored in a github repository. Your first task is to store the raw data into your Google Cloud Storage (GCS) bucket.
 
-**Data Ingestion Layer**.  
+**Data Ingestion Layer**  
 You will bring this data into your [BigQuery AI Lakehouse](https://services.google.com/fh/files/emails/google-cloud-analytics-lakehouse_.pdf) environment. 
 For batch data, you’ll use [Dataproc Serverless](https://cloud.google.com/dataproc-serverless/docs) and [BigLake](https://cloud.google.com/biglake?e=48754805&hl=en). 
 For near real-time data, you’ll use [Pub/Sub](https://cloud.google.com/pubsub/docs/overview) to handle data as it comes in. 
@@ -17,10 +16,10 @@ Because we want to simulate data ingestion at scale, we will be using the raw da
 These tools help you get the data ready for processing and analysis.
 
 
-**BigQuery AI Lakehouse**.  
+**BigQuery AI Lakehouse**
 Think of this as the main camp where all your data hangs out. It’s a GCP product called BigQuery, and it’s designed to work with different types of data, whether it’s structured neatly in tables or unstructured like a pile of text documents. Here, you can run different data operations without moving data around.
 
-**Data Governance Layer**.  
+**Data Governance Layer**
 This is where you ensure that your data is clean, secure, and used properly. Using [Dataplex](https://cloud.google.com/dataplex), you’ll set rules and checks to maintain data quality and governance.
 
 **Consumption Layer**   
