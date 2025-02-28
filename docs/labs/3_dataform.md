@@ -5,7 +5,7 @@
 <bootkon-cloud-shell-note/>
 
 During this lab, you gather user feedback to assess the impact of model adjustments on real-world use (prediction), ensuring that our fraud detection system effectively balances accuracy with user satisfaction. 
-* Use Dataform , BigQuery and Gemini to Perform sentiment analysis of customer feedback.
+* Use Dataform, BigQuery and Gemini to Perform sentiment analysis of customer feedback.
 ### Dataform 
 
 Dataform is a fully managed service that helps data teams build, version control, and orchestrate SQL workflows in BigQuery. It provides an end-to-end experience for data transformation, including:
@@ -96,7 +96,7 @@ Next, let's create several workflow files.
     `first_view.sqlx`
     `second_view.sqlx`
 
-2. Within <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> create a new directory called `models`:
+2. Within <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node definitions more'})">*definitions</walkthrough-spotlight-pointer> create a new directory called `models`:
 
 ![](../img/lab3/newdirectory.png)
 
