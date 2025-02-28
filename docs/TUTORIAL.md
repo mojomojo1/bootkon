@@ -1,12 +1,12 @@
 <walkthrough-metadata>
-  <meta name="title" content="Data & AI Boot-Kon" />
+  <meta name="title" content="Data & AI Bootkon" />
   <meta name="description" content="These labs include detailed step-by-step instructions to guide you. In addition to the labs, you’ll face several challenges that you’ll need to solve on your own or with your group. Groups will be assigned by the event organizers at the start of the event." />
   <meta name="keywords" content="data, ai, bigquery, vertexai, genai, notebook" />
   <meta name="component_id" content="1734803" />
 </walkthrough-metadata>
 
 
-# Data and AI Boot-Kon
+# Data and AI Bootkon
 
 ## Introduction
 
