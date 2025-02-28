@@ -24,4 +24,5 @@ echo "$FILE" > $MEMORY
 
 bk-render-jinja2 $FILE $RENDERED
 cloudshell launch-tutorial $RENDERED
+sleep 1.5
 cloudshell launch-tutorial $RENDERED
