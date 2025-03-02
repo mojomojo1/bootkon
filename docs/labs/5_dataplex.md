@@ -5,13 +5,13 @@
 <bootkon-cloud-shell-note/>
 
 In this lab you will 
-- Understand Dataplex product capabilities
+- Understand Dataplex product capabilities.
 - Leverage Dataplex to understand and govern your data and metadata.
 - Build data quality checks on top of the fraud detection prediction results.
 
 ### About Dataplex
 
-Dataplex is a data governance tool which helps you organize your data assets by overlaying the organizational concept of "Lakes" and "Zones". This organization is logical only and does not require any data movement. You can use lakes to define, for example, organizational boundaries (e.g. marketing lake/sales lake) or regional boundaries (ie. US lake/ UK lake), while zones are used to group data within lakes by data readiness or by use cases (e.g. raw_zone/curated_zone or analytics_zone/data_science_zone).
+Dataplex is a data governance tool which helps you organize your data assets by overlaying the organizational concept of "Lakes" and "Zones". This organization is logical only and does not require any data movement. You can use lakes to define, for example, organizational boundaries (e.g. marketing lake/sales lake) or regional boundaries (i.e. US lake/ UK lake), while zones are used to group data within lakes by data readiness or by use cases (e.g. raw_zone/curated_zone or analytics_zone/data_science_zone).
 
 Dataplex can also be used to build a data mesh architecture with decentralized data ownership among domain data owners.
 
@@ -23,19 +23,19 @@ Dataplex will also apply those permissions to any new buckets/datasets that get 
 
 Note that the permissions are applied in “Additive” fashion - Dataplex does not replace the existing permissions when pushing down permissions. Dataplex also provides “exclusive” permission push down as an opt-in feature.
 
-### Discovery [semi structured and structured data]
+### Discovery [semi-structured and structured data]
 
 You can configure discovery jobs in Dataplex that can sample data on GCS, infer its schema, and automatically register it with the Dataplex Catalog so you can easily search and discover the data you have in your lakes.
 
-In addition to registering metadata with Dataplex Catalog, for data in CSV, JSON, AVRO, ORC, and Parquet formats, the discovery jobs also register technical metadata, including hive-style partitions, with a managed Hive metastore (Dataproc Metastore) & as external tables in BigQuery(BQ).  
+In addition to registering metadata with Dataplex Catalog, for data in CSV, JSON, AVRO, ORC, and Parquet formats, the discovery jobs also register technical metadata, including hive-style partitions, with a managed Hive metastore (Dataproc Metastore) & as external tables in BigQuery (BQ).  
 
-Discovery jobs can be configured to run on a schedule to discover any new tables or partitions. For new partitions, discovery jobs incrementally scan new data, check for data and schema compatibility, and register only compatible schema to the Hive metastore/ BQ so that your table definitions never go out of sync with your data.
+Discovery jobs can be configured to run on a schedule to discover any new tables or partitions. For new partitions, discovery jobs incrementally scan new data, check for data and schema compatibility, and register only compatible schema to the Hive metastore/BQ so that your table definitions never go out of sync with your data.
 
 ### Actions - Profiling, Quality, Lineage, Discovery
 
 Dataplex has the capability to profile data assets (BigQuery tables), auto detect data lineage for BigQuery transformations. You can also use it for data discovery across GCS, BigQuery, Spanner, PubSub, Dataproc metastore, Bigtable and Vertex AI models. 
 
-You can automate the scanning of data, validate data against defined rules, and log alerts if your data doesn't meet quality requirements. In additio you can manage data quality rules and deployments as code, improving the integrity of data production pipelines.
+You can automate the scanning of data, validate data against defined rules, and log alerts if your data doesn't meet quality requirements. In addition you can manage data quality rules and deployments as code, improving the integrity of data production pipelines.
 
 --- 
 
