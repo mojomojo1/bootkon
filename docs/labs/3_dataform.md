@@ -212,7 +212,7 @@ For  the sentiment inference step to succeed, you need to grant the external con
     FROM `ml_datasets.sentiment_inference` LIMIT 10;
     ```
    
-**\[Max 2 minutes\]** Discuss the table results within your team group.
+    **\[Max 2 minutes\]** Discuss the table results within your team group.
 
 7. Before moving to the challenge section of the Lab, go back to the CODE section of the Dataform workspace. At the top of the “Files” section on the left, click <walkthrough-spotlight-pointer locator="css(button[id$=commit-button])">COMMIT X CHANGES</walkthrough-spotlight-pointer> (X should be about 7), add a commit message like, “Bootkon Lab 3”, then click <walkthrough-spotlight-pointer locator="semantic({button 'Commit all files'})">COMMIT ALL FILES</walkthrough-spotlight-pointer> and then <walkthrough-spotlight-pointer locator="semantic({button 'push to default'})">PUSH TO DEFAULT BRANCH</walkthrough-spotlight-pointer>
 
