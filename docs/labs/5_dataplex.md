@@ -102,9 +102,9 @@ Now let's add another data assets but for the bootkon-curated-zone:
 20. Browse the BigQuery Dataset and choose the dataset created in LAB 1. If you followed the instructions, it should be named `{{ PROJECT_ID }}.ml_datasets`.
 21. Select the BigQuery Dataset
 22. Optionally add a label
-23. Click on continue
-24. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click continue.
-25. Click submit. 
+23. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>.
+24. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>.
+25. Click <walkthrough-spotlight-pointer locator="semantic({button 'Submit'})">Submit</walkthrough-spotlight-pointer>. 
 
 ---
 
