@@ -65,9 +65,9 @@ Here you can see the training jobs you started both through the Python SDK as we
 
 1. Click <walkthrough-spotlight-pointer locator="css(a[id$=cfctest-section-nav-item-ai-platform-models])">Model Registry</walkthrough-spotlight-pointer> in the nevigation menu
 2. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-custom-model'})">bootkon-custom-model</walkthrough-spotlight-pointer>
-3. Click <walkthrough-spotlight-pointer locator="semantic({tab 'Version details'})">VERSION DETAILS</walkthrough-spotlight-pointer>
+3. Click <walkthrough-spotlight-pointer locator="semantic({tab 'Version details'})">Version Details</walkthrough-spotlight-pointer>
 
-Here you can can see that a model in the Vertex AI Model Registry is made up from a ***Container image*** als well as a **Model artifact location**. When you deploy a model, Vertex AI simply starts the container and points it to the artifact location.
+Here you can can see that a model in the Vertex AI Model Registry is made up from a **Container image** as well as a **Model artifact location**. When you deploy a model, Vertex AI simply starts the container and points it to the artifact location.
 
 The model has already been deployed to an endpoint. Let's have a look at them:
 
@@ -76,7 +76,7 @@ The model has already been deployed to an endpoint. Let's have a look at them:
 
 You can see that the endpoint has one model deployed currently, and all the traffic is routed to it (traffic split is 100%). When scrolling down, you get live graphs as soon as predictions are coming in.
 
-You can also train and deploy models on Vertex in the UI only. Let's have a more detailed look. Click <walkthrough-spotlight-pointer locator="semantic({button 'Edit settings'})">EDIT SETTINGS</walkthrough-spotlight-pointer>. Here you can find many options for model monitoring -- why don't you try to enable prediction drift detection?
+You can also train and deploy models on Vertex in the UI only. Let's have a more detailed look. Click <walkthrough-spotlight-pointer locator="semantic({button 'Edit settings'})">Edit Settings</walkthrough-spotlight-pointer>. Here you can find many options for model monitoring -- why don't you try to enable prediction drift detection?
 
 Let's have a look at the Pipeline as well.
 
