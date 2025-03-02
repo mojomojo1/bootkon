@@ -48,7 +48,7 @@ Once the command has finished, please
 1. Open [Vertex AI Console](https://console.cloud.google.com/vertex-ai/workbench)
 2. Click on <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-notebook'})">bootkon-notebook</walkthrough-spotlight-pointer>
 2. Wait for the instance to become `Active`
-3. and as soon as the instance is ready, click on `OPEN JUPYTERLAB`. 
+3. and as soon as the instance is ready, click on <walkthrough-spotlight-pointer locator="semantic({button 'Open JupyterLab'})">Open JupyterLab</walkthrough-spotlight-pointer>
 
 Now, please open `bootkon_vertex.ipynb` and continue your journey.
 
