@@ -203,7 +203,7 @@ For  the sentiment inference step to succeed, you need to grant the external con
  
 5. Check the execution status. It should be a success.  
 
-6. Verify the new table `sentiment_inference` in the `ml_datasets` dataset in BigQuery and query the BigQuery table content (At this point you should be familiar with running BigQuery SQL)  
+6. Verify the new table `sentiment_inference` in the `ml_datasets` dataset in [BigQuery](https://console.cloud.google.com/bigquery) and query the BigQuery table content (At this point you should be familiar with running BigQuery SQL)  
    
     ```
     SELECT distinct ml_generate_text_llm_result,
