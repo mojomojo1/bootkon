@@ -85,11 +85,11 @@ Let's map data stored in Cloud Storage buckets and BigQuery datasets as assets i
 6. Optionally add a description 
 7. Browse the bucket name and choose `{{ PROJECT_ID }}-bucket`.
 8. Select the bucket
-9. Let's skip upgrading to the managed option. When you upgrade a Cloud Storage bucket asset, Dataplex removes the attached external tables and creates BigLake tables. We have already created a biglake table in Lab 2 so this option is not necessary. 
+9. Let's skip upgrading to the managed option. When you upgrade a Cloud Storage bucket asset, Dataplex removes the attached external tables and creates BigLake tables. We have already created a BigLake table in Lab 2 so this option is not necessary. 
 10. Optionally add a label
 11. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
-12. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click on continue.
-13. Click submit.
+12. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>.
+13. Click <walkthrough-spotlight-pointer locator="semantic({button 'Submit'})">Submit</walkthrough-spotlight-pointer>.
 
 Now let's add another data assets but for the bootkon-curated-zone:
 
