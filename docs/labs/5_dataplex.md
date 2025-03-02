@@ -48,7 +48,7 @@ You can automate the scanning of data, validate data against defined rules, and 
     - Display name: `bootkon-lake`
     - Description: anything you like
     - Region: `us-central1`
-    - Labels: Add labels to your lake. For example, use location for the key and berlin for the value.over your data
+    - Labels: Add labels to your lake. For example, use location for the key and berlin for the value over your data
     - Metastore: lets skip the metastore creation for now
 5. Finally, click on <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">Create</walkthrough-spotlight-pointer>. This should take around 2-3 minutes.
 
@@ -67,7 +67,7 @@ We will add two zones: one for raw data and another for curated data.
     - Discovery settings: Enable metadata discovery, which allows Dataplex to automatically scan and extract metadata from the data in your zone. Let's leave the default settings. Set time zone to Germany.
 
 Finally, click <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">create</walkthrough-spotlight-pointer>.
-When the zone creation succeeds, the zone automatically enters an active state. If it fails, then the lake is rolled back to its previous state.
+When the zone creation succeeds, the zone automatically enters in an active state. If it fails, then the lake is rolled back to its previous state.
 After you create your zone, you can map data stored in Cloud Storage buckets and BigQuery datasets as assets in your zone.
 
 Repeat the same steps but this time, change the display name to `bootkon-curated-zone` and choose  *Curated Zone* for the Type. You might also change the label and description values. 
