@@ -177,7 +177,7 @@ Let's get started:
 
 ### Setup Data Quality Jobs
 
-After setting up the data profiling scan we have seen that we still have no clear visibility on fluctuation between `predicted_classes` vs `actual Class` ratio. Our goal is to have a percentage of matched values between `Class` and `predicted_classes` more than 99.99 %. Any lower percentage would indicate that we would have to further train the ML model or add more features or use another model architecture.
+After setting up the data profiling scan we have seen that we still have no clear visibility on fluctuation between `predicted_classes` vs actual `Class` ratio. Our goal is to have a percentage of matched values between `Class` and `predicted_classes` more than 99.99 %. Any lower percentage would indicate that we would have to further train the ML model or add more features or use another model architecture.
 
 You can use the following SQL query in [BigQuery](https://console.cloud.google.com/bigquery) to check the percentage of matched values between `Class` and `predicted_classes`. 
 
@@ -208,7 +208,8 @@ FROM (
 ```
 
 We will set up the Dataplex automatic data quality, which lets you define and measure the quality of your data. You can automate the scanning of data, validate data against defined rules, and log alerts if your data doesn't meet quality requirements. You can manage data quality rules and deployments as code, improving the integrity of data production pipelines.
-During the previous lab, We got started by using Dataplex data profiling rule recommendations to drive initial conclusions on areas of attention. Dataplex provides monitoring, troubleshooting, and Cloud Logging alerting that's integrated with Dataplex auto data quality.
+
+During the previous lab, we got started by using [Dataplex data profiling](https://cloud.google.com/dataplex/docs/data-profiling-overview) rule recommendations to drive initial conclusions on areas of attention. Dataplex provides monitoring, troubleshooting, and Cloud Logging alerting that's integrated with Dataplex auto data quality.
 
 **Conceptual Model**
 
