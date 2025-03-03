@@ -1,4 +1,4 @@
-## Lab 5: Data governance with Dataplex
+## Lab 5: Data Governance with Dataplex
 
 <walkthrough-tutorial-duration duration="60"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="2"></walkthrough-tutorial-difficulty>
@@ -229,7 +229,7 @@ Creating and using a data quality scan consists of the following steps:
 4. Optionally add a description. For example, "data quality scans for fraud detection predictions"
 5. Leave the "Browse within Dataplex Lakes" option turned off 
 6. Click <walkthrough-spotlight-pointer locator="semantic({button 'Browse'})">BROWSE</walkthrough-spotlight-pointer> to filter on the `data_predictions` BigQuery table (Dataset: `bootkon_raw_zone`) 
-7. Select `data_predictions` BigQuery table
+7. <walkthrough-spotlight-pointer locator="semantic({button 'Select'})">SELECT</walkthrough-spotlight-pointer> `data_predictions` BigQuery table
 8. Choose "Entire data" as the <walkthrough-spotlight-pointer locator="semantic({combobox 'Scope'})">Scope</walkthrough-spotlight-pointer> of the data profiling job
 9. Choose "All data" for <walkthrough-spotlight-pointer locator="semantic({combobox 'Sampling size'})">Sampling size</walkthrough-spotlight-pointer> 
 10. Leave on the option "Publish results to BigQuery and Dataplex Catalog UI"
