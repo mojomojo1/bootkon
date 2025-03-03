@@ -279,7 +279,7 @@ FROM (
 24. You may need to choose <walkthrough-spotlight-pointer locator="semantic({button 'Run now'})">RUN NOW</walkthrough-spotlight-pointer> in order to see the results of the `bootkon-dquality-fraud-prediction` data quality scan
 
 
-Success
+### Success
 
 🎉 Congratulations {% if MY_NAME %} {{ MY_NAME }}{% endif %}! 🚀
 

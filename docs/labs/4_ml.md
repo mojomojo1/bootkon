@@ -89,6 +89,8 @@ Click on *Expand Artifacts*. Now, you can see expanded yellow boxes. These are V
 
 Feel free to explore the UI in more detail on your own!
 
+### Success
+
 Congratulations, intrepid ML explorer{% if MY_NAME %} {{ MY_NAME }}{% endif %}! 🚀 You've successfully wrangled data, trained models, and unleashed the power of Vertex AI. If your model underperforms, remember: it's not a bug—it's just an underfitting feature! Keep iterating, keep optimizing, and may your loss functions always converge. Happy coding! 🤖✨
 
 {% if MDBOOK_VIEW %}
