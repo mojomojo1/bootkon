@@ -152,8 +152,8 @@ Let's get started:
 2. Click <walkthrough-spotlight-pointer locator="semantic({button 'Create Data Profile scan'})">+ CREATE DATA PROFILE SCAN</walkthrough-spotlight-pointer>
 3. Set Display Name to `bootkon-profile-fraud-prediction` for example 
 4. Optionally add a description. For example, "data profile scans for fraud detection predictions"
-5. Leave the “browse within dataplex lakes” option turned off
-6. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Browse'})">BROWSE</walkthrough-spotlight-pointer> to select the `data_predictions` bigquery table (Dataset: `bootkon_raw_zone`). 
+5. Leave the “Browse within Dataplex Lakes” option turned off
+6. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Browse'})">BROWSE</walkthrough-spotlight-pointer> to select the `data_predictions` BigQuery table (Dataset: `bootkon_raw_zone`). 
 7. <walkthrough-spotlight-pointer locator="semantic({button 'Select'})">Select</walkthrough-spotlight-pointer> `data_predictions` bigquery table
 8. Choose "Entire data" in the dropdown as the <walkthrough-spotlight-pointer locator="semantic({combobox 'Scope'})">Scope</walkthrough-spotlight-pointer> for the data profiling job
 9. Choose "All data" in the <walkthrough-spotlight-pointer locator="semantic({combobox 'Sampling size'})">Sampling size</walkthrough-spotlight-pointer> dropdown
@@ -161,9 +161,9 @@ Let's get started:
 11. Choose On-demand schedule
 12. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>, leave the rest as default and click <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">Create</walkthrough-spotlight-pointer>
 
-It will take a couple of minutes for the profiling to show up on the console.
+  It will take a couple of minutes for the profiling to show up on the console.
 
-13. Click on the `bootkon-profile-fraud-prediction` profile and then click RUN NOW. 
+13. Click on the `bootkon-profile-fraud-prediction` profile and then click <walkthrough-spotlight-pointer locator="semantic({button 'Run Now'})">RUN NOW</walkthrough-spotlight-pointer>. 
 14. Click on the job's Id and monitor the job execution. 
 15. Notice what the job is doing. The job should succeed in less than 10 minutes.
 16. Explore the data profiling results of the CLASS column name. We have less than 0.1% of fraudulent transactions. Also notice that `predicted_class` of type RECORD were not fully profiled, only the percentage of null and unique values were correctly profiled. Refer to the supported data types here.
