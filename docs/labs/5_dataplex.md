@@ -224,17 +224,17 @@ Creating and using a data quality scan consists of the following steps:
 
 1. Go to the [Data Quality](https://console.cloud.google.com/dataplex/govern/quality) section in the left hand menu of Dataplex.
 
-2. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Create data quality scan'})">CREATE DATA QUALITY SCAN</walkthrough-spotlight-pointer>
+2. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Create Data Quality scan'})"> + CREATE DATA QUALITY SCAN</walkthrough-spotlight-pointer>
 3. Display Name: `bootkon-dquality-fraud-prediction` for example 
-4. Optionally add a description. For example, *data quality scans for fraud detection predictions*
-5. Leave the *Browse within Dataplex Lakes* option turned off 
-6. Click browse to filter on the `data_predictions` BigQuery table (Dataset: `bootkon_raw_zone`). 
-7. Select `data_predictions` bigquery table
-8. Choose *Entire data* as the scope of the data profiling job
-9. Choose *All data* for sampling size
-10. Leave on the option *Publish results to BigQuery and Dataplex Catalog UI*
+4. Optionally add a description. For example, "data quality scans for fraud detection predictions"
+5. Leave the "Browse within Dataplex Lakes" option turned off 
+6. Click <walkthrough-spotlight-pointer locator="semantic({button 'Browse'})">BROWSE</walkthrough-spotlight-pointer> to filter on the `data_predictions` BigQuery table (Dataset: `bootkon_raw_zone`) 
+7. Select `data_predictions` BigQuery table
+8. Choose "Entire data" as the <walkthrough-spotlight-pointer locator="semantic({combobox 'Scope'})">Scope</walkthrough-spotlight-pointer> of the data profiling job
+9. Choose "All data" for <walkthrough-spotlight-pointer locator="semantic({combobox 'Sampling size'})">Sampling size</walkthrough-spotlight-pointer> 
+10. Leave on the option "Publish results to BigQuery and Dataplex Catalog UI"
 11. Choose On-demand as the scan schedule
-12. Click continue
+12. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
 
 Now let's define quality rules. Click on the ADD RULES dropdown and choose "SQL Assertion Rule"
 
