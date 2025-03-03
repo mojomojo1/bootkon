@@ -163,12 +163,15 @@ Let's get started:
 
   It will take a couple of minutes for the profiling to show up on the console.
 
-13. Click on the `bootkon-profile-fraud-prediction` profile and then click <walkthrough-spotlight-pointer locator="semantic({button 'Run now'})">RUN NOW</walkthrough-spotlight-pointer>. 
-14. Click on the job's Id and monitor the job execution. 
-15. Notice what the job is doing. The job should succeed in less than 10 minutes.
-16. Explore the data profiling results of the CLASS column name. We have less than 0.1% of fraudulent transactions. Also notice that `predicted_class` of type RECORD were not fully profiled, only the percentage of null and unique values were correctly profiled. Refer to the supported data types here.
+13. Click on the `bootkon-profile-fraud-prediction` profile and then click <walkthrough-spotlight-pointer locator="semantic({button 'Run now'})">RUN NOW</walkthrough-spotlight-pointer> 
+14. Click on the `Job Id` and monitor the job execution 
+15. Notice what the job is doing. The job should succeed in less than 10 minutes
+16. Explore the data profiling results of the `Class` column name. We have less than 0.1% of fraudulent transactions. Also notice that `predicted_class` of type `RECORD` were not fully profiled, only the percentage of null and unique values were correctly profiled. Refer to the supported data types [here]( https://cloud.google.com/dataplex/docs/data-profiling-overview#data-profile-result)
 
-17. As they train further and continuously the fraud detection ML models, data professionals would like to set up an automatic check on data quality and be notified when there are huge discrepancies between predicted_class and CLASS values. This is where Dataplex data quality could help the team. 
+  ![](../img/lab5/dataprofileresultgraph.png)
+
+
+17. As they train further continuously the fraud detection ML models, data professionals would like to set up an automatic check on data quality and be notified when there are huge discrepancies between predicted_class and `Class` values. This is where Dataplex data quality could help the team. 
 
 ---
 
