@@ -236,9 +236,9 @@ Creating and using a data quality scan consists of the following steps:
 11. Choose On-demand as the scan schedule
 12. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
 
-Now let's define quality rules. Click on the ADD RULES dropdown and choose "SQL Assertion Rule"
+Now let's define quality rules. Click on the <walkthrough-spotlight-pointer locator="semantic({button 'Add Rules'})">ADD RULES</walkthrough-spotlight-pointer> dropdown and choose `SQL Assertion Rule`
 
-14. Choose Accuracy as dimension 
+14. Choose `Accuracy` as dimension 
 15. Rule name: `bootkon-dquality-ml-fraud-prediction`
 16. Description : `Regularly check the ML fraud detection prediction quality results`
 17. Leave the column name empty
@@ -273,7 +273,7 @@ FROM (
 ```
 
 19. Click <walkthrough-spotlight-pointer locator="semantic({button 'Add'})">ADD</walkthrough-spotlight-pointer>
-20. Click Continue
+20. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
 21. Run <walkthrough-spotlight-pointer locator="semantic({button 'SCAN'})">SCAN</walkthrough-spotlight-pointer> (The display name may take a moment to appear on the screen)
 23. Monitor the job execution. Notice the job succeeded but the rule failed because our model accuracy percentage on the whole data predicted does not exceed the 99.99% threshold that we set
 
