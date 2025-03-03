@@ -153,10 +153,10 @@ Let's get started:
 3. Set Display Name to `bootkon-profile-fraud-prediction` for example 
 4. Optionally add a description. For example, "data profile scans for fraud detection predictions"
 5. Leave the “browse within dataplex lakes” option turned off
-6. Click on browse to select the `data_predictions` bigquery table (Dataset: `bootkon_raw_zone`). 
-7. Select `data_predictions` bigquery table
-8. Choose "Entire data" in the dropdown as the scope for the data profiling job
-9. Choose "All data" in the sampling size dropdown
+6. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Browse'})">BROWSE</walkthrough-spotlight-pointer> to select the `data_predictions` bigquery table (Dataset: `bootkon_raw_zone`). 
+7. <walkthrough-spotlight-pointer locator="semantic({button 'Select'})">Select</walkthrough-spotlight-pointer> `data_predictions` bigquery table
+8. Choose "Entire data" in the dropdown as the <walkthrough-spotlight-pointer locator="semantic({combobox 'Scope'})">Scope</walkthrough-spotlight-pointer> for the data profiling job
+9. Choose "All data" in the <walkthrough-spotlight-pointer locator="semantic({combobox 'Sampling size'})">Sampling size</walkthrough-spotlight-pointer> dropdown
 10. Select the checkbox for "Publish results to BigQuery and Dataplex Catalog UI"
 11. Choose On-demand schedule
 12. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>, leave the rest as default and click <walkthrough-spotlight-pointer locator="semantic({button 'Create'})">Create</walkthrough-spotlight-pointer>
