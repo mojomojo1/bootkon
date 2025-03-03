@@ -278,4 +278,13 @@ FROM (
 23. Monitor the job execution. Notice the job succeeded but the rule failed because our model accuracy percentage on the whole data predicted does not exceed the 99.99% threshold that we set
 24. You may need to choose <walkthrough-spotlight-pointer locator="semantic({button 'Run now'})">RUN NOW</walkthrough-spotlight-pointer> in order to see the results of the `bootkon-dquality-fraud-prediction` data quality scan
 
-Congratulations {% if MY_NAME %} {{ MY_NAME }}{% endif %} on completing Lab 5! 🚀 You've successfuly set up data quality checks for your data 🤖✨
+
+Success
+
+🎉 Congratulations {% if MY_NAME %} {{ MY_NAME }}{% endif %}! 🚀
+
+You've successfully completed the Data & AI Boot-Kon Dataplex lab! You've gained a solid understanding of Dataplex, creating lakes and zones, and adding assets from GCS and BigQuery.
+
+You built data profiling and quality checks, exploring assets and setting up monitoring for fraud detection predictions. Even with the accuracy not yet at 99.99%, you've established monitoring for improvement – proactive data governance!
+
+Bring on the next challenge – you've got this! 🚀
