@@ -234,7 +234,7 @@ Creating and using a data quality scan consists of the following steps:
 9. Choose "All data" for <walkthrough-spotlight-pointer locator="semantic({combobox 'Sampling size'})">Sampling size</walkthrough-spotlight-pointer> 
 10. Leave on the option "Publish results to BigQuery and Dataplex Catalog UI"
 11. Choose On-demand as the scan schedule
-12. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
+12. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">CONTINUE</walkthrough-spotlight-pointer>
 
 Now let's define quality rules. Click on the <walkthrough-spotlight-pointer locator="semantic({button 'Add Rules'})">ADD RULES</walkthrough-spotlight-pointer> dropdown and choose `SQL Assertion Rule`
 
@@ -273,8 +273,8 @@ FROM (
 ```
 
 19. Click <walkthrough-spotlight-pointer locator="semantic({button 'Add'})">ADD</walkthrough-spotlight-pointer>
-20. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>
-21. Run <walkthrough-spotlight-pointer locator="semantic({button 'SCAN'})">SCAN</walkthrough-spotlight-pointer> (The display name may take a moment to appear on the screen)
+20. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">CONTINUE</walkthrough-spotlight-pointer>
+21. <walkthrough-spotlight-pointer locator="semantic({button 'Run scan'})">RUN SCAN</walkthrough-spotlight-pointer> (The display name may take a moment to appear on the screen)
 23. Monitor the job execution. Notice the job succeeded but the rule failed because our model accuracy percentage on the whole data predicted does not exceed the 99.99% threshold that we set
 
 Congratulations {% if MY_NAME %} {{ MY_NAME }}{% endif %} on completing Lab 5! 🚀 You've successfuly set up data quality checks for your data 🤖✨
