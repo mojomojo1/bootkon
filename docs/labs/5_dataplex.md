@@ -171,15 +171,15 @@ Let's get started:
   ![](../img/lab5/dataprofileresultgraph.png)
 
 
-17. As they train further continuously the fraud detection ML models, data professionals would like to set up an automatic check on data quality and be notified when there are huge discrepancies between predicted_class and `Class` values. This is where Dataplex data quality could help the team. 
+17. As they train further continuously the fraud detection ML models, data professionals would like to set up an automatic check on data quality and be notified when there are huge discrepancies between `predicted_class` and `Class` values. This is where Dataplex data quality could help the team. 
 
 ---
 
 ### Setup Data Quality Jobs
 
-After setting up the data profiling scan we have seen that we still have no clear visibility on fluctuation between predicted classes vs actual CLASS ratio. Our goal is to have a percentage of matched values between CLASS and predicted classes more than 99.99 %. Any lower percentage would indicate that we would have to further train the ML model or add more features or use another model architecture.
+After setting up the data profiling scan we have seen that we still have no clear visibility on fluctuation between `predicted_classes` vs `actual Class` ratio. Our goal is to have a percentage of matched values between `Class` and `predicted_classes` more than 99.99 %. Any lower percentage would indicate that we would have to further train the ML model or add more features or use another model architecture.
 
-You can use the following SQL query in BigQuery to check the percentage of matched values between CLASS and predicted classes. 
+You can use the following SQL query in [BigQuery](https://console.cloud.google.com/bigquery) to check the percentage of matched values between `Class` and `predicted_classes`. 
 
 ```sql
 WITH RankedPredictions AS (
