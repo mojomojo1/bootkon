@@ -116,7 +116,7 @@ During this lab go to the Search section of the Dataplex and search for the lake
 
 ### Explore Biglake object tables created automatically by Dataplex in BigQuey
 
-As a result of the data discovery (takes up to approximately 5 minutes), notice a new BigQuery dataset created called `bootkon_raw_zone` under the BigQuery console section. New Biglake tables were automatically created by Dataplex discovery jobs. During the next sections of the labs, we will be using the `data_predictions` biglake table. 
+As a result of the data discovery (takes up to approximately 5 minutes), notice a new BigQuery dataset created called `bootkon_raw_zone` under the [BigQuery](https://console.cloud.google.com/bigquery) console section. New Biglake tables were automatically created by Dataplex discovery jobs. During the next sections of the labs, we will be using the `data_predictions` BigLake table. 
 
 ---
 
@@ -127,7 +127,7 @@ Dataplex data profiling lets you identify common statistical characteristics of 
 Information like typical data values, data distribution, and null counts can accelerate analysis. When combined with data classification, data profiling can detect data classes or sensitive information that, in turn, can enable access control policies.
 Dataplex also uses this information to recommend rules for data quality check and lets you better understand the profile of your data by creating a data profiling scan.
 
-These are some of the options we will be dealing with when setting up data profiling:
+These are some of the options we will be dealing with when setting up data profiling.
 
 **Configuration options**: This section describes the configuration options available for running data profiling scans.
 
@@ -149,7 +149,7 @@ Dataplex lets you specify a percentage of records from your data to sample for r
 Let's get started:
 
 1. Go to the <walkthrough-spotlight-pointer locator="semantic({link 'Profile, 1 of 2'})">Profile</walkthrough-spotlight-pointer> section in Dataplex.
-2. Click <walkthrough-spotlight-pointer locator="semantic({button 'Create data profile scan'})">+CREATE DATA PROFILE SCAN</walkthrough-spotlight-pointer>
+2. Click <walkthrough-spotlight-pointer locator="semantic({button 'Create Data Profile scan'})">+ CREATE DATA PROFILE SCAN</walkthrough-spotlight-pointer>
 3. Set Display Name to `bootkon-profile-fraud-prediction` for example 
 4. Optionally add a description. For example, "data profile scans for fraud detection predictions"
 5. Leave the “browse within dataplex lakes” option turned off
