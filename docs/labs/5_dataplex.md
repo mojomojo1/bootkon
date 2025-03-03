@@ -91,16 +91,16 @@ Let's map data stored in Cloud Storage buckets and BigQuery datasets as assets i
 12. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>.
 13. Click <walkthrough-spotlight-pointer locator="semantic({button 'Submit'})">Submit</walkthrough-spotlight-pointer>.
 
-Now let's add another data assets but for the bootkon-curated-zone:
+Now let's add another data asset but for the bootkon-curated-zone:
 
-14. Click on bootkon-curated-zone
+14. Click on `bootkon-curated-zone`
 15. Click on <walkthrough-spotlight-pointer locator="semantic({link 'Add assets'})">+ ADD ASSETS</walkthrough-spotlight-pointer>
 16. Click <walkthrough-spotlight-pointer locator="semantic({button 'add an asset'})">ADD AN ASSET</walkthrough-spotlight-pointer>
-17. Choose *BigQuery data set* from the Type dropdown
+17. Choose *BigQuery dataset* from the Type dropdown
 18. Display name : `bootkon-bq-curated-asset`
 19. Optionally add a description 
-20. Browse the BigQuery Dataset and choose the dataset created in LAB 1. If you followed the instructions, it should be named `{{ PROJECT_ID }}.ml_datasets`.
-21. Select the BigQuery Dataset
+20. Browse the BigQuery dataset and choose the dataset created in lAB 1. If you followed the instructions, it should be named `{{ PROJECT_ID }}.ml_datasets`.
+21. Select the BigQuery dataset
 22. Optionally add a label
 23. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>.
 24. Leave the discovery setting to be inherited by the lake settings we have just created during lake creation steps. Click <walkthrough-spotlight-pointer locator="semantic({button 'Continue'})">Continue</walkthrough-spotlight-pointer>.
