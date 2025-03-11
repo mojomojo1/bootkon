@@ -4,7 +4,7 @@
 <walkthrough-tutorial-difficulty difficulty="1"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 
-In this lab we will set up your environment, download the data set for this bootkon, put it to Cloud storage,
+In this lab we will set up your environment, download the data set for this Bootkon, put it to Cloud Storage,
 and do a few other things.
 
 ### Enable services
@@ -48,7 +48,7 @@ Cloud Shell may ask you to select your project and enable the API. Do not worry 
 
 ### Download data
 
-Next, we download the data set for bootkon and put it into Cloud Storage. Before we do that, we create
+Next, we download the data set for Bootkon and put it into Cloud Storage. Before we do that, we create
 a bucket where we place the data into. Let's name it ``{{ PROJECT_ID }}-bucket``:
 ```bash
 gsutil mb -l $REGION gs://{{ PROJECT_ID }}-bucket

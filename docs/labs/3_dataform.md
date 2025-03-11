@@ -5,7 +5,7 @@
 <bootkon-cloud-shell-note/>
 
 During this lab, you gather user feedback to assess the impact of model adjustments on real-world use (prediction), ensuring that our fraud detection system effectively balances accuracy with user satisfaction. 
-* Use Dataform , BigQuery and Gemini to Perform sentiment analysis of customer feedback.
+* Use Dataform, BigQuery and Gemini to Perform sentiment analysis of customer feedback.
 ### Dataform 
 
 Dataform is a fully managed service that helps data teams build, version control, and orchestrate SQL workflows in BigQuery. It provides an end-to-end experience for data transformation, including:
@@ -96,7 +96,7 @@ Next, let's create several workflow files.
     `first_view.sqlx`
     `second_view.sqlx`
 
-2. Within <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node *definitions more'})">*definitions</walkthrough-spotlight-pointer> create a new directory called `models`:
+2. Within <walkthrough-spotlight-pointer locator="semantic({treeitem 'Toggle node definitions more'})">*definitions</walkthrough-spotlight-pointer> create a new directory called `models`:
 
 ![](../img/lab3/newdirectory.png)
 
@@ -150,7 +150,7 @@ Next, let's create several workflow files.
 
 8. In `llm_model_connection.sql`, replace the `us.llm-connection` connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be `us.fraud-transactions-conn`
 
-Notice the usage of `$ref` in line 11, of **definitions/mview\_ulb\_fraud\_detection.sqlx**. The advantages of using `$ref` in Dataform are
+Notice the usage of `$ref` in line 11, of `definitions/mview\_ulb\_fraud\_detection.sqlx`. The advantages of using `$ref` in Dataform are
 
 * Automatic Reference Management: Ensures correct fully-qualified names for tables and views, avoiding hardcoding and simplifying environment configuration.  
 * Dependency Tracking: Builds a dependency graph, ensuring correct creation order and automatic updates when referenced tables change.  
@@ -182,7 +182,7 @@ Run the dataset creation by **Tag**. Tag allow you to just execute parts of the 
 Notice the execution status. It should be a success.  
  
 7. Lastly, go to Compiled graph and explore it.
-Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> `hackathon-{{ MY_NAME | lower }}-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
+Go to [Dataform](https://console.cloud.google.com/bigquery/dataform)\> <walkthrough-spotlight-pointer locator="text('hackathon-repository')">hackathon-repository</walkthrough-spotlight-pointer>>`hackathon-{{ MY_NAME | lower }}-workspace` \> <walkthrough-spotlight-pointer locator="semantic({tab 'Compiled graph tab'})">COMPILED GRAPH</walkthrough-spotlight-pointer>
 
 ***
 
@@ -197,13 +197,13 @@ For  the sentiment inference step to succeed, you need to grant the external con
 2. Take note of the service account and grant it the `Vertex AI User` role.   
  <img src= "../img/lab3/vertexairole.png" alt="vertexairole" style="border: 1px solid grey;">
      
-3. Back in your Dataform workspace, click <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> Start execution</walkthrough-spotlight-pointer> from the top menu, then <walkthrough-spotlight-pointer locator="semantic({menuitem 'Execute actions'})">Execute Actions</walkthrough-spotlight-pointer>
+3. Back in your [Dataform](https://console.cloud.google.com/bigquery/dataform) workspace, click <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})"> Start execution</walkthrough-spotlight-pointer> from the top menu, then <walkthrough-spotlight-pointer locator="semantic({menuitem 'Execute actions'})">Execute Actions</walkthrough-spotlight-pointer>
  
 4. Click on <walkthrough-spotlight-pointer locator="semantic({radio 'All actions'})">ALL ACTIONS</walkthrough-spotlight-pointer> Tab followed by choosing <walkthrough-spotlight-pointer locator="semantic({button 'Start execution'})">Start execution</walkthrough-spotlight-pointer>  
  
 5. Check the execution status. It should be a success.  
 
-6. Verify the new table `sentiment_inference` in the `ml_datasets` dataset in BigQuery and query the BigQuery table content (At this point you should be familiar with running BigQuery SQL)  
+6. Verify the new table `sentiment_inference` in the `ml_datasets` dataset in [BigQuery](https://console.cloud.google.com/bigquery) and query the BigQuery table content (At this point you should be familiar with running BigQuery SQL)  
    
     ```
     SELECT distinct ml_generate_text_llm_result,
@@ -212,9 +212,9 @@ For  the sentiment inference step to succeed, you need to grant the external con
     FROM `ml_datasets.sentiment_inference` LIMIT 10;
     ```
    
-**\[Max 2 minutes\]** Discuss the table results within your team group.
+    **\[Max 2 minutes\]** Discuss the table results within your team group.
 
-7. Before moving to the challenge section of the Lab, go back to the CODE section of the Dataform workspace. At the top of the “Files” section on the left, click <walkthrough-spotlight-pointer locator="css(button[id$=commit-button])">COMMIT X CHANGES</walkthrough-spotlight-pointer> (X should be about 7), add a commit message like, “Bootkon Lab 3”, then click <walkthrough-spotlight-pointer locator="semantic({button 'Commit all files'})">COMMIT ALL FILES</walkthrough-spotlight-pointer> and then <walkthrough-spotlight-pointer locator="semantic({button 'push to default'})">PUSH TO DEFAULT BRANCH</walkthrough-spotlight-pointer>
+7. Before moving to the challenge section of the lab, go back to the <walkthrough-spotlight-pointer locator="semantic({tab 'Code editor tab'})">Code</walkthrough-spotlight-pointer> section of the Dataform workspace. At the top of the “Files” section on the left, click <walkthrough-spotlight-pointer locator="css(button[id$=commit-button])">Commit X Changes</walkthrough-spotlight-pointer> (X should be about 7), add a commit message like, “Bootkon lab 3”, then click <walkthrough-spotlight-pointer locator="semantic({button 'Commit all files'})">Commit all files</walkthrough-spotlight-pointer> and then <walkthrough-spotlight-pointer locator="semantic({button 'push to default'})">Push to default branch</walkthrough-spotlight-pointer>
 
     You should now have the message: *Workspace is up to date*
  

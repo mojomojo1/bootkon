@@ -39,10 +39,17 @@ Let's do the same for the serving image:
 
 Now, have a look at <walkthrough-editor-open-file filePath="src/ml/pipeline.py">`pipeline.py`</walkthrough-editor-open-file>. This script uses the Kubeflow domain specific language (dsl) to orchestrate the following machine learning workflow:
 
+<<<<<<< HEAD
 1. `CustomTrainingJobOp` trains the model.
 2. `ModelUploadOp` uploads the trained model to the Vertex AI model registry.
 3. `EndpointCreateOp` creates a prediction endpoint for inference.
 4. `ModelDeployOp` deploys the model from step 2 to the endpoint from step 3.
+=======
+1. Open [Vertex AI Console](https://console.cloud.google.com/vertex-ai/workbench)
+2. Click on <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-notebook'})">bootkon-notebook</walkthrough-spotlight-pointer>
+2. Wait for the instance to become `Active`
+3. and as soon as the instance is ready, click on <walkthrough-spotlight-pointer locator="semantic({button 'Open JupyterLab'})">Open JupyterLab</walkthrough-spotlight-pointer>
+>>>>>>> main
 
 Let's execute it:
 
@@ -67,7 +74,7 @@ Next, have a look at the model registry.
 2. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-model'})">bootkon-model</walkthrough-spotlight-pointer>
 3. Click <walkthrough-spotlight-pointer locator="semantic({tab 'Version details'})">VERSION DETAILS</walkthrough-spotlight-pointer>
 
-Here you can can see that a model in the Vertex AI Model Registry is made up from a ***Container image*** als well as a **Model artifact location**. When you deploy a model, Vertex AI simply starts the container and points it to the artifact location.
+Here you can can see that a model in the Vertex AI Model Registry is made up from a **Container image** as well as a **Model artifact location**. When you deploy a model, Vertex AI simply starts the container and points it to the artifact location.
 
 The model has already been deployed to an endpoint. Let's have a look at them:
 
@@ -76,7 +83,7 @@ The model has already been deployed to an endpoint. Let's have a look at them:
 
 You can see that the endpoint has one model deployed currently, and all the traffic is routed to it (traffic split is 100%). When scrolling down, you get live graphs as soon as predictions are coming in.
 
-You can also train and deploy models on Vertex in the UI only. Let's have a more detailed look. Click <walkthrough-spotlight-pointer locator="semantic({button 'Edit settings'})">EDIT SETTINGS</walkthrough-spotlight-pointer>. Here you can find many options for model monitoring -- why don't you try to enable prediction drift detection?
+You can also train and deploy models on Vertex in the UI only. Let's have a more detailed look. Click <walkthrough-spotlight-pointer locator="semantic({button 'Edit settings'})">Edit Settings</walkthrough-spotlight-pointer>. Here you can find many options for model monitoring -- why don't you try to enable prediction drift detection?
 
 Let's have a look at the Pipeline as well.
 
@@ -88,6 +95,8 @@ You can now see the individual steps in the pipeline. Please click through the i
 Click on *Expand Artifacts*. Now, you can see expanded yellow boxes. These are Vertex AI artifacts that are created as a result of the previous step.
 
 Feel free to explore the UI in more detail on your own!
+
+### Success
 
 Congratulations, intrepid ML explorer{% if MY_NAME %} {{ MY_NAME }}{% endif %}! 🚀 You've successfully wrangled data, trained models, and unleashed the power of Vertex AI. If your model underperforms, remember: it's not a bug—it's just an underfitting feature! Keep iterating, keep optimizing, and may your loss functions always converge. Happy coding! 🤖✨
 
