@@ -39,17 +39,10 @@ Let's do the same for the serving image:
 
 Now, have a look at <walkthrough-editor-open-file filePath="src/ml/pipeline.py">`pipeline.py`</walkthrough-editor-open-file>. This script uses the Kubeflow domain specific language (dsl) to orchestrate the following machine learning workflow:
 
-<<<<<<< HEAD
 1. `CustomTrainingJobOp` trains the model.
 2. `ModelUploadOp` uploads the trained model to the Vertex AI model registry.
 3. `EndpointCreateOp` creates a prediction endpoint for inference.
 4. `ModelDeployOp` deploys the model from step 2 to the endpoint from step 3.
-=======
-1. Open [Vertex AI Console](https://console.cloud.google.com/vertex-ai/workbench)
-2. Click on <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-notebook'})">bootkon-notebook</walkthrough-spotlight-pointer>
-2. Wait for the instance to become `Active`
-3. and as soon as the instance is ready, click on <walkthrough-spotlight-pointer locator="semantic({button 'Open JupyterLab'})">Open JupyterLab</walkthrough-spotlight-pointer>
->>>>>>> main
 
 Let's execute it:
 
