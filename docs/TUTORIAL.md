@@ -29,9 +29,11 @@ Execute by pressing the return key in the terminal that has been opened in the l
 ### Setting environment variables
 You can open files directly from this tutorial.
 Open `vars.sh` <walkthrough-editor-open-file filePath="vars.sh">by clicking here</walkthrough-editor-open-file>
-and set `GCP_USERNAME`, `PROJECT_ID` according to the piece of paper you received. Also let us know your (first?) name in `MY_NAME`. Don't forget to save it.
+and set `GCP_USERNAME`, `PROJECT_ID` according to the information you received. Also let us know your (first?) name in `MY_NAME`. Don't forget to save it.
 
-Please reload bootkon:
+❗ Please do not include any whitespaces when setting these variablers.
+
+Please reload bootkon and make sure there are no errors printed:
 
 ```bash
 . bk
