@@ -1,6 +1,8 @@
 #!/bin/bash
 # author: Fabian Hirschmann
 
+pip install -r requirements.txt
+
 [[ "$BK_INITIALIZED" != "1" ]] && echo "Bootkon has not been initialized. Please follow the tutorial and run '. bk'" && exit 1
 
 declare -a user_roles=(
