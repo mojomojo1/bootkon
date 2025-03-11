@@ -157,12 +157,6 @@ Examine it in the console:
 2. Click <walkthrough-spotlight-pointer locator="text('fraud-detection-subscription')">fraud-detection-subscription</walkthrough-spotlight-pointer>. Here you can see messages as they arrive.
 3. Click <walkthrough-spotlight-pointer locator="text('projects/{{ PROJECT_ID }}/topics/fraud-detection-topic')">fraud-detection-topic</walkthrough-spotlight-pointer>. This is the topic you will be publishing messages to.
 
-
-Since we'll be using Python, let's install the Python <walkthrough-editor-open-file filePath="requirements.txt">packages</walkthrough-editor-open-file> we want to make use of:
-```bash
-pip install avro fastavro google-cloud-pubsub
-```
-
 Please have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/import_csv_to_bigquery_1.py">`import_csv_to_bigquery_1.py`</walkthrough-editor-open-file>. This script loads CSV files from Cloud Storage, parses it in Python, and sends it to Pub/Sub - row by row.
 
 Let's execute it.
