@@ -226,6 +226,8 @@ After the Dataproc job completes, confirm that data has been loaded into the Big
 bq --location=us query --nouse_legacy_sql "SELECT count(*) as count FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_dataproc;"
 ```
 
+❗ Please do not skip the above validation step. Data in the above table is needed for the following labs.
+
 ***
 
 ### Success
