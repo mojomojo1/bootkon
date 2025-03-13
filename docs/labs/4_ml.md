@@ -37,6 +37,8 @@ Let's do the same for the serving image:
 (cd src/ml/predict && gcloud builds submit --region={{ REGION }} --tag={{ PREDICT_IMAGE_URI }} --quiet)
 ```
 
+### Vertex AI Pipelines
+
 Now, have a look at <walkthrough-editor-open-file filePath="src/ml/pipeline.py">`pipeline.py`</walkthrough-editor-open-file>. This script uses the Kubeflow domain specific language (dsl) to orchestrate the following machine learning workflow:
 
 1. `CustomTrainingJobOp` trains the model.
@@ -52,16 +54,20 @@ python src/ml/pipeline.py
 
 The pipeline run will take around 10 minutes to complete. While waiting, please read the introduction to [Vertex AI Pipelines](https://cloud.google.com/vertex-ai/docs/pipelines/introduction).
 
-Let's inspect it in the Cloud Console once it has completed:
+### Custom Training Job
+
+The pipeline creates a custom training job -- let's inspect it in the Cloud Console once it has completed:
 
 1. Open [Vertex AI Console](https://console.cloud.google.com/vertex-ai)
 2. Click <walkthrough-spotlight-pointer locator="css(a[id$=cfctest-section-nav-item-ai-platform-training])">Training</walkthrough-spotlight-pointer> in the navigation menu
 3. Click <walkthrough-spotlight-pointer locator="semantic({tab 'Custom jobs'})">Custom jobs</walkthrough-spotlight-pointer>
 4. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-training-job'})">bootkon-training-job</walkthrough-spotlight-pointer>
 
-Here you can see the training jobs you started through Vertex AI Pipelines. Note the container image it uses and the arguments that are passed to the container (dataset in BigQuery and project id).
+Note the container image it uses and the arguments that are passed to the container (dataset in BigQuery and project id).
 
-Next, have a look at the model registry.
+### Model Registry
+
+Once the training job has finished, the resulting model is uploaded to the model registry. Let's have a look:
 
 1. Click <walkthrough-spotlight-pointer locator="css(a[id$=cfctest-section-nav-item-ai-platform-models])">Model Registry</walkthrough-spotlight-pointer> in the nevigation menu
 2. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-model'})">bootkon-model</walkthrough-spotlight-pointer>
@@ -69,14 +75,18 @@ Next, have a look at the model registry.
 
 Here you can can see that a model in the Vertex AI Model Registry is made up from a **Container image** as well as a **Model artifact location**. When you deploy a model, Vertex AI simply starts the container and points it to the artifact location.
 
-The model has already been deployed to an endpoint. Let's have a look at them:
+### Endpoint for Predictions
+
+The endpoint is created in a parallel branch in the pipeline you just ran. You can deploy models to an endpoint through the model registry.
 
 1. Click <walkthrough-spotlight-pointer locator="css(a[id$=cfctest-section-nav-item-ai-platform-online-prediction])">Online Prediction</walkthrough-spotlight-pointer> in the navigation menu
-2. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-endpoint-custom'})">bootkon-endpoint-custom</walkthrough-spotlight-pointer>
+2. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-endpoint'})">bootkon-endpoint</walkthrough-spotlight-pointer>
 
 You can see that the endpoint has one model deployed currently, and all the traffic is routed to it (traffic split is 100%). When scrolling down, you get live graphs as soon as predictions are coming in.
 
 You can also train and deploy models on Vertex in the UI only. Let's have a more detailed look. Click <walkthrough-spotlight-pointer locator="semantic({button 'Edit settings'})">Edit Settings</walkthrough-spotlight-pointer>. Here you can find many options for model monitoring -- why don't you try to enable prediction drift detection?
+
+### Vertex AI Pipelines
 
 Let's have a look at the Pipeline as well.
 
@@ -89,24 +99,22 @@ Click on *Expand Artifacts*. Now, you can see expanded yellow boxes. These are V
 
 Feel free to explore the UI in more detail on your own!
 
+### Making predictions
+
+Now that the endpoint has been deployed, we can send transactions to it to assess whether they are fraudulent or not.
+We can use `curl` to send transactions to the endpoint. 
+
+Have a look at <walkthrough-editor-open-file filePath="src/ml/predict.sh">`predict.sh`</walkthrough-editor-open-file>. In line 9 it uses `curl` to call the endpoint using a data file named  <walkthrough-editor-open-file filePath="src/ml/instances.json">`instances.json`</walkthrough-editor-open-file> containing 3 transactions.
+
+Let's execute it:
+
+```bash
+./src/ml/predict.sh
+```
+
+The result should be a JSON object with a `prediction` key, containing the predictions for each of the 3 transactions. `1` means fraud and `0` means non-fraud.
+
 ### Success
 
 Congratulations, intrepid ML explorer{% if MY_NAME %} {{ MY_NAME }}{% endif %}! 🚀 You've successfully wrangled data, trained models, and unleashed the power of Vertex AI. If your model underperforms, remember: it's not a bug—it's just an underfitting feature! Keep iterating, keep optimizing, and may your loss functions always converge. Happy coding! 🤖✨
 
-{% if MDBOOK_VIEW %}
-
----
-
-<div class="mdbook-alerts mdbook-alerts-caution">
-<p class="mdbook-alerts-title">
-  <span class="mdbook-alerts-icon"></span>
-  caution
-</p>
-<p>
-Below you can find the content of <code>notebooks/bootkon_vertex.ipynb</code>. Feel free to skim over it, but please open it from your JupyterLab instance you created above.
-</p>
-</div>
-
-{{ jupyter('notebooks/bootkon_vertex.ipynb') }}
-
-{% endif %}
