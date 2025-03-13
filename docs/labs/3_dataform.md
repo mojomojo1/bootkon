@@ -148,7 +148,7 @@ Next, let's create several workflow files.
 
 <img src= "../img/lab3/ulb_fraud_detection_config.png" alt="ulb_fraud_detection_config" style="border: 1px solid grey;">
 
-8. In `llm_model_connection.sql`, replace the `us.llm-connection` connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be `us.fraud-transactions-conn`
+8. In `llm_model_connection.sqlx`, replace the `us.llm-connection` connection with the connection name you have created in LAB 2 during the BigLake section.  If you have followed the steps in LAB 2, the connected name should be `us.fraud-transactions-conn`
 
 Notice the usage of `$ref` in line 11, of `definitions/mview\_ulb\_fraud\_detection.sqlx`. The advantages of using `$ref` in Dataform are
 
