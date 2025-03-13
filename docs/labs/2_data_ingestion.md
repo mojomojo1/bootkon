@@ -22,7 +22,6 @@ BigLake tables allow querying structured data in external data stores with acces
 
 Because the service account handles retrieving data from the data store, you only have to grant users access to the BigLake table. This lets you enforce fine-grained security at the table level, including row-level and column-level security.
 
-
 First, we create the connection resource in BigQuery:
 ```bash
 bq mk --connection --location=us --project_id={{ PROJECT_ID }} \
@@ -44,8 +43,8 @@ echo $CONN_SERVICE_ACCOUNT
 Let's double check the service account.
 
 1. Go to the [BigQuery Console](https://console.cloud.google.com/bigquery).
-2. Expand ``{{ PROJECT_ID }}`` in the Explorer on the left.
-3. Expand ``External connections``.
+2. Expand <walkthrough-spotlight-pointer locator="semantic({treeitem '{{ PROJECT_ID }}'} {button 'Toggle node'})">{{ PROJECT_ID }}</walkthrough-spotlight-pointer>
+3. Expand <walkthrough-spotlight-pointer locator="semantic({treeitem 'External connections'} {button 'Toggle node'})">External connections</walkthrough-spotlight-pointer>
 4. Click ``us.fraud-transactions-conn``.
 
 Is the service account equivalent to the one you got from the command line?
@@ -58,12 +57,37 @@ gcloud storage buckets add-iam-policy-binding gs://{{ PROJECT_ID }}-bucket \
 --member=serviceAccount:$CONN_SERVICE_ACCOUNT
 ```
 
-Next, we create a dataset that our external table will live in:
+Let's create a data set that contains the table and the external connection to Cloud Storage.
+
+1. Go to the [BigQuery Console](https://console.cloud.google.com/bigquery)
+2. Click the three <walkthrough-spotlight-pointer locator="semantic({treeitem '{{ PROJECT_ID }}'} {button})">vertical dots ⋮</walkthrough-spotlight-pointer> next to `{{ PROJECT_ID }}` in the navigation menu
+3. Click <walkthrough-spotlight-pointer locator="semantic({menuitem 'Create dataset'})">Create dataset</walkthrough-spotlight-pointer>
+4. Enter `ml_datasets` (plural) in the ID field. Region should be multi-region US.
+5. Click <walkthrough-spotlight-pointer locator="semantic({button 'Create dataset'})">Create dataset</walkthrough-spotlight-pointer>
+
+Alternatively, you can create the data set on the command line:
 ```bash
 bq --location=us mk -d ml_datasets
 ```
 
-Finally, create a table in BigQuery pointing to the data in Cloud Storage:
+Next, we connect the data in Cloud Storage to BigQuery:
+1. Click <walkthrough-spotlight-pointer locator="spotlight(bigquery-add-data)">+ Add data</walkthrough-spotlight-pointer>
+2. Click <walkthrough-spotlight-pointer locator="semantic({button 'Google Cloud Storage'})">Google Cloud Storage</walkthrough-spotlight-pointer>
+3. Select `GCS: (Manual)`
+4. Enter the following details:
+- Create table from: `Google Cloud Storage`
+- Select file: `{{ PROJECT_ID }}-bucket/data/parquet/ulb_fraud_detection/*`
+- File format: `Parquet`
+- Project: `{{ PROJECT_ID }}`
+- Dataset: `ml_datasets`
+- Table: `ulb_fraud_detection_biglake`
+- Table type: `External table`
+- Check *Create a BigLake table using a Cloud Resource connection*
+- Connection ID: Select `us.fraud-transactions-conn`
+- Schema: `Auto detect`
+5. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Create table'})">Create table</walkthrough-spotlight-pointer>
+
+Alternatively, you can also use the command line to create the table:
 
 ```bash
 bq mk --table \
@@ -73,7 +97,7 @@ bq mk --table \
 
 Let's have a look at the data set:
 1. Go to the [BigQuery Console](https://console.cloud.google.com/bigquery)
-2. Expand <walkthrough-spotlight-pointer locator="semantic({treeitem '{{ PROJECT_ID }}'} {button 'Toggle node'})">{{ PROJECT_ID }}</walkthrough-spotlight-pointer>
+2. 
 3. Expand <walkthrough-spotlight-pointer locator="semantic({treeitem 'ml_datasets'} {button 'Toggle node'})">ml_datasets</walkthrough-spotlight-pointer>
 4. Click <walkthrough-spotlight-pointer locator="semantic({treeitem 'ulb_fraud_detection_biglake'})">``ulb_fraud_detection_biglake``</walkthrough-spotlight-pointer>
 5. Click <walkthrough-spotlight-pointer locator="text('DETAILS')">DETAILS</walkthrough-spotlight-pointer> 
@@ -157,12 +181,6 @@ Examine it in the console:
 2. Click <walkthrough-spotlight-pointer locator="text('fraud-detection-subscription')">fraud-detection-subscription</walkthrough-spotlight-pointer>. Here you can see messages as they arrive.
 3. Click <walkthrough-spotlight-pointer locator="text('projects/{{ PROJECT_ID }}/topics/fraud-detection-topic')">fraud-detection-topic</walkthrough-spotlight-pointer>. This is the topic you will be publishing messages to.
 
-
-Since we'll be using Python, let's install the Python packages we want to make use of:
-```bash
-pip install avro fastavro google-cloud-pubsub
-```
-
 Please have a look at <walkthrough-editor-open-file filePath="src/data_ingestion/import_csv_to_bigquery_1.py">`import_csv_to_bigquery_1.py`</walkthrough-editor-open-file>. This script loads CSV files from Cloud Storage, parses it in Python, and sends it to Pub/Sub - row by row.
 
 Let's execute it.
@@ -225,6 +243,8 @@ After the Dataproc job completes, confirm that data has been loaded into the Big
 ```bash
 bq --location=us query --nouse_legacy_sql "SELECT count(*) as count FROM {{ PROJECT_ID }}.ml_datasets.ulb_fraud_detection_dataproc;"
 ```
+
+❗ Please do not skip the above validation step. Data in the above table is needed for the following labs.
 
 ***
 

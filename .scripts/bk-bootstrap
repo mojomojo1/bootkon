@@ -1,6 +1,8 @@
 #!/bin/bash
 # author: Fabian Hirschmann
 
+pip install -r requirements.txt
+
 [[ "$BK_INITIALIZED" != "1" ]] && echo "Bootkon has not been initialized. Please follow the tutorial and run '. bk'" && exit 1
 
 declare -a user_roles=(
@@ -13,6 +15,7 @@ declare -a user_roles=(
     "roles/datalineage.admin" # Admin on data lineage operations
     "roles/compute.admin" # Admin on Compute Engine
     "roles/storage.admin" # Admin on Cloud Storage
+    "roles/storage.objectViewer" # Can view Cloud Storage objects
     "roles/storage.objectAdmin" # Admin on Cloud Storage objects
     "roles/iam.serviceAccountUser" # Can use service accounts
     "roles/pubsub.admin" # Admin on Pub/Sub
@@ -36,6 +39,7 @@ declare -a service_account_roles=(
     "roles/bigquery.jobUser" # Can run BigQuery jobs
     "roles/storage.objectAdmin" # Admin on Cloud Storage objects
     "roles/storage.admin" # Admin on Cloud Storage
+    "roles/storage.objectViewer" # Can view Cloud Storage objects
     "roles/iam.serviceAccountUser" # Can use service accounts
     "roles/pubsub.admin" # Admin on Pub/Sub
     "roles/serviceusage.serviceUsageConsumer" # Can use services

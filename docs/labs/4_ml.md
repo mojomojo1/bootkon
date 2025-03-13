@@ -3,80 +3,90 @@
 <walkthrough-tutorial-duration duration="60"></walkthrough-tutorial-duration>
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
+{% set TRAIN_IMAGE_URI = "{}-docker.pkg.dev/{}/bootkon/bootkon-train:latest".format(REGION, PROJECT_ID) %}
+{% set PREDICT_IMAGE_URI = "{}-docker.pkg.dev/{}/bootkon/bootkon-predict:latest".format(REGION, PROJECT_ID) %}
+{% set BQ_SOURCE = "{}.ml_datasets.ulb_fraud_detection_dataproc".format(PROJECT_ID) %}
 
-In this lab, you will create a Vertex AI Workbench Instance and perform machine learning on the data set you previously ingested.
+In this lab, we will build a machine learning model to assess, in real-time, whether incoming transactions are fraudulent or legitimate. Using Vertex AI Pipelines (based on Kubeflow), we will streamline the end-to-end ML workflow, from data preprocessing to model deployment, ensuring scalability and efficiency in fraud detection.
 
-### Vertex AI Workbench
-
-Vertex AI Workbench is a Jupyter notebook-based development environment for the entire data science workflow. You can interact with Vertex AI and other Google Cloud services from within a Vertex AI Workbench instance's Jupyter notebook.
-
-Vertex AI Workbench integrations and features can make it easier to access your data, process data faster, schedule notebook runs, and more.
-
-For example, Vertex AI Workbench lets you:
-
-- Access and explore your data from within a Jupyter notebook by using BigQuery and Cloud Storage integrations.
-- Automate recurring updates to your model by using scheduled executions of your notebook's code that run on Vertex AI.
-- Process data quickly by running a notebook on a Dataproc cluster.
-- Run a notebook as a step in a pipeline by using Vertex AI Pipelines.
-
-Workbench runs in a virtual machine separate from this Cloud Shell instance. Hence, let's copy the Notebook you'll go through to Cloud Storage first:
+In Vertex AI, custom containers allow you to define and package your own execution environment for machine learning workflows. To store custom container images, create a repository in artifact registry:
 
 ```bash
-gsutil cp notebooks/* gs://${PROJECT_ID}-bucket/notebooks/
+gcloud artifacts repositories create bootkon --repository-format=docker --location={{ REGION }}
 ```
 
-We can provide a script to Workbench that runs as soon as it starts up. Let's write a script that automatically downloads the Notebook from Cloud Storage. For this, edit <walkthrough-editor-open-file filePath="src/ml/workbench_init.sh">`workbench_init.sh`</walkthrough-editor-open-file> and set `PROJECT_ID` to `{{ PROJECT_ID }}` and copy it to Cloud Storage as well:
+Let us create two container images, one for training and one for serving predictions.
+
+The training container is comprised of the following files. Please have a look at them:
+- <walkthrough-editor-open-file filePath="src/ml/train/Dockerfile">`train/Dockerfile`</walkthrough-editor-open-file>: Executes the training script.
+- <walkthrough-editor-open-file filePath="src/ml/train/train.py">`train/train.py`</walkthrough-editor-open-file>: Downloads the data set from BigQuery, trains a machine learning model, and uploads the model to Cloud Storage.
+
+The serving container image is comprised of the following files:
+- <walkthrough-editor-open-file filePath="src/ml/predict/Dockerfile">`predict/Dockerfile`</walkthrough-editor-open-file>: Executes the serving script to answer requests.
+- <walkthrough-editor-open-file filePath="src/ml/predict/predict.py">`predict/predict.py`</walkthrough-editor-open-file>: Downloads the model from Cloud Storage, loads it, and answers predictions on port `8080`.
+
+We can create the container images using Cloud Build, which allows you to build a Docker image using just a Dockerfile. The next command builds the image in Cloud Build and pushes it to Artifact Registry:
 
 ```bash
-gsutil -m cp src/ml/workbench_init.sh gs://${PROJECT_ID}-bucket/
+(cd src/ml/train && gcloud builds submit --region={{ REGION }} --tag={{ TRAIN_IMAGE_URI }} --quiet)
 ```
 
-You can [create](https://cloud.google.com/vertex-ai/docs/workbench/instances/create#gcloud) a Workbench instance using the following command:
+Let's do the same for the serving image:
 
 ```bash
-gcloud workbench instances create bootkon-notebook \
-    --project=$PROJECT_ID \
-    --location=${REGION}-a \
-    --vm-image-project=cloud-notebooks-managed \
-    --machine-type=e2-standard-4 \
-    --vm-image-name workbench-instances-v20241118 \
-    --metadata=post-startup-script=gs://${PROJECT_ID}-bucket/workbench_init.sh,idle-timeout-seconds=43200
+(cd src/ml/predict && gcloud builds submit --region={{ REGION }} --tag={{ PREDICT_IMAGE_URI }} --quiet)
 ```
 
-Once the command has finished, please
+### Vertex AI Pipelines
 
-1. Open [Vertex AI Console](https://console.cloud.google.com/vertex-ai/workbench)
-2. Click on <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-notebook'})">bootkon-notebook</walkthrough-spotlight-pointer>
-2. Wait for the instance to become `Active`
-3. and as soon as the instance is ready, click on <walkthrough-spotlight-pointer locator="semantic({button 'Open JupyterLab'})">Open JupyterLab</walkthrough-spotlight-pointer>
+Now, have a look at <walkthrough-editor-open-file filePath="src/ml/pipeline.py">`pipeline.py`</walkthrough-editor-open-file>. This script uses the Kubeflow domain specific language (dsl) to orchestrate the following machine learning workflow:
 
-Now, please open `bootkon_vertex.ipynb` and continue your journey.
+1. `CustomTrainingJobOp` trains the model.
+2. `ModelUploadOp` uploads the trained model to the Vertex AI model registry.
+3. `EndpointCreateOp` creates a prediction endpoint for inference.
+4. `ModelDeployOp` deploys the model from step 2 to the endpoint from step 3.
 
-❗ Once you have gone through the Jupyter notebook, please come back here.
+Let's execute it:
 
-### Results in the Cloud Console
+```bash
+python src/ml/pipeline.py
+```
 
-You've gone through the notebook -- great! Let's inspect the resources we created in Vertex AI.
+The pipeline run will take around 20 minutes to complete. While waiting, please read the introduction to [Vertex AI Pipelines](https://cloud.google.com/vertex-ai/docs/pipelines/introduction).
 
-1. Open [Vertex AI Console](https://console.cloud.google.com/vertex-ai?cloudshell=true&inv=1&invt=Abovkw)
+### Custom Training Job
+
+The pipeline creates a custom training job -- let's inspect it in the Cloud Console once it has completed:
+
+1. Open [Vertex AI Console](https://console.cloud.google.com/vertex-ai)
 2. Click <walkthrough-spotlight-pointer locator="css(a[id$=cfctest-section-nav-item-ai-platform-training])">Training</walkthrough-spotlight-pointer> in the navigation menu
+3. Click <walkthrough-spotlight-pointer locator="semantic({tab 'Custom jobs'})">Custom jobs</walkthrough-spotlight-pointer>
+4. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-training-job'})">bootkon-training-job</walkthrough-spotlight-pointer>
 
-Here you can see the training jobs you started both through the Python SDK as well as through Vertex AI Pipelines. Next, have a look at the model registry.
+Note the container image it uses and the arguments that are passed to the container (dataset in BigQuery and project id).
+
+### Model Registry
+
+Once the training job has finished, the resulting model is uploaded to the model registry. Let's have a look:
 
 1. Click <walkthrough-spotlight-pointer locator="css(a[id$=cfctest-section-nav-item-ai-platform-models])">Model Registry</walkthrough-spotlight-pointer> in the nevigation menu
-2. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-custom-model'})">bootkon-custom-model</walkthrough-spotlight-pointer>
-3. Click <walkthrough-spotlight-pointer locator="semantic({tab 'Version details'})">Version Details</walkthrough-spotlight-pointer>
+2. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-model'})">bootkon-model</walkthrough-spotlight-pointer>
+3. Click <walkthrough-spotlight-pointer locator="semantic({tab 'Version details'})">VERSION DETAILS</walkthrough-spotlight-pointer>
 
 Here you can can see that a model in the Vertex AI Model Registry is made up from a **Container image** as well as a **Model artifact location**. When you deploy a model, Vertex AI simply starts the container and points it to the artifact location.
 
-The model has already been deployed to an endpoint. Let's have a look at them:
+### Endpoint for Predictions
+
+The endpoint is created in a parallel branch in the pipeline you just ran. You can deploy models to an endpoint through the model registry.
 
 1. Click <walkthrough-spotlight-pointer locator="css(a[id$=cfctest-section-nav-item-ai-platform-online-prediction])">Online Prediction</walkthrough-spotlight-pointer> in the navigation menu
-2. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-endpoint-custom'})">bootkon-endpoint-custom</walkthrough-spotlight-pointer>
+2. Click <walkthrough-spotlight-pointer locator="semantic({link 'bootkon-endpoint'})">bootkon-endpoint</walkthrough-spotlight-pointer>
 
 You can see that the endpoint has one model deployed currently, and all the traffic is routed to it (traffic split is 100%). When scrolling down, you get live graphs as soon as predictions are coming in.
 
 You can also train and deploy models on Vertex in the UI only. Let's have a more detailed look. Click <walkthrough-spotlight-pointer locator="semantic({button 'Edit settings'})">Edit Settings</walkthrough-spotlight-pointer>. Here you can find many options for model monitoring -- why don't you try to enable prediction drift detection?
+
+### Vertex AI Pipelines
 
 Let's have a look at the Pipeline as well.
 
@@ -89,24 +99,22 @@ Click on *Expand Artifacts*. Now, you can see expanded yellow boxes. These are V
 
 Feel free to explore the UI in more detail on your own!
 
+### Making predictions
+
+Now that the endpoint has been deployed, we can send transactions to it to assess whether they are fraudulent or not.
+We can use `curl` to send transactions to the endpoint. 
+
+Have a look at <walkthrough-editor-open-file filePath="src/ml/predict.sh">`predict.sh`</walkthrough-editor-open-file>. In line 9 it uses `curl` to call the endpoint using a data file named  <walkthrough-editor-open-file filePath="src/ml/instances.json">`instances.json`</walkthrough-editor-open-file> containing 3 transactions.
+
+Let's execute it:
+
+```bash
+./src/ml/predict.sh
+```
+
+The result should be a JSON object with a `prediction` key, containing the predictions for each of the 3 transactions. `1` means fraud and `0` means non-fraud.
+
 ### Success
 
 Congratulations, intrepid ML explorer{% if MY_NAME %} {{ MY_NAME }}{% endif %}! 🚀 You've successfully wrangled data, trained models, and unleashed the power of Vertex AI. If your model underperforms, remember: it's not a bug—it's just an underfitting feature! Keep iterating, keep optimizing, and may your loss functions always converge. Happy coding! 🤖✨
 
-{% if MDBOOK_VIEW %}
-
----
-
-<div class="mdbook-alerts mdbook-alerts-caution">
-<p class="mdbook-alerts-title">
-  <span class="mdbook-alerts-icon"></span>
-  caution
-</p>
-<p>
-Below you can find the content of <code>notebooks/bootkon_vertex.ipynb</code>. Feel free to skim over it, but please open it from your JupyterLab instance you created above.
-</p>
-</div>
-
-{{ jupyter('notebooks/bootkon_vertex.ipynb') }}
-
-{% endif %}
