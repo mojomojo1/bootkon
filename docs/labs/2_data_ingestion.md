@@ -22,7 +22,6 @@ BigLake tables allow querying structured data in external data stores with acces
 
 Because the service account handles retrieving data from the data store, you only have to grant users access to the BigLake table. This lets you enforce fine-grained security at the table level, including row-level and column-level security.
 
-
 First, we create the connection resource in BigQuery:
 ```bash
 bq mk --connection --location=us --project_id={{ PROJECT_ID }} \
@@ -58,12 +57,37 @@ gcloud storage buckets add-iam-policy-binding gs://{{ PROJECT_ID }}-bucket \
 --member=serviceAccount:$CONN_SERVICE_ACCOUNT
 ```
 
-Next, we create a dataset that our external table will live in:
+Let's create a data set that contains the table and the external connection to Cloud Storage.
+
+1. Go to the [BigQuery Console](https://console.cloud.google.com/bigquery)
+2. Click the three <walkthrough-spotlight-pointer locator="semantic({treeitem '{{ PROJECT_ID }}'} {button})">vertical dots ⋮</walkthrough-spotlight-pointer> next to `{{ PROJECT_ID }}` in the navigation menu
+3. Click <walkthrough-spotlight-pointer locator="semantic({menuitem 'Create dataset'})">Create dataset</walkthrough-spotlight-pointer>
+4. Enter `ml_datasets` (plural) in the ID field. Region should be multi-region US.
+5. Click <walkthrough-spotlight-pointer locator="semantic({button 'Create dataset'})">Create dataset</walkthrough-spotlight-pointer>
+
+Alternatively, you can create the data set on the command line:
 ```bash
 bq --location=us mk -d ml_datasets
 ```
 
-Finally, create a table in BigQuery pointing to the data in Cloud Storage:
+Next, we connect the data in Cloud Storage to BigQuery:
+1. Click <walkthrough-spotlight-pointer locator="spotlight(bigquery-add-data)">+ Add data</walkthrough-spotlight-pointer>
+2. Click <walkthrough-spotlight-pointer locator="semantic({button 'Google Cloud Storage'})">Google Cloud Storage</walkthrough-spotlight-pointer>
+3. Select `GCS: (Manual)`
+4. Enter the following details:
+- Create table from: `Google Cloud Storage`
+- Select file: `{{ PROJECT_ID }}-bucket/data/parquet/ulb_fraud_detection/*`
+- File format: `Parquet`
+- Project: `{{ PROJECT_ID }}`
+- Dataset: `ml_datasets`
+- Table: `ulb_fraud_detection_biglake`
+- Table type: `External table`
+- Check *Create a BigLake table using a Cloud Resource connection*
+- Connection ID: Select `us.fraud-transactions-conn`
+- Schema: `Auto detect`
+5. Click on <walkthrough-spotlight-pointer locator="semantic({button 'Create table'})">Create table</walkthrough-spotlight-pointer>
+
+Alternatively, you can also use the command line to create the table:
 
 ```bash
 bq mk --table \
