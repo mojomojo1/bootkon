@@ -18,7 +18,7 @@ For all methods, we are ingesting data from the bucket you have created in the p
 
 ### Method 1: External table using BigLake
 
-BigLake tables allow querying structured data in external data stores with access delegation. For an overview, refer to the [BigLake documentation](https://cloud.google.com/biglake/docs). Access delegation decouples access to the BigLake table from access to the underlying data store. An external connection associated with a service account is used to connect to the data store.
+BigLake tables allow querying structured data in external data stores with access delegation. For an overview, refer to the [BigLake documentation](https://cloud.google.com/biglake). Access delegation decouples access to the BigLake table from access to the underlying data store. An external connection associated with a service account is used to connect to the data store.
 
 Because the service account handles retrieving data from the data store, you only have to grant users access to the BigLake table. This lets you enforce fine-grained security at the table level, including row-level and column-level security.
 
