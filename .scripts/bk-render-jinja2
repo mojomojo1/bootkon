@@ -13,7 +13,7 @@ from nbconvert import HTMLExporter, MarkdownExporter
 import jinja2
 
 # When this runs through GitHub actions, we use $GITHUB_REPOSITORY, otherwise $BK_REPO.
-BK_REPO=os.environ.get("GITHUB_REPOSITORY", "fhirschmann/bootkon")
+BK_REPO=os.environ.get("GITHUB_REPOSITORY")
 if not BK_REPO:
     BK_REPO=os.environ.get("BK_REPO")
 
