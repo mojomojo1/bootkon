@@ -52,7 +52,7 @@ Let's execute it:
 python src/ml/pipeline.py
 ```
 
-The pipeline run will take around 10 minutes to complete. While waiting, please read the introduction to [Vertex AI Pipelines](https://cloud.google.com/vertex-ai/docs/pipelines/introduction).
+The pipeline run will take around 20 minutes to complete. While waiting, please read the introduction to [Vertex AI Pipelines](https://cloud.google.com/vertex-ai/docs/pipelines/introduction).
 
 ### Custom Training Job
 
