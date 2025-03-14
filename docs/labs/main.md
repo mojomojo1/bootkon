@@ -26,13 +26,19 @@ And copy & paste the following command and press return:
 BK_REPO={{ BK_REPO }}; . <(wget -qO- https://raw.githubusercontent.com/{{ BK_REPO }}/main/.scripts/bk)
 ```
 
+## Working with labs (important)
+
 While going through the code labs, you will encounter two different terminals on your screen. Please only use the terminal from the IDE (white background) and do not use the non-IDE terminal (black background). In fact, just close the terminal with black background using the `X` button.
 
 ![](../img/code_terminals.png)
 
-You will also find two buttons on your screen that might seem tempting. Please do not click the *Open Terminal* or *Open in new window* buttons as they will destroy the integrated experience of Cloud Shell.
+You will also find two buttons on your screen that might seem tempting. <font color="red">Please do not click the *Open Terminal* or *Open in new window* buttons</font> as they will destroy the integrated experience of Cloud Shell.
 
 ![](../img/code_newwindow.png)
+
+Please double check that the URL in your browser reads `console.cloud.google.com` and <font color="red">not `shell.cloud.google.com`</font>.
+
+![](../img/wrong_url.png)
 
 Should you accidentally close the tutorial or the IDE, just type the following command into the terminal:
 
