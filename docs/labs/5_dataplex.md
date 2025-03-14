@@ -1,6 +1,7 @@
 ## Lab 5: Data Governance with Dataplex
 
 <walkthrough-tutorial-duration duration="60"></walkthrough-tutorial-duration>
+Author: <a href="https://www.linkedin.com/in/danielholgate/">Daniel Holgate</a>
 <walkthrough-tutorial-difficulty difficulty="2"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 

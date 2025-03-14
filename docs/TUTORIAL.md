@@ -8,9 +8,14 @@
 
 # Data and AI Bootkon
 
+<walkthrough-tutorial-duration duration="15"></walkthrough-tutorial-duration>
+Author: <a href="https://linkedin.com/in/fhirschmann">Fabian Hirschmann</a>
+<walkthrough-tutorial-difficulty difficulty="1"></walkthrough-tutorial-difficulty>
+
+
 ## Introduction
 
-{% if MY_NAME %}Hi **{{ MY_NAME }}!** {% endif %}Welcome to Data & AI Bootkon. We're delighted to have you! This sidebar contains parts of the labs you will work through. Before we get started, let's set up a few things:
+{% if MY_NAME %}Hi **{{ MY_NAME }}! 👋** {% endif %}Welcome to Data & AI Bootkon. We're delighted to have you! This sidebar contains parts of the labs you will work through. Before we get started, let's set up a few things:
 
 ### Working with labs
 
@@ -64,3 +69,20 @@ If neither is `None`, press the `START` button below to get started!
 {% include 'labs/4_ml.md' %}
 
 {% include 'labs/5_dataplex.md' %}
+
+## The end
+
+You've made it! Congratulations and thank you for participating in this event.
+
+### Credits
+
+The authors of Data & AI Bootkon are:
+- [Fabian Hirschmann](https://www.linkedin.com/in/fhirschmann/) (main author)
+- [Cary Edwards](https://www.linkedin.com/in/cary-edwards-a3a557a6/) (contributor)
+- [Daniel Holgate](https://www.linkedin.com/in/danielholgate/) (contributor)
+- [Wissem Khlifi](https://www.linkedin.com/in/orawiss/) (original author)
+
+Data & AI Bootkon received contributions from many people, including:
+- [Christine Schulze](https://www.linkedin.com/in/christine-schulze-33822765/)
+- [Daniel Quinlan](https://www.linkedin.com/in/%F0%9F%8C%8Ddaniel-quinlan-51126016/)
+- [Dinesh Sandra](https://www.linkedin.com/in/sandradinesh/)
