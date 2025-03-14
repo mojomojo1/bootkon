@@ -8,6 +8,7 @@ import os
 import re
 import nbformat
 import base64
+from functools import partial
 from nbconvert import HTMLExporter, MarkdownExporter
 
 import jinja2
@@ -58,6 +59,12 @@ def render_jupyter(path):
 
         return body
     
+def render_author(name, url, mdbook_view):
+    if mdbook_view:
+        name = name.replace(" ", "_")
+        return f'<a href="{url}" target="_blank"><img src="https://img.shields.io/badge/author-{name}-blue"></a>'
+    else:
+        return f'Author: <a href="{url}">{name}</a>'
 
 
 def render_mdbook(content):
@@ -71,7 +78,8 @@ def render_mdbook(content):
         PROJECT_NUMBER="<PROJECT_NUMBER>",
         REGION="us-central1",
         GCP_USERNAME="<GCP_USERNAME>",
-        jupyter=render_jupyter
+        jupyter=render_jupyter,
+        author=partial(render_author, mdbook_view=True),
     )
 
     return rendered
@@ -87,6 +95,7 @@ def render_tutorial(content):
         REGION=os.getenv("REGION"),
         MY_NAME=os.getenv("MY_NAME"),
         GCP_USERNAME=os.getenv("GCP_USERNAME"),
+        author=partial(render_author, mdbook_view=False),
     )
 
         # Links in the handbook need to be fixed to work in the tutorial

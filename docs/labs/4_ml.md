@@ -1,7 +1,7 @@
 ## Lab 4: ML Operations
 
 <walkthrough-tutorial-duration duration="60"></walkthrough-tutorial-duration>
-Author: <a href="https://linkedin.com/in/fhirschmann">Fabian Hirschmann</a>
+{{ author('Fabian Hirschmann', 'https://linkedin.com/in/fhirschmann') }}
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 {% set TRAIN_IMAGE_URI = "{}-docker.pkg.dev/{}/bootkon/bootkon-train:latest".format(REGION, PROJECT_ID) %}

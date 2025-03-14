@@ -1,7 +1,7 @@
 ## Lab 2: Data Ingestion
 
 <walkthrough-tutorial-duration duration="45"></walkthrough-tutorial-duration>
-Author: <a href="https://linkedin.com/in/fhirschmann">Fabian Hirschmann</a>
+{{ author('Fabian Hirschmann', 'https://linkedin.com/in/fhirschmann') }}
 <walkthrough-tutorial-difficulty difficulty="4"></walkthrough-tutorial-difficulty>
 
 <bootkon-cloud-shell-note/>

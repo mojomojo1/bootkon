@@ -1,7 +1,7 @@
 ## Lab 3: Dataform
 
 <walkthrough-tutorial-duration duration="45"></walkthrough-tutorial-duration>
-Author: <a href="https://www.linkedin.com/in/cary-edwards-a3a557a6/">Cary Edwards</a>
+{{ author('Cary Edwards', 'https://www.linkedin.com/in/cary-edwards-a3a557a6/') }}
 <walkthrough-tutorial-difficulty difficulty="3"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
 

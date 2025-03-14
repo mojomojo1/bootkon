@@ -1,9 +1,10 @@
 ## Lab 1: Environment Setup
 
 <walkthrough-tutorial-duration duration="30"></walkthrough-tutorial-duration>
-Author: [Fabian Hirschmann](https://linkedin.com/in/fhirschmann)
+{{ author('Fabian Hirschmann', 'https://linkedin.com/in/fhirschmann') }}
 <walkthrough-tutorial-difficulty difficulty="1"></walkthrough-tutorial-difficulty>
 <bootkon-cloud-shell-note/>
+
 
 In this lab we will set up your environment, download the data set for this Bootkon, put it to Cloud Storage,
 and do a few other things.
