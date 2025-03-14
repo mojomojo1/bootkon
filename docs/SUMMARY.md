@@ -16,12 +16,5 @@
 
 ---
 
-# Contributions and development
-
-- [Running your own bootkon](./book/run_own_bootkon.md)
-    - [Forking bootkon](./book/run_own_bootkon_fork.md)
-    - [Development workflow](./book/run_own_bootkon_workflow.md)
-
----
-
+[Contributing](./book/contributing.md)
 [Authors](./book/authors.md)

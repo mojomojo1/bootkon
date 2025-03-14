@@ -3,7 +3,7 @@
 First, start bootkon as if you were a participant (see [Labs](../labs/main.md)). Next, open this file in Cloud Shell:
 
 ```
-bk-tutorial docs/book/run_own_bootkon_workflow.md
+bk-tutorial docs/book/contributing.md
 ```
 
 Continue the next sections in the Cloud Shell tutorial.
