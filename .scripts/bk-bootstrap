@@ -22,6 +22,7 @@ declare -a user_roles=(
     "roles/artifactregistry.admin" # Artifact Registry admin
     "roles/resourcemanager.projectIamAdmin" # Project IAM admin
     "roles/aiplatform.admin" # Vertex AI admin
+    "roles/cloudbuild.builds.editor" # Cloud Build editor
 )
 
 # Assign roles to user
@@ -48,6 +49,7 @@ declare -a service_account_roles=(
     "roles/artifactregistry.admin" # Artifact registry admin
     "roles/resourcemanager.projectIamAdmin" # Project IAM admin
     "roles/aiplatform.admin" # Vertex AI admin
+    "roles/cloudbuild.builds.editor" # Cloud Build editor
 )
 
 # Assign roles to the compute service account
