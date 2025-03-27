@@ -82,7 +82,7 @@ Note that the init script (`bk`) automatically loads `vars.local.sh` the next ti
 You can reload a lab on-the-fly by typing `bk-tutorial` followed by the lab markdown file into the terminal and pressing return. Let's reload
 this tutorial:
 ```bash
-bk-tutorial docs/book/run_own_bootkon_workflow.md
+bk-tutorial docs/book/contributing.md
 ```
 
 ## Working with mdbook
