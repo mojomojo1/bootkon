@@ -196,7 +196,9 @@ But why is it so slow?
 
 Let's ask Gemini:
 
-1. Open Gemini Code Assist <img style="vertical-align:middle" src="https://www.gstatic.com/images/branding/productlogos/gemini/v4/web-24dp/logo_gemini_color_1x_web_24dp.png" width="8px" height="8px"> on the left hand side.
+1. Open Gemini Code Assist
+![](../img/code_assist.png)
+
 2. Insert ``Why is import_csv_to_bigquery_1.py so slow?`` into the Gemini prompt.
 
 <!-- 
