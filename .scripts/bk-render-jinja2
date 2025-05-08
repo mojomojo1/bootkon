@@ -74,6 +74,7 @@ def render_mdbook(content):
     rendered = template.render(
         BK_REPO=BK_REPO,
         MDBOOK_VIEW=True,
+        ON_ARGOLIS=False,
         PROJECT_ID="<PROJECT_ID>",
         PROJECT_NUMBER="<PROJECT_NUMBER>",
         REGION="us-central1",
@@ -90,6 +91,7 @@ def render_tutorial(content):
 
     rendered = template.render(
         MDBOOK_VIEW=False,
+        ON_ARGOLIS=(os.getenv("GCP_USERNAME") or "").endswith("altostrat.com"),
         PROJECT_ID=os.getenv("PROJECT_ID"),
         PROJECT_NUMBER=os.getenv("PROJECT_NUMBER"),
         REGION=os.getenv("REGION"),
