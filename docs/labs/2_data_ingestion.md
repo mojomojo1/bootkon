@@ -233,6 +233,11 @@ gsutil cp spark-3.3-bigquery-0.37.0.jar gs://${PROJECT_ID}-bucket/jar/spark-3.3-
 
 Open <walkthrough-editor-select-line filePath="src/data_ingestion/import_parquet_to_bigquery.py" startLine="4" endLine="4" startCharacterOffset="14" endCharacterOffset="31">import_parquet_to_bigquery.py</walkthrough-editor-select-line> in the Cloud Shell editor and replace the project id with your project id `{{ PROJECT_ID }}`. Don't forget to save.
 
+{% if ON_ARGOLIS %}
+❗ You are on Argolis. The next command requires to disable the 
+`constraints/compute.requireOsLogin` constraint for your project in IAM.
+{% endif %}
+
 Execute it:
 ```bash
 gcloud dataproc batches submit pyspark src/data_ingestion/import_parquet_to_bigquery.py \
